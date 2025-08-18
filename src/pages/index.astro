@@ -1,0 +1,123 @@
+---
+import Base from "../layouts/Base.astro";
+import Marquee from "../components/Marquee.astro";
+---
+<Base>
+  <section class="hero grid-bg">
+    <div class="container hero-inner">
+      <h1>Submit your project to win €3k in prizes</h1>
+      <p class="lede">Open to transition, 5th &amp; 6th year students throughout Ireland. Sign up by <u>November 1st.</u></p>
+      <p><a href="#signup" class="btn">Sign up</a></p>
+    </div>
+  </section>
+
+  <Marquee />
+
+  <section id="about" class="section grid-bg">
+    <div class="container">
+      <h2>About TECS</h2>
+      <p class="lede">
+        TECS is a competition for aspiring technologists, engineers, creators and scientists.
+        Transition year, 5th year and 6th year students work towards building or creating something unique throughout
+        the month of November. They share progress updates each week and receive feedback from an experienced mentor.
+        Prizes of up to €2,000 are awarded to the students who make the most progress, with up to €1,000 for their school.
+      </p>
+      <p>Sign up before October 25th to take part.</p>
+      <p>The inaugural awards ceremony was held at the University of Limerick Concert Hall on the 6th of January 2022.</p>
+      <p>John Collison of Stripe, Patricia Scanlon of Soapbox Labs, Tom McCarthy of Patch, and Professor Stephen Kinsella were in UL to hand out the awards to the group of talented young students.</p>
+      <p>The competition is jointly run by <strong>Patch</strong> and the <strong>Immersive Software Engineering</strong> programme at UL.</p>
+    </div>
+  </section>
+
+  <section id="prizes" class="section">
+    <div class="container">
+      <h2>Prizes</h2>
+      <div class="prizes">
+        <div class="prize"><b>1st prize</b>€2,000 for student &amp; €1,000 for school</div>
+        <div class="prize"><b>2nd prize</b>€1,000 for student &amp; €500 for school</div>
+        <div class="prize"><b>Additional prizes</b>Active participants and teachers will be invited to the awards ceremony at UL.</div>
+      </div>
+      <p style="margin-top:1rem">
+        <a href="#signup" class="btn">Student sign-up</a>
+        &nbsp; <a href="#signup" class="btn btn--sm">Teacher sign-up</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="how" class="section grid-bg">
+    <div class="container">
+      <h2>How does it work?</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Choose a Project</h3>
+          <p>Apply with an idea you’d like to work on or a project you’d like to develop further. It might be an app, a business idea, a social enterprise, a novel, or something entirely different.</p>
+        </div>
+        <div class="card">
+          <h3>Share Updates</h3>
+          <p>Take 5 minutes at the end of each week to share an update on your progress, the challenges you encountered along the way, and your plans for the next week.</p>
+        </div>
+        <div class="card">
+          <h3>Get Support</h3>
+          <p>Join a community of other builders, and receive feedback and suggestions from an experienced mentor. Prizes will be awarded to the students who make the most progress.</p>
+        </div>
+      </div>
+
+      <blockquote>
+        <p>“Whether you’re interested in making an idea happen, or want to pursue an interest in science, tech or business, I’d wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway.”</p>
+        <p><strong>&mdash; Bobby Healy</strong>, founder of Manna Aero &amp; TECS judge.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="supporters" class="section">
+    <div class="container">
+      <h2>Supporters</h2>
+      <p class="lede">Thanks to our partners and friends who make TECS possible.</p>
+      <!-- Add a logo strip here when you have assets -->
+    </div>
+  </section>
+
+  <section id="organisers" class="section grid-bg">
+    <div class="container">
+      <h2>Organisers</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Immersive Software Engineering (ISE) at UL</h3>
+          <p>ISE is a computer science degree at UL where students learn by doing. In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world’s best tech companies.</p>
+        </div>
+        <div class="card">
+          <h3>Patch</h3>
+          <p>Patch is a free summer programme for talented young people who want to work on impactful projects. Students spend seven weeks working on their chosen project, getting to know a group of like-minded peers, and learning from brilliant mentors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="container">
+      <h2>FAQs</h2>
+      <div class="faq">
+        <details><summary>What is TECS?</summary><p>TECS is a November-long, progress-focused competition for secondary school students in Ireland to build or create something unique while receiving weekly feedback.</p></details>
+        <details><summary>When does TECS run?</summary><p>Throughout November, with an awards ceremony in early January.</p></details>
+        <details><summary>Who can take part?</summary><p>Transition year, 5th year and 6th year students across Ireland (including Northern Ireland).</p></details>
+        <details><summary>Can I sign up as a team?</summary><p>Yes. You can participate individually or as a small team.</p></details>
+        <details><summary>I haven’t started my project yet. Can I still take part?</summary><p>Absolutely. You can start fresh or continue an existing project (including TY/LC projects).</p></details>
+        <details><summary>Is this just for coders?</summary><p>No. You can apply with technical or non-technical projects.</p></details>
+        <details><summary>What’s the time commitment?</summary><p>Plan for steady weekly progress and a short weekly update (about 5 minutes).</p></details>
+        <details><summary>What can I win?</summary><p>Up to €2,000 for the student and €1,000 for their school for first place; plus additional prizes and invitations to the awards ceremony.</p></details>
+        <details><summary>Does TECS guarantee me a place in ISE or Patch?</summary><p>No, participation does not guarantee admission, though it can strengthen your application.</p></details>
+        <details><summary>When and where is the awards ceremony?</summary><p>At University of Limerick, typically in early January. Details announced to participants.</p></details>
+        <details><summary>I have more questions!</summary><p>Email us any time at <a href="mailto:info@jointecs.org">info@jointecs.org</a>.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="signup" class="section grid-bg">
+    <div class="container">
+      <h2>Sign-up</h2>
+      <p class="lede">Student and teacher registration opens ahead of November. Until then, register your interest via email.</p>
+      <p><a class="btn" href="mailto:info@jointecs.org?subject=TECS%20sign-up">Email info@jointecs.org</a></p>
+      <p class="muted">Student Sign-up • Teacher Sign-up</p>
+    </div>
+  </section>
+</Base>

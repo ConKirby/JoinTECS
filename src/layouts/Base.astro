@@ -1,0 +1,59 @@
+---
+const {
+  title = "TECS — Technologists • Engineers • Creators • Scientists",
+  description = "TECS is a nationwide competition for Irish secondary school students.",
+  pageTitle
+} = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle ? `${pageTitle} — TECS` : title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle ? `${pageTitle} — TECS` : title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/hero.png" />
+    <link rel="icon" href="/favicon.svg" />
+    <link href="/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to Content</a>
+    <header class="site-header grid-bg">
+      <div class="container row between center">
+        <a href="/" class="brand">TECS</a>
+        <nav class="nav">
+          <a href="#about">About</a>
+          <a href="#how">How it works</a>
+          <a href="#prizes">Prizes</a>
+          <a href="#faq">FAQ</a>
+          <a href="#signup" class="btn btn--sm">Sign up</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="content">
+      <slot />
+    </main>
+
+    <footer class="footer grid-bg">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="brand brand--lg">TECS</div>
+            <p class="muted">Technologists • Engineers • Creators • Scientists</p>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <p><a href="mailto:info@jointecs.org">info@jointecs.org</a></p>
+          </div>
+          <div>
+            <h4>Organisers</h4>
+            <p><strong>ISE</strong> at UL — Immersive Software Engineering.<br/><strong>Patch</strong> — Summer programme for young builders.</p>
+          </div>
+        </div>
+        <div class="copyright">© {new Date().getFullYear()} TECS • jointecs.org</div>
+      </div>
+    </footer>
+  </body>
+</html>
