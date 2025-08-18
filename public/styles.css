@@ -101,6 +101,45 @@
 	background:#fbfefb;border-radius:8px
   }
   
+  /* Quote with Bobby (single JPEG, CSS-resized) */
+  .quote-figure{
+  	display:flex;
+  	gap:1rem;
+  	align-items:center;
+  	max-width:980px;
+  	margin:2rem 0;
+  	padding:1rem;
+  	border-radius:12px;
+  	border:1px solid var(--border);
+  	background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.98));
+  	box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+  }
+  .quote-avatar{
+  	flex: 0 0 160px;
+  	width:160px;
+  	height:160px;
+  	overflow:hidden;
+  	border-radius:50%;
+  	box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+  }
+  .quote-avatar img{
+  	width:100%;
+  	height:100%;
+  	object-fit:cover; /* crop & fill the square container */
+  	display:block;
+  }
+  
+  /* Text styling */
+  .quote-figure blockquote{ margin:0; font-style: normal; color:var(--fg); }
+  .quote-figure blockquote p{ margin:0 0 .6rem 0; font-size:1.05rem; line-height:1.5; }
+  .quote-figure figcaption{ margin:0; color:var(--muted); font-size:.95rem; }
+  
+  /* Mobile: stack avatar above text */
+  @media (max-width:720px){
+  	.quote-figure{ flex-direction:column; align-items:flex-start; padding:1rem; }
+  	.quote-avatar{ width:80px; height:80px; flex:0 0 80px; border-radius:10px; }
+  }
+  
   .grid-bg{position:relative}
   .grid-bg::before{
 	content:"";position:absolute;inset:0;z-index:-1;
@@ -127,8 +166,73 @@
   .muted{color:var(--muted)}
   .copyright{margin-top:1.5rem;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border);padding-top:1rem}
   
-  @media (max-width:800px){
-	.nav{display:none}
-	.footer-grid{grid-template-columns:1fr}
+    @media (max-width:800px){
+  	.nav{display:none}
+  	.footer-grid{grid-template-columns:1fr}
+  }
+  
+  /* --- Supporters grid (logo strip) --- */
+  .supporters-section { padding: 3.5rem 0; }
+  .supporters-section h2 { margin: 0 0 1.5rem 0; font-weight:700; }
+  
+  /* grid: 3 across on desktop, centered; stacks on mobile */
+  .supporters-grid{
+  	display: grid;
+  	grid-template-columns: repeat(3, 1fr);
+  	gap: 2.2rem;
+  	align-items: center;
+  	justify-items: center;
+  	align-content: center;
+  }
+  
+  /* each logo card */
+  .supporter{
+  	display:flex;
+  	align-items:center;
+  	justify-content:center;
+  	width:100%;
+  	padding: .5rem;
+  	transition: transform .18s ease, filter .18s ease;
+  }
+  
+  /* logo images: keep aspect ratio and scale nicely */
+  .supporter-logo{
+  	max-width: 220px;    /* controls desktop size */
+  	width: 100%;
+  	height: auto;
+  	display:block;
+  	object-fit: contain;
+  	filter: saturate(0.98) contrast(1);
+  	transition: transform .18s ease, filter .18s ease;
+  }
+  
+  /* hover/tap micro-interaction */
+  .supporter:hover .supporter-logo,
+  .supporter:focus-within .supporter-logo{
+  	transform: translateY(-6px) scale(1.02);
+  	filter: saturate(1.05) contrast(1.02);
+  }
+  
+  /* Logo sizes tuned for smaller screens */
+  @media (max-width: 980px) {
+  	.supporters-grid{
+  		grid-template-columns: repeat(3, minmax(0, 1fr));
+  		gap: 1.25rem;
+  	}
+  	.supporter-logo{ max-width: 180px; }
+  }
+  
+  @media (max-width: 640px) {
+  	/* stack vertically for small phones */
+  	.supporters-grid{
+  		grid-template-columns: 1fr;
+  		gap: 1rem;
+  	}
+  	.supporter{
+  		padding: .75rem 0;
+  	}
+  	.supporter-logo{ max-width: 260px; } /* keep logos readable on mobile */
+  	.supporters-section { padding: 2rem 0; }
+  	.supporters-section h2 { font-size: 1.8rem; text-align: left; }
   }
   

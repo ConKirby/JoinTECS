@@ -71,18 +71,52 @@ import Marquee from "../components/Marquee.astro";
         </div>
       </div>
 
-      <blockquote>
-        <p>“Whether you’re interested in making an idea happen, or want to pursue an interest in science, tech or business, I’d wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway.”</p>
-        <p><strong>&mdash; Bobby Healy</strong>, founder of Manna Aero &amp; TECS judge.</p>
-      </blockquote>
+      <!-- Quote with Bobby's avatar (single JPG, resized with CSS) -->
+      <figure class="quote-figure">
+        <div class="quote-avatar">
+          <img
+            src="/images/Bobby-Healy-Manna-Aero.jpeg"
+            alt="Bobby Healy, founder of Manna Aero"
+            loading="lazy"
+            width="160"
+            height="160"
+          />
+        </div>
+
+        <blockquote>
+          <p>“Whether you’re interested in making an idea happen, or want to pursue an interest in science, tech or business, I’d wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway.”</p>
+          <figcaption>— <strong>Bobby Healy</strong>, founder of <em>Manna Aero</em> &mdash; TECS judge.</figcaption>
+        </blockquote>
+      </figure>
     </div>
   </section>
 
-  <section id="supporters" class="section">
+  <section id="supporters" class="section supporters-section">
     <div class="container">
       <h2>Supporters</h2>
-      <p class="lede">Thanks to our partners and friends who make TECS possible.</p>
-      <!-- Add a logo strip here when you have assets -->
+
+      <!-- Grid of logos -->
+      <div class="supporters-grid" role="list" aria-label="Supporters and partners">
+        <!-- Stripe -->
+        <div class="supporter" role="listitem">
+          <img class="supporter-logo" src="/images/StripeLogo.png" alt="Stripe" />
+        </div>
+
+        <!-- University of Limerick -->
+        <div class="supporter" role="listitem">
+          <img class="supporter-logo" src="/uni-limerick-logo.svg" alt="University of Limerick" />
+        </div>
+
+        <!-- Dogpatch Labs -->
+        <div class="supporter" role="listitem">
+          <img class="supporter-logo" src="/dogpatch-labs-logo.png" alt="Dogpatch Labs" />
+        </div>
+      </div>
+
+      <!-- Small caption (optional) -->
+      <p class="muted" style="margin-top:1.25rem; text-align:center;">
+        Thanks to our supporters for helping make TECS possible.
+      </p>
     </div>
   </section>
 
