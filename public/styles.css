@@ -62,14 +62,14 @@
   	height:100%;
   	object-fit:cover;
   	display:block;
-  	filter:brightness(.75); /* keep the darkening */
+  	filter:brightness(.95); /* slightly brighter */
   	-webkit-user-drag: none;
   }
   .hero-overlay{
   	position:absolute;
   	inset:0;
   	z-index:1;
-  	background: linear-gradient(to bottom right, rgba(0,0,0,.55), rgba(0,0,0,.35));
+  	background: linear-gradient(to bottom right, rgba(0,0,0,.35), rgba(0,0,0,.15));
   	pointer-events:none;
   }
   .hero-inner{ position:relative; z-index:2; padding:4rem 0; }
