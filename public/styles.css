@@ -11,7 +11,11 @@
 	--container:1100px;
 	--grid-color: rgba(62,168,111,0.08);
 	--blueprint-line: rgba(62,168,111,0.15);
+  --hero-brightness: 1;
+  --hero-overlay-opacity: 0.5;
   }
+
+  
   
   [data-theme="dark"]{
 	--bg:#0a0f1c;
@@ -118,8 +122,32 @@
   /* Hero (supports either .hero-media or .hero-bg) */
   .hero{ position:relative; min-height:85vh; display:flex; align-items:center; color:#fff; overflow:hidden; }
   .hero-media, .hero-bg{ position:absolute; inset:0; z-index:0; }
-  .hero-media img, .hero-bg img{ width:100%; height:100%; object-fit:cover; display:block; filter:brightness(.4); -webkit-user-drag:none; transform-origin:center; transition:transform .6s cubic-bezier(.2,.9,.2,1); }
-  .hero-overlay{ position:absolute; inset:0; z-index:1; background:linear-gradient(135deg, rgba(15,23,42,.8) 0%, rgba(62,168,111,.2) 100%); pointer-events:none; }
+  .hero-media img, .hero-bg img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    -webkit-user-drag: none;
+    /* use variable so we can tweak per-section if desired */
+    filter: brightness(var(--hero-brightness));
+    transform-origin: center;
+    transition: transform .6s cubic-bezier(.2,.9,.2,1);
+  }
+
+  /* overlay is present but controlled by variable (default 0 = invisible) */
+  .hero-overlay{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    /* keep the same gradient but allow turning it on by changing --hero-overlay-opacity */
+    background: linear-gradient(135deg,
+      rgba(15,23,42,0.8) 0%,
+      rgba(62,168,111,0.2) 100%);
+    pointer-events:none;
+    opacity: var(--hero-overlay-opacity);
+    transition: opacity .25s ease;
+  }
+
   .hero-inner{ position:relative; z-index:2; padding:4rem 0; }
   .hero h1{ font-size:clamp(2.5rem,5vw,4rem); line-height:1.1; margin:0 0 1.5rem; font-weight:800; text-shadow:0 2px 10px rgba(0,0,0,.3); }
   .hero .highlight{ color:#00ff41; font-weight:900; }
