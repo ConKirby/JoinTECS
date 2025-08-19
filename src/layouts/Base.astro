@@ -18,17 +18,27 @@ const {
     <link href="/styles.css" rel="stylesheet" />
   </head>
   <body>
+    <!-- Blueprint Grid Background -->
+    <div class="blueprint-grid"></div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="theme-toggle"><span id="theme-icon">🌙 Dark</span></button>
+
     <a class="skip" href="#content">Skip to Content</a>
-    <header class="site-header grid-bg">
-      <div class="container row between center">
-        <a href="/" class="brand">TECS</a>
-        <nav class="nav">
-          <a href="#about">About</a>
-          <a href="#how">How it works</a>
-          <a href="#prizes">Prizes</a>
-          <a href="#faq">FAQ</a>
-          <a href="#signup" class="btn btn--sm">Sign up</a>
-        </nav>
+
+    <header class="site-header">
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="brand">TECS</a>
+          <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+          <nav class="nav" id="nav">
+            <a href="#about">About</a>
+            <a href="#how">How It Works</a>
+            <a href="#prizes">Prizes</a>
+            <a href="#faq">FAQ</a>
+            <a href="#signup" class="btn">Sign Up</a>
+          </nav>
+        </div>
       </div>
     </header>
 
@@ -36,24 +46,98 @@ const {
       <slot />
     </main>
 
-    <footer class="footer grid-bg">
+    <footer class="footer">
       <div class="container">
         <div class="footer-grid">
           <div>
-            <div class="brand brand--lg">TECS</div>
-            <p class="muted">Technologists • Engineers • Creators • Scientists</p>
+            <h3>TECS</h3>
+            <p>Technologists • Engineers<br/>Creators • Scientists</p>
+            <p style="margin-top:1rem;">Ireland's nationwide talent search for young innovators.</p>
+          </div>
+          <div>
+            <h4>Quick Links</h4>
+            <p><a href="#about">About TECS</a></p>
+            <p><a href="#how">How It Works</a></p>
+            <p><a href="#prizes">Prizes</a></p>
+            <p><a href="#faq">FAQ</a></p>
           </div>
           <div>
             <h4>Contact</h4>
             <p><a href="mailto:info@jointecs.org">info@jointecs.org</a></p>
-          </div>
-          <div>
-            <h4>Organisers</h4>
-            <p><strong>ISE</strong> at UL — Immersive Software Engineering.<br/><strong>Patch</strong> — Summer programme for young builders.</p>
+            <p style="margin-top:1rem;"><strong>Organisers:</strong><br/>ISE at UL<br/>Patch Programme</p>
           </div>
         </div>
         <div class="copyright">© {new Date().getFullYear()} TECS • jointecs.org</div>
       </div>
     </footer>
+
+    <!-- Inline behaviour scripts -->
+    <script is:inline>
+      // Theme toggle + persistence
+      const html = document.documentElement;
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        html.setAttribute('data-theme','dark');
+        if (themeIcon) themeIcon.textContent = '☀️ Light';
+      }
+      themeToggle?.addEventListener('click', () => {
+        const dark = html.getAttribute('data-theme') === 'dark';
+        if (dark) {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('theme','light');
+          if (themeIcon) themeIcon.textContent = '🌙 Dark';
+        } else {
+          html.setAttribute('data-theme','dark');
+          localStorage.setItem('theme','dark');
+          if (themeIcon) themeIcon.textContent = '☀️ Light';
+        }
+      });
+
+      // Mobile menu
+      const nav = document.getElementById('nav');
+      const hamburger = document.getElementById('hamburger');
+      const closeMenu = () => nav?.classList.remove('mobile-open');
+      hamburger?.addEventListener('click', () => nav?.classList.toggle('mobile-open'));
+      window.addEventListener('resize', () => { if (window.innerWidth > 768) closeMenu(); });
+
+      // Smooth scroll for internal anchors
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const id = a.getAttribute('href');
+        const target = id && document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          closeMenu();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+
+      // Parallax hero
+      window.addEventListener('scroll', () => {
+        const img = document.querySelector('.hero-bg img') || document.querySelector('.hero-media img');
+        const y = window.pageYOffset;
+        if (img && y < 800) img.style.transform = `translateY(${y*0.3}px)`;
+      });
+
+      // Reveal cards on scroll
+      const options = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+      const obs = new IntersectionObserver((entries)=>entries.forEach(entry=>{
+        if (entry.isIntersecting) {
+          entry.target.style.opacity='1';
+          entry.target.style.transform='translateY(0)';
+        }
+      }), options);
+      document.addEventListener('DOMContentLoaded', ()=>{
+        document.querySelectorAll('.card').forEach((card, i)=>{
+          card.style.opacity='0';
+          card.style.transform='translateY(20px)';
+          card.style.transition=`opacity .5s ease ${i*0.1}s, transform .5s ease ${i*0.1}s`;
+          obs.observe(card);
+        });
+      });
+    </script>
   </body>
 </html>

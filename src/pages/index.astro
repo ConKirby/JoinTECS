@@ -1,77 +1,83 @@
 ---
 import Base from "../layouts/Base.astro";
-import Marquee from "../components/Marquee.astro";
 ---
 <Base>
-  <section class="hero grid-bg" aria-label="Hero">
-    <!-- hero media (absolute so text overlays) -->
-    <div class="hero-media" aria-hidden="true">
-      <img src="/images/john-collison-hero-image.jpg" alt="Students at University of Limerick" />
+  <!-- Hero Section with Image Background -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="/images/john-collison-hero-image.jpg" alt="John Collison at TECS awards ceremony" />
     </div>
-
-    <!-- dark overlay -->
-    <div class="hero-overlay" aria-hidden="true"></div>
-
-    <!-- content -->
+    <div class="hero-overlay"></div>
     <div class="container hero-inner">
-      <h1>Submit your project to win €3k in prizes</h1>
-      <p class="lede">Open to transition, 5th &amp; 6th year students throughout Ireland. Sign up by <u>November 1st.</u></p>
-      <p><a href="#signup" class="btn">Sign up</a></p>
+      <h1>
+        Submit your project to win <span class="highlight">€3k</span> in prizes
+      </h1>
+      <p class="lede">
+        Open to transition, 5th &amp; 6th year students throughout Ireland.<br/>
+        Sign up by <strong>November 1st</strong>
+      </p>
+      <p><a href="#signup" class="btn">Register Now</a></p>
     </div>
   </section>
 
-  <Marquee />
+  <!-- Marquee -->
+  <div class="marquee">
+    <div class="marquee-inner">
+      <span>TECHNOLOGISTS</span> — ENGINEERS — CREATORS — SCIENTISTS —
+      <span>TECHNOLOGISTS</span> — ENGINEERS — CREATORS — SCIENTISTS —
+      <span>TECHNOLOGISTS</span> — ENGINEERS — CREATORS — SCIENTISTS —
+    </div>
+  </div>
 
-  <section id="about" class="section grid-bg">
+  <!-- About -->
+  <section id="about" class="section">
     <div class="container">
       <h2>About TECS</h2>
-      <p class="lede">
-        TECS is a competition for aspiring technologists, engineers, creators and scientists.
+      <p class="lede" style="max-width: 800px; margin-bottom: 3rem;">
+        TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.
         Transition year, 5th year and 6th year students work towards building or creating something unique throughout
-        the month of November. They share progress updates each week and receive feedback from an experienced mentor.
-        Prizes of up to €2,000 are awarded to the students who make the most progress, with up to €1,000 for their school.
+        the month of November. They share progress updates each week and receive feedback from experienced mentors.
       </p>
-      <p>Sign up before October 25th to take part.</p>
-      <p>The inaugural awards ceremony was held at the University of Limerick Concert Hall on the 6th of January 2022.</p>
-      <p>John Collison of Stripe, Patricia Scanlon of Soapbox Labs, Tom McCarthy of Patch, and Professor Stephen Kinsella were in UL to hand out the awards to the group of talented young students.</p>
-      <p>The competition is jointly run by <strong>Patch</strong> and the <strong>Immersive Software Engineering</strong> programme at UL.</p>
-    </div>
-  </section>
-
-  <section id="prizes" class="section">
-    <div class="container">
-      <h2>Prizes</h2>
-      <div class="prizes">
-        <div class="prize"><b>1st prize</b>€2,000 for student &amp; €1,000 for school</div>
-        <div class="prize"><b>2nd prize</b>€1,000 for student &amp; €500 for school</div>
-        <div class="prize"><b>Additional prizes</b>Active participants and teachers will be invited to the awards ceremony at UL.</div>
-      </div>
-      <p style="margin-top:1rem">
-        <a href="#signup" class="btn">Student sign-up</a>
-        &nbsp; <a href="#signup" class="btn btn--sm">Teacher sign-up</a>
-      </p>
-    </div>
-  </section>
-
-  <section id="how" class="section grid-bg">
-    <div class="container">
-      <h2>How does it work?</h2>
       <div class="cards">
         <div class="card">
-          <h3>Choose a Project</h3>
-          <p>Apply with an idea you’d like to work on or a project you’d like to develop further. It might be an app, a business idea, a social enterprise, a novel, or something entirely different.</p>
+          <h3>€2,000 Top Prize</h3>
+          <p>Awards for students who make the most progress during the competition, with up to €1,000 for their school.</p>
         </div>
         <div class="card">
-          <h3>Share Updates</h3>
-          <p>Take 5 minutes at the end of each week to share an update on your progress, the challenges you encountered along the way, and your plans for the next week.</p>
+          <h3>Expert Mentorship</h3>
+          <p>Get feedback from industry leaders including John Collison (Stripe), Bobby Healy (Manna Aero), and Patricia Scanlon (Soapbox Labs).</p>
         </div>
         <div class="card">
-          <h3>Get Support</h3>
-          <p>Join a community of other builders, and receive feedback and suggestions from an experienced mentor. Prizes will be awarded to the students who make the most progress.</p>
+          <h3>National Recognition</h3>
+          <p>Awards ceremony at University of Limerick Concert Hall with tech industry leaders and national media coverage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="section" style="background: linear-gradient(180deg, rgba(62, 168, 111, 0.02) 0%, transparent 100%);">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="diagram-number">1</div>
+          <h3>Choose Your Project</h3>
+          <p>Apply with an idea you'd like to work on or develop further. It could be an app, business idea, social enterprise, research project, creative work, or something entirely different.</p>
+        </div>
+        <div class="card">
+          <div class="diagram-number">2</div>
+          <h3>Share Weekly Updates</h3>
+          <p>Take 5 minutes each week to share your progress, challenges encountered, and plans for the next week. Build momentum through consistent progress.</p>
+        </div>
+        <div class="card">
+          <div class="diagram-number">3</div>
+          <h3>Get Expert Support</h3>
+          <p>Join a community of builders and receive feedback from experienced mentors. Prizes are awarded based on progress made during the competition.</p>
         </div>
       </div>
 
-      <!-- Quote with Bobby's avatar (single JPG, resized with CSS) -->
+      <!-- Quote -->
       <figure class="quote-figure">
         <div class="quote-avatar">
           <img
@@ -88,54 +94,80 @@ import Marquee from "../components/Marquee.astro";
           <figcaption>— <strong>Bobby Healy</strong>, founder of <em>Manna Aero</em> &mdash; TECS judge.</figcaption>
         </blockquote>
       </figure>
+
     </div>
   </section>
 
-  <section id="supporters" class="section supporters-section">
+  <!-- Prizes -->
+  <section id="prizes" class="section">
     <div class="container">
-      <h2>Supporters</h2>
-
-      <!-- Grid of logos -->
-      <div class="supporters-grid" role="list" aria-label="Supporters and partners">
-        <!-- Stripe -->
-        <div class="supporter" role="listitem">
-          <img class="supporter-logo" src="/images/StripeLogo.png" alt="Stripe" />
+      <h2>Prizes</h2>
+      <div class="prizes">
+        <div class="prize">
+          <h3>🥇 First Prize</h3>
+          <span class="prize-amount">€2,000</span>
+          <p>for student</p>
+          <span class="prize-amount">€1,000</span>
+          <p>for school</p>
         </div>
-
-        <!-- University of Limerick -->
-        <div class="supporter" role="listitem">
-          <img class="supporter-logo" src="/uni-limerick-logo.svg" alt="University of Limerick" />
+        <div class="prize">
+          <h3>🥈 Second Prize</h3>
+          <span class="prize-amount">€1,000</span>
+          <p>for student</p>
+          <span class="prize-amount">€500</span>
+          <p>for school</p>
         </div>
-
-        <!-- Dogpatch Labs -->
-        <div class="supporter" role="listitem">
-          <img class="supporter-logo" src="/dogpatch-labs-logo.png" alt="Dogpatch Labs" />
+        <div class="prize">
+          <h3>🎯 Additional Awards</h3>
+          <p style="padding: 1rem 0;">Active participants and teachers invited to the awards ceremony at University of Limerick</p>
         </div>
       </div>
-
-      <!-- Small caption (optional) -->
-      <p class="muted" style="margin-top:1.25rem; text-align:center;">
-        Thanks to our supporters for helping make TECS possible.
-      </p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="#signup" class="btn">Apply Now</a>
+        <a href="#signup" class="btn btn-outline" style="margin-left: 1rem;">Teacher Sign-Up</a>
+      </div>
     </div>
   </section>
 
-  <section id="organisers" class="section grid-bg">
+  <!-- Supporters -->
+  <section id="supporters" class="section supporters-banner" aria-label="Supporters">
+    <div class="container">
+      <h2>Our Supporters</h2>
+      <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
+
+      <div class="supporters-grid" role="list" aria-label="Supporters and partners">
+        <div class="supporter" role="listitem">
+          <img class="supporter-logo" src="/images/StripeLogo.png" alt="Stripe"/>
+        </div>
+        <div class="supporter" role="listitem">
+          <img class="supporter-logo" src="/uni-limerick-logo.svg" alt="University of Limerick"/>
+        </div>
+        <div class="supporter" role="listitem">
+          <img class="supporter-logo" src="/dogpatch-labs-logo.png" alt="Dogpatch Labs"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Organisers -->
+  <section id="organisers" class="section">
     <div class="container">
       <h2>Organisers</h2>
       <div class="cards">
         <div class="card">
-          <h3>Immersive Software Engineering (ISE) at UL</h3>
-          <p>ISE is a computer science degree at UL where students learn by doing. In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world’s best tech companies.</p>
+          <h3>ISE at UL</h3>
+          <p><strong>Immersive Software Engineering</strong> is a computer science degree at UL where students learn by doing. In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's best tech companies.</p>
         </div>
         <div class="card">
           <h3>Patch</h3>
-          <p>Patch is a free summer programme for talented young people who want to work on impactful projects. Students spend seven weeks working on their chosen project, getting to know a group of like-minded peers, and learning from brilliant mentors.</p>
+          <p><strong>Patch</strong> is a free summer programme for talented young people who want to work on impactful projects. Students spend seven weeks working on their chosen project, getting to know like-minded peers, and learning from brilliant mentors.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FAQ -->
   <section id="faq" class="section">
     <div class="container">
       <h2>FAQs</h2>
@@ -282,16 +314,25 @@ import Marquee from "../components/Marquee.astro";
           <p>Students can participate in team projects, but each participant must submit their own application. When applying, please list any collaborators so judges understand who contributed what.</p>
         </details>
       </div>
-
     </div>
   </section>
 
-  <section id="signup" class="section grid-bg">
+
+  <!-- Sign Up -->
+  <section id="signup" class="section">
     <div class="container">
-      <h2>Sign-up</h2>
-      <p class="lede">Student and teacher registration opens ahead of November. Until then, register your interest via email.</p>
-      <p><a class="btn" href="mailto:info@jointecs.org?subject=TECS%20sign-up">Email info@jointecs.org</a></p>
-      <p class="muted">Student Sign-up • Teacher Sign-up</p>
+      <h2>Ready to Build Something Amazing?</h2>
+      <p class="lede" style="max-width: 600px; margin-bottom: 2rem;">
+        Student and teacher registration opens in October.<br/>
+        Join Ireland's premier competition for young innovators.
+      </p>
+      <p>
+        <a href="mailto:info@jointecs.org?subject=TECS%20Student%20Sign-up" class="btn">Student Registration</a>
+        <a href="mailto:info@jointecs.org?subject=TECS%20Teacher%20Sign-up" class="btn btn-outline" style="margin-left: 1rem;">Teacher Registration</a>
+      </p>
+      <p style="margin-top: 2rem; color: var(--muted);">
+        Questions? Email us at <a href="mailto:info@jointecs.org" style="color: var(--accent);">info@jointecs.org</a>
+      </p>
     </div>
   </section>
 </Base>
