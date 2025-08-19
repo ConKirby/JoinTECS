@@ -13,6 +13,8 @@
 	--blueprint-line: rgba(62,168,111,0.15);
   --hero-brightness: 1;
   --hero-overlay-opacity: 0.5;
+  --hero-scale: 1.06;            /* 1 = no zoom, >1 zooms in to crop top+bottom */
+  --hero-translate-y: -30px;     /* negative moves image up (cuts top), adjust to taste */
   }
 
   
@@ -127,12 +129,13 @@
     height:100%;
     object-fit:cover;
     display:block;
-    -webkit-user-drag: none;
-    /* use variable so we can tweak per-section if desired */
-    filter: brightness(var(--hero-brightness));
+    -webkit-user-drag:none;
+    /* apply configurable scale + vertical translate to crop top/bottom */
+    transform: scale(var(--hero-scale)) translateY(var(--hero-translate-y));
     transform-origin: center;
-    transition: transform .6s cubic-bezier(.2,.9,.2,1);
+    transition: transform .45s cubic-bezier(.2,.9,.2,1);
   }
+
 
   /* overlay is present but controlled by variable (default 0 = invisible) */
   .hero-overlay{
@@ -153,12 +156,87 @@
   .hero .highlight{ color:#00ff41; font-weight:900; }
   .lede{ font-size:1.3rem; margin-bottom:2rem; max-width:650px; }
   
-  /* Marquee */
-  .marquee{
-	overflow:hidden; white-space:nowrap; border-top:2px solid var(--accent); border-bottom:2px solid var(--accent);
-	background:linear-gradient(90deg, rgba(62,168,111,.03) 0%, rgba(62,168,111,.06) 50%, rgba(62,168,111,.03) 100%);
-	padding:1.2rem 0; position:relative;
+/* ---------------------
+   Infinite seamless marquee (robust)
+   --------------------- */
+   .marquee {
+    overflow: hidden;
+    position: relative;
+    border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    background: linear-gradient(90deg, rgba(62,168,111,0.03) 0%, rgba(62,168,111,0.06) 50%, rgba(62,168,111,0.03) 100%);
+    z-index: 1;
   }
+  
+  /* container that slides left; its content must be at least 200% of viewport */
+  .marquee-inner {
+    display: flex;
+    align-items: center;
+    width: max-content;                  /* allow JS to control exact size */
+    animation: marquee-scroll 28s linear infinite;
+    will-change: transform;
+  }
+  
+  /* a track is one repeated sequence; we'll duplicate it via JS if needed */
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 0.8rem 1rem;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  
+  /* individual items */
+  .m-item {
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 3px;
+    font-size: 1.05rem;
+    color: var(--fg);
+  }
+  
+  /* colour the "Technologists" chunk green */
+  .m-item b { color: var(--accent); font-weight: 900; }
+  
+  /* animation: translate by half of the inner width (JS ensures inner is duplicated to cover this) */
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); } /* move exactly half of full width (so duplicated content repeats) */
+  }
+  
+  /* pause on hover */
+  .marquee:hover .marquee-inner { animation-play-state: paused; }
+  
+  /* hero-specific styles to make marquee larger & sit on bottom */
+  .hero .marquee {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem 0;
+    z-index: 3;
+    background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.06));
+  }
+  
+  .hero .marquee .m-item {
+    font-size: clamp(1.3rem, 2.2vw, 2rem);
+    letter-spacing: 4px;
+    font-weight: 800;
+  }
+  
+  /* ensure marquee-track is at least full viewport (JS will duplicate content to reach 2x) */
+  .marquee-track { min-width: 100vw; }
+  
+  /* accessibility: keep things readable on small screens */
+  @media (max-width: 768px) {
+    .hero .marquee .m-item { font-size: 1rem; letter-spacing: 2px; }
+    .marquee-track { gap: 1rem; padding: .6rem .8rem; }
+  }
+  
+
+
   .marquee-inner{ display:inline-block; padding-left:100%; animation:marquee 25s linear infinite; font-size:1.1rem; letter-spacing:3px; text-transform:uppercase; font-weight:600; }
   .marquee-inner span{ color:var(--accent); font-weight:800; }
   @keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
@@ -216,7 +294,16 @@
   .faq details p{ margin-top:1rem; color:var(--muted) }
   
   /* Footer */
-  .footer{ margin-top:5rem; border-top:3px solid var(--accent); padding:3rem 0; background:linear-gradient(180deg, rgba(62,168,111,.02) 0%, var(--bg) 100%); }
+  .footer{
+    margin-top:5rem;
+    border-top:3px solid var(--accent);
+    padding:3rem 0;
+    /* plain background so the footer reads as a white banner */
+    background: var(--bg);
+    position: relative;
+    z-index: 3; /* bring it above the blueprint grid */
+  }
+  
   .footer-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:3rem; margin-bottom:2rem; }
   .footer h3{ color:var(--accent); margin:0 0 1rem; font-size:1.2rem; font-weight:700 }
   .footer h4{ color:var(--fg); margin:0 0 .5rem; font-weight:600 }

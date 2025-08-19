@@ -115,13 +115,6 @@ const {
         }
       });
 
-      // Parallax hero
-      window.addEventListener('scroll', () => {
-        const img = document.querySelector('.hero-bg img') || document.querySelector('.hero-media img');
-        const y = window.pageYOffset;
-        if (img && y < 800) img.style.transform = `translateY(${y*0.3}px)`;
-      });
-
       // Reveal cards on scroll
       const options = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
       const obs = new IntersectionObserver((entries)=>entries.forEach(entry=>{
@@ -138,6 +131,75 @@ const {
           obs.observe(card);
         });
       });
+    // existing script above...
+    // --- ensure marquee tracks are long enough and duplicated for seamless looping ---
+    function makeMarqueeSeamless() {
+      document.querySelectorAll('.marquee').forEach(marquee => {
+        const inner = marquee.querySelector('.marquee-inner');
+        if (!inner) return;
+
+        // If we've already duplicated once, skip (idempotent)
+        if (inner.dataset.seamless === '1') return;
+
+        // Build a single sequence string from children of first .marquee-track
+        const track = inner.querySelector('.marquee-track');
+        if (!track) return;
+
+        // Clone the track enough times so total width >= 2 * viewport
+        // Start by measuring one copy
+        function ensure() {
+          // reset duplication flag so measurement is accurate
+          inner.dataset.seamless = '0';
+
+          const vw = window.innerWidth;
+          // total width of inner content
+          let totalWidth = inner.scrollWidth;
+
+          // if inner width already >= 2 * viewport proceed
+          // otherwise append clones of the track until it is
+          while (totalWidth < vw * 2) {
+            const clone = track.cloneNode(true);
+            clone.setAttribute('aria-hidden','true');
+            inner.appendChild(clone);
+            totalWidth = inner.scrollWidth;
+            // safety break to avoid infinite loop
+            if (inner.childElementCount > 20) break;
+          }
+
+          // finally duplicate the whole inner's content once to make exactly the A|A pattern
+          // (if content already >= 2*viewport we still want a second identical half for the -50% animation)
+          const currentHtml = inner.innerHTML;
+          inner.innerHTML = currentHtml + currentHtml;
+          inner.dataset.seamless = '1';
+        }
+
+        // run once and on next frame to be safe
+        ensure();
+        // a tiny debounce on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            // clear previous duplicates and rebuild from single original track
+            // find original track (first one)
+            const firstTrack = inner.querySelector('.marquee-track');
+            if (!firstTrack) return;
+            inner.innerHTML = '';
+            inner.appendChild(firstTrack.cloneNode(true));
+            ensure();
+          }, 150);
+        }, { passive: true });
+      });
+    }
+
+    // call on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      makeMarqueeSeamless();
+    });
+    // in case content added later, also attempt run after load
+    window.addEventListener('load', () => makeMarqueeSeamless());
+    // existing script continues...
+
     </script>
   </body>
 </html>
