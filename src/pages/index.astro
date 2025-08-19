@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Marquee from "../components/Marquee.astro";
+import Countdown from "../components/Countdown.astro";
 ---
 
 <Base>
@@ -26,11 +27,18 @@ import Marquee from "../components/Marquee.astro";
       <Marquee className="hero-marquee" />
     </section>
 
+    <!-- Countdown -->
+    <section class="section" style="background: linear-gradient(180deg, rgba(62, 168, 111, 0.02) 0%, transparent 100%);">
+      <div class="container">
+        <Countdown />
+      </div>
+    </section>
+
   <!-- About -->
   <section id="about" class="section">
     <div class="container">
       <h2>About TECS</h2>
-      <p class="lede" style="max-width: 800px; margin-bottom: 3rem;">
+      <p class="lede" style="margin-bottom: 3rem;">
         TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.
         Transition year, 5th year and 6th year students work towards building or creating something unique throughout
         the month of November. They share progress updates each week and receive feedback from experienced mentors.
