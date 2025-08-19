@@ -1,0 +1,71 @@
+---
+// Navigation component with improved mobile experience
+---
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="brand">TECS</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <nav class="nav" id="nav" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#how">How It Works</a>
+        <a href="#prizes">Prizes</a>
+        <a href="#faq">FAQ</a>
+        <a href="#signup" class="btn btn--nav">Sign Up</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile navigation functionality
+  const nav = document.getElementById('nav');
+  const hamburger = document.getElementById('hamburger');
+  
+  const closeMenu = () => {
+    nav?.classList.remove('mobile-open');
+    hamburger?.setAttribute('aria-expanded', 'false');
+  };
+  
+  hamburger?.addEventListener('click', () => {
+    const isOpen = nav?.classList.contains('mobile-open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      nav?.classList.add('mobile-open');
+      hamburger?.setAttribute('aria-expanded', 'true');
+    }
+  });
+  
+  // Close menu on window resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeMenu();
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!hamburger?.contains(target) && !nav?.contains(target)) {
+      closeMenu();
+    }
+  });
+  
+  // Smooth scroll for internal anchors
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const a = target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href');
+    const targetElement = id && document.querySelector(id);
+    if (targetElement) {
+      e.preventDefault();
+      closeMenu();
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+</script>

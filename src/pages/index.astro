@@ -1,8 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
+import Marquee from "../components/Marquee.astro";
 ---
+
 <Base>
-    <!-- Hero Section with Image Background (marquee attached to bottom) -->
+    <!-- Hero Section with Image Background -->
     <section class="hero" style="--hero-scale:1.06; --hero-translate-y:-30px;">
       <div class="hero-bg">
         <img src="/images/john-collison-hero-image.jpg" alt="John Collison at TECS awards ceremony" />
@@ -20,25 +22,9 @@ import Base from "../layouts/Base.astro";
         <p><a href="https://apply.jointecs.org/" class="btn">Register Now</a></p>
       </div>
   
-      <!-- Hero-mounted marquee: use the same Marquee component structure you already have -->
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-inner" role="presentation" aria-hidden="true">
-          <div class="marquee-track">
-            <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
-            <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
-            <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
-          </div>
-          <!-- optional second initial track -->
-          <div class="marquee-track" aria-hidden="true">
-            <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
-            <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
-            <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
-          </div>
-        </div>
-      </div>
-      
+      <!-- Hero-mounted marquee -->
+      <Marquee className="hero-marquee" />
     </section>
-  
 
   <!-- About -->
   <section id="about" class="section">
@@ -101,7 +87,7 @@ import Base from "../layouts/Base.astro";
         </div>
 
         <blockquote>
-          <p>“Whether you’re interested in making an idea happen, or want to pursue an interest in science, tech or business, I’d wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway.”</p>
+          <p>"Whether you're interested in making an idea happen, or want to pursue an interest in science, tech or business, I'd wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway."</p>
           <figcaption>— <strong>Bobby Healy</strong>, founder of <em>Manna Aero</em> &mdash; TECS judge.</figcaption>
         </blockquote>
       </figure>
@@ -160,7 +146,6 @@ import Base from "../layouts/Base.astro";
     </div>
   </section>
 
-
   <!-- Organisers -->
   <section id="organisers" class="section">
     <div class="container">
@@ -190,7 +175,6 @@ import Base from "../layouts/Base.astro";
     </div>
   </section>
   
-
   <!-- FAQ -->
   <section id="faq" class="section">
     <div class="container">
@@ -226,22 +210,22 @@ import Base from "../layouts/Base.astro";
       <div class="faq">
         <details>
           <summary>What do I need to sign up?</summary>
-          <p>The signup form asks for basic information about you, your school, and the project you plan to work on in November. Sign-up windows are announced ahead of time — previously sign-up opened in early October and ran until late October. Once signed up, you’ll only need to submit a brief weekly update for each of the four weeks in November.</p>
+          <p>The signup form asks for basic information about you, your school, and the project you plan to work on in November. Sign-up windows are announced ahead of time — previously sign-up opened in early October and ran until late October. Once signed up, you'll only need to submit a brief weekly update for each of the four weeks in November.</p>
         </details>
 
         <details>
           <summary>Can I sign up as a team?</summary>
-          <p>You can apply with a project that has multiple contributors, but each TECS participant must submit their own application. If you’re working with others, mention collaborators in your entry.</p>
+          <p>You can apply with a project that has multiple contributors, but each TECS participant must submit their own application. If you're working with others, mention collaborators in your entry.</p>
         </details>
 
         <details>
           <summary>I haven't started my project yet. Can I still take part?</summary>
-          <p>Absolutely — you can start something from scratch. TECS rewards progress over time, not pre-existing polish. If you’re stuck for ideas, look at Coolest Projects, IndieHackers or your own daily frustrations for inspiration.</p>
+          <p>Absolutely — you can start something from scratch. TECS rewards progress over time, not pre-existing polish. If you're stuck for ideas, look at Coolest Projects, IndieHackers or your own daily frustrations for inspiration.</p>
         </details>
 
         <details>
-          <summary>I’ve never worked on a project before. Can I still take part?</summary>
-          <p>Yes. Participants who make consistent progress over the month are eligible for prizes — you don’t need prior experience to do well.</p>
+          <summary>I've never worked on a project before. Can I still take part?</summary>
+          <p>Yes. Participants who make consistent progress over the month are eligible for prizes — you don't need prior experience to do well.</p>
         </details>
 
         <details>
@@ -272,12 +256,12 @@ import Base from "../layouts/Base.astro";
 
         <details>
           <summary>What's the weekly update?</summary>
-          <p>The weekly update tracks your progress week-to-week. Each week during November you’ll receive a form with a few short questions asking what you achieved and what you plan next. TECS scores progress across these updates.</p>
+          <p>The weekly update tracks your progress week-to-week. Each week during November you'll receive a form with a few short questions asking what you achieved and what you plan next. TECS scores progress across these updates.</p>
         </details>
 
         <details>
           <summary>What support will I receive along the way?</summary>
-          <p>Participants receive feedback from mentors after the early rounds of updates. You’ll also see examples from other students and receive resources and guidance throughout November.</p>
+          <p>Participants receive feedback from mentors after the early rounds of updates. You'll also see examples from other students and receive resources and guidance throughout November.</p>
         </details>
 
         <details>
@@ -319,7 +303,7 @@ import Base from "../layouts/Base.astro";
       <div class="faq">
         <details>
           <summary>I have more questions! Where can I learn more?</summary>
-          <p>We’d love to hear from you. You can email us at <a href="mailto:info@jointecs.org">info@jointecs.org</a> or join Office Hours (dates/times announced to participants).</p>
+          <p>We'd love to hear from you. You can email us at <a href="mailto:info@jointecs.org">info@jointecs.org</a> or join Office Hours (dates/times announced to participants).</p>
         </details>
       </div>
 
@@ -340,7 +324,6 @@ import Base from "../layouts/Base.astro";
       </div>
     </div>
   </section>
-
 
   <!-- Sign Up -->
   <section id="signup" class="section">

@@ -1,0 +1,35 @@
+---
+// ThemeToggle component for consistent theme switching across the site
+---
+
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+  <span id="theme-icon">🌙 Dark</span>
+</button>
+
+<script>
+  // Theme toggle functionality
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+    if (themeIcon) themeIcon.textContent = '☀️ Light';
+  }
+  
+  // Toggle theme
+  themeToggle?.addEventListener('click', () => {
+    const dark = html.getAttribute('data-theme') === 'dark';
+    if (dark) {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      if (themeIcon) themeIcon.textContent = '🌙 Dark';
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      if (themeIcon) themeIcon.textContent = '☀️ Light';
+    }
+  });
+</script>

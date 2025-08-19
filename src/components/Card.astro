@@ -1,0 +1,21 @@
+---
+// Card component for consistent card layouts
+export interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+  number?: number;
+  className?: string;
+  variant?: 'default' | 'prize' | 'organiser';
+}
+
+const { title, description, icon, number, className = "", variant = 'default' } = Astro.props;
+---
+
+<div class={`card card--${variant} ${className}`}>
+  {number && <div class="diagram-number">{number}</div>}
+  {icon && <div class="card-icon">{icon}</div>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <slot />
+</div>

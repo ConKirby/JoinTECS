@@ -1,4 +1,7 @@
 ---
+import ThemeToggle from "../components/ThemeToggle.astro";
+import Navigation from "../components/Navigation.astro";
+
 const {
   title = "TECS — Technologists • Engineers • Creators • Scientists",
   description = "TECS is a nationwide competition for Irish secondary school students.",
@@ -22,25 +25,12 @@ const {
     <div class="blueprint-grid"></div>
 
     <!-- Theme Toggle -->
-    <button class="theme-toggle" id="theme-toggle"><span id="theme-icon">🌙 Dark</span></button>
+    <ThemeToggle />
 
     <a class="skip" href="#content">Skip to Content</a>
 
-    <header class="site-header">
-      <div class="container">
-        <div class="header-inner">
-          <a href="/" class="brand">TECS</a>
-          <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
-          <nav class="nav" id="nav">
-            <a href="#about">About</a>
-            <a href="#how">How It Works</a>
-            <a href="#prizes">Prizes</a>
-            <a href="#faq">FAQ</a>
-            <a href="#signup" class="btn">Sign Up</a>
-          </nav>
-        </div>
-      </div>
-    </header>
+    <!-- Navigation -->
+    <Navigation />
 
     <main id="content">
       <slot />
@@ -71,138 +61,27 @@ const {
       </div>
     </footer>
 
-    <!-- Inline behaviour scripts -->
-    <script is:inline>
-      // Theme toggle + persistence
-      const html = document.documentElement;
-      const themeToggle = document.getElementById('theme-toggle');
-      const themeIcon = document.getElementById('theme-icon');
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        html.setAttribute('data-theme','dark');
-        if (themeIcon) themeIcon.textContent = '☀️ Light';
-      }
-      themeToggle?.addEventListener('click', () => {
-        const dark = html.getAttribute('data-theme') === 'dark';
-        if (dark) {
-          html.removeAttribute('data-theme');
-          localStorage.setItem('theme','light');
-          if (themeIcon) themeIcon.textContent = '🌙 Dark';
-        } else {
-          html.setAttribute('data-theme','dark');
-          localStorage.setItem('theme','dark');
-          if (themeIcon) themeIcon.textContent = '☀️ Light';
-        }
-      });
-
-      // Mobile menu
-      const nav = document.getElementById('nav');
-      const hamburger = document.getElementById('hamburger');
-      const closeMenu = () => nav?.classList.remove('mobile-open');
-      hamburger?.addEventListener('click', () => nav?.classList.toggle('mobile-open'));
-      window.addEventListener('resize', () => { if (window.innerWidth > 768) closeMenu(); });
-
-      // Smooth scroll for internal anchors
-      document.addEventListener('click', (e) => {
-        const a = e.target.closest('a[href^="#"]');
-        if (!a) return;
-        const id = a.getAttribute('href');
-        const target = id && document.querySelector(id);
-        if (target) {
-          e.preventDefault();
-          closeMenu();
-          target.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-      });
-
+    <!-- Scroll reveal animation -->
+    <script>
       // Reveal cards on scroll
       const options = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-      const obs = new IntersectionObserver((entries)=>entries.forEach(entry=>{
+      const obs = new IntersectionObserver((entries) => entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.opacity='1';
-          entry.target.style.transform='translateY(0)';
+          const target = entry.target as HTMLElement;
+          target.style.opacity = '1';
+          target.style.transform = 'translateY(0)';
         }
       }), options);
-      document.addEventListener('DOMContentLoaded', ()=>{
-        document.querySelectorAll('.card').forEach((card, i)=>{
-          card.style.opacity='0';
-          card.style.transform='translateY(20px)';
-          card.style.transition=`opacity .5s ease ${i*0.1}s, transform .5s ease ${i*0.1}s`;
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.card').forEach((card, i) => {
+          const cardElement = card as HTMLElement;
+          cardElement.style.opacity = '0';
+          cardElement.style.transform = 'translateY(20px)';
+          cardElement.style.transition = `opacity .5s ease ${i * 0.1}s, transform .5s ease ${i * 0.1}s`;
           obs.observe(card);
         });
       });
-    // existing script above...
-    // --- ensure marquee tracks are long enough and duplicated for seamless looping ---
-    function makeMarqueeSeamless() {
-    document.querySelectorAll('.marquee').forEach(marquee => {
-      const inner = marquee.querySelector('.marquee-inner');
-      if (!inner) return;
-
-      // Reset ready flag (so CSS keeps animation off while we prepare)
-      marquee.removeAttribute('data-ready');
-
-      // find first track (use it as the seed)
-      const seedTrack = inner.querySelector('.marquee-track');
-      if (!seedTrack) return;
-
-      // Start with one clone of the seed so we have something to measure
-      inner.innerHTML = '';
-      inner.appendChild(seedTrack.cloneNode(true));
-
-      // ensure the inner content fills at least 2x viewport (we'll then create A|A)
-      const ensureEnough = () => {
-        const vw = window.innerWidth || 1024;
-        let totalWidth = inner.scrollWidth;
-
-        // append clones of the seed track until we reach >= 2 * vw
-        let safety = 0;
-        while (totalWidth < vw * 2 && safety < 30) {
-          inner.appendChild(seedTrack.cloneNode(true));
-          totalWidth = inner.scrollWidth;
-          safety++;
-        }
-
-        // Now create the A|A pattern by duplicating current inner content once.
-        // This ensures the CSS keyframes moving -50% will land perfectly on the duplicate half.
-        const current = inner.innerHTML;
-        inner.innerHTML = current + current;
-
-        // Force layout so browser picks up width before we start animation
-        // (read offsetHeight to flush)
-        inner.offsetHeight;
-
-        // Mark ready — CSS will start the animation.
-        marquee.setAttribute('data-ready', '1');
-      };
-
-      ensureEnough();
-
-      // Rebuild on resize (debounced)
-      let resizeTimer;
-      const onResize = () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          // Re-run build with fresh seed
-          const firstSeed = inner.querySelector('.marquee-track');
-          if (!firstSeed) return;
-          // rebuild from original seed (we stored original seedTrack earlier)
-          // Clear and reappend a fresh clone of the seedTrack we selected earlier
-          inner.innerHTML = '';
-          inner.appendChild(seedTrack.cloneNode(true));
-          ensureEnough();
-        }, 150);
-      };
-      window.addEventListener('resize', onResize, { passive: true });
-    });
-  }
-
-  // Run on DOM ready and on load to be robust across environments
-  document.addEventListener('DOMContentLoaded', () => {
-    makeMarqueeSeamless();
-  });
-  window.addEventListener('load', () => makeMarqueeSeamless());
-    // in case content added later, also attempt run after load
-
     </script>
   </body>
 </html>

@@ -1,0 +1,23 @@
+---
+// Marquee component for the scrolling text banner
+export interface Props {
+  text?: string;
+  className?: string;
+}
+
+const { text = "Technologists – Engineers – Creators – Scientists", className = "" } = Astro.props;
+---
+
+<div class={`marquee ${className}`} aria-hidden="true">
+  <div class="marquee-inner">
+    <div class="marquee-track">
+      <span class="m-item"><b>– Technologists</b> – Engineers – Creators – Scientists</span>
+      <span class="m-item"><b>– Technologists</b> – Engineers – Creators – Scientists</span>
+      <span class="m-item"><b>– Technologists</b> – Engineers – Creators – Scientists</span>
+      <span class="m-item"><b>– Technologists</b> – Engineers – Creators – Scientists</span>
+      <span class="m-item"><b>– Technologists</b> – Engineers – Creators – Scientists</span>
+      <span class="m-item"><b>– Technologists</b> – Engineers – Creators – Scientists</span>
+    </div>
+  </div>
+</div>
+
