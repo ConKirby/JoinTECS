@@ -143,11 +143,55 @@
   .btn-outline:hover{ background:var(--accent); color:#fff; }
   .btn--large{ padding:1rem 2rem; font-weight:800; letter-spacing:.8px; }
   .btn--ghost{ background:transparent; color:var(--accent); border:2px solid rgba(255,255,255,.2); box-shadow:none; }
-  .btn--nav { padding: 0.6rem 1.2rem; font-size: 0.85rem; }
+  .btn--nav { padding: 0.6rem 1.6rem; font-size: 0.85rem; }
+  
+  /* Unindent the title in signup section */
+  .signup-section .container h2 {
+    margin-left: -1rem;
+  }
+  
+  /* Desktop navigation button styling - make it look like regular nav links */
+  @media (min-width: 769px) {
+    .btn--nav {
+      background: transparent;
+      color: var(--fg);
+      border: none;
+      padding: 0.5rem 0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      box-shadow: none;
+      text-transform: none;
+    }
+    
+    .btn--nav:hover {
+      background: transparent;
+      color: var(--accent);
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .btn--nav::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    
+    .btn--nav:hover::after {
+      width: 100%;
+    }
+  }
+  
+
   
   /* Theme toggle */
   .theme-toggle{
-	position:fixed; top:20px; right:20px; z-index:1000;
+	position:fixed; bottom:20px; right:20px; z-index:1000;
 	background:var(--bg); border:2px solid var(--accent); color:var(--accent);
 	padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px; font-weight:600; transition:.3s ease; letter-spacing:.5px;
 	box-shadow: var(--shadow-md);
@@ -160,9 +204,9 @@
   }
   
   /* Sections + headings */
-  .section{ padding:3rem 0; position:relative; z-index:1; }
-  .section h2{ font-size:2.5rem; margin:0 0 1.5rem; font-weight:800; display:inline-block; color:var(--fg); position:relative; }
-  .section h2::before{ content:""; position:absolute; left:0; bottom:-8px; width:60px; height:4px; background:var(--accent); }
+  .section{ padding:2rem 0 0rem 0; position:relative; z-index:1; scroll-margin-top: 6rem; }
+  .section h2{ font-size:2.5rem; margin:0 0 1.5rem; font-weight:800; display:inline-block; color:var(--fg); position:relative; padding-left:1rem; }
+  .section h2::before{ content:""; position:absolute; left:1rem; bottom:-8px; width:60px; height:4px; background:var(--accent); }
   .muted{ color:var(--muted); }
   
   /* Grid-bg flavour */
@@ -193,6 +237,7 @@
   .hero-overlay{
     position:absolute;
     inset:0;
+    bottom: 6rem;
     z-index:1;
     background: linear-gradient(135deg,
       rgba(15,23,42,0.8) 0%,
@@ -219,9 +264,9 @@
 	box-shadow: var(--shadow-sm);
   }
   .card:hover{ 
-    transform:translateY(-8px); 
-    border-color:var(--accent); 
-    box-shadow:var(--shadow-xl);
+    transform:translateY(-8px) !important; 
+    background: color-mix(in srgb, var(--bg) 97%, var(--accent) 3%) !important;
+    box-shadow:var(--shadow-xl) !important;
   }
   .card h3{ color:var(--accent); margin:0 0 1rem; font-size:1.4rem; font-weight:700; letter-spacing:.5px; }
   .card p{ color:var(--muted); line-height: 1.6; }
@@ -250,6 +295,7 @@
     box-shadow:var(--shadow-lg);
   }
   .prize-amount{ font-size:2rem; color:var(--accent); font-weight:800; display:block; margin:.5rem 0; }
+  .prize-amount-label{ color: #000; font-weight: normal; font-family: inherit, sans-serif; font-size: 1.2rem; font-weight: 500;}
   .prize h3{ margin:0 0 1rem; }
   
   /* Quote with Bobby (avatar) */
@@ -267,11 +313,29 @@
   /* Supporters */
   .supporters-section{ padding:3.5rem 0; }
   .supporters-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:3rem; margin:3rem 0; align-items:center; }
-  .supporter{ display:flex; justify-content:center; align-items:center; padding:2rem; border:2px solid transparent; transition:.3s; border-radius:8px; }
-  .supporter:hover{ border-color:var(--blueprint-line); background:rgba(62,168,111,.02); }
-  .supporter-logo{ max-width:200px; height:auto; filter:grayscale(100%) opacity(.7); transition:filter .3s; }
+  .supporter{ display:flex; justify-content:center; align-items:center; padding:2rem; border:2px solid transparent; border-radius:8px; }
+  .supporter-logo{ max-width:200px; height:auto; filter:grayscale(100%) opacity(.7); }
   [data-theme="dark"] .supporter-logo{ filter:grayscale(100%) brightness(1.5) opacity(.7); }
   .supporter:hover .supporter-logo{ filter:grayscale(0%) opacity(1); }
+  
+  /* Individual supporter hover effects */
+  .supporters-banner .supporter-stripe:hover {
+    background: rgba(147, 112, 219, 0.1);
+    border-color: rgba(147, 112, 219, 0.3);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .supporters-banner .supporter-ul:hover {
+    background: rgba(62, 168, 111, 0.1);
+    border-color: rgba(62, 168, 111, 0.3);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .supporters-banner .supporter-dogpatch:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
   
   /* FAQ */
   .faq details{ 
@@ -389,7 +453,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: .9rem;
     padding: 1rem 0;
     z-index: 3;
     background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.06));
@@ -434,11 +498,11 @@
     justify-content:center;
     border-radius:8px;
     padding: 0.5rem;
-    background: rgba(15,23,42,0.07);
+    background: #0a0f1c;
   }
   
   [data-theme="dark"] .organiser-media {
-    background: rgba(255,255,255,0.06);
+    background: rgba(15,23,42,0.15);
   }
   
   .organiser-logo {
@@ -472,17 +536,23 @@
   
   /* Supporters banner */
   .supporters-banner{
-    background: #ffffff;
     padding: 2.5rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
   }
 
   .supporters-banner .container{
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
     display:flex;
     flex-direction:column;
     align-items:center;
     gap: 1rem;
+  }
+  
+  /* Dark theme supporters background */
+  [data-theme="dark"] .supporters-banner .container {
+    background: linear-gradient(135deg, rgba(62,168,111,0.05) 0%, rgba(62,168,111,0.02) 100%);
   }
 
   .supporters-banner .supporters-grid{
@@ -497,11 +567,16 @@
 
   /* Countdown Timer */
   .countdown {
-    background: linear-gradient(135deg, rgba(62,168,111,0.05) 0%, rgba(62,168,111,0.02) 100%);
-    border-top: 1px solid var(--blueprint-line);
-    border-bottom: 1px solid var(--blueprint-line);
-    padding: 4rem 0 0 0;
+    padding: 3.6rem 0;
+    margin-top: 1.4rem;
     text-align: center;
+  }
+
+  .countdown .container {
+    background: linear-gradient(135deg, rgba(62,168,111,0.05) 0%, rgba(62,168,111,0.02) 100%);
+    border: 1px solid var(--blueprint-line);
+    padding: 3.6rem 2rem;
+    border-radius: 12px;
   }
 
   .countdown h2 {
@@ -563,6 +638,10 @@
     
     .countdown h2 {
       font-size: 1.8rem;
+    }
+    
+    .countdown .container {
+      padding: 2.5rem 1rem;
     }
   }
 
@@ -627,9 +706,19 @@
     .quote-avatar{ width: 100px; height: 100px }
     .section h2{ font-size: 1.8rem }
     .cards{ grid-template-columns: 1fr; gap: 1.5rem }
-    .supporters-grid{ grid-template-columns: 1fr }
+    .supporters-grid{ grid-template-columns: 1fr; gap: 2rem; justify-items: center; max-width: 80%; margin: 0 auto; }
     .prizes{ grid-template-columns: 1fr }
     
+    .supporters-banner .supporter {
+      width: 100%;
+      max-width: 400px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+    }
+
     /* Mobile marquee adjustments */
     .hero-marquee .m-item { 
       font-size: 1rem; 
@@ -655,11 +744,12 @@
     .organiser-media { flex: 0 0 70px; padding: 0.35rem; }
     .organiser-logo { max-width: 70px; max-height: 70px; border-radius: 6px; }
     
-    .supporters-banner .supporters-grid{ 
-      grid-template-columns: 1fr; 
-    }
     .supporters-banner { 
       padding: 1.25rem 0; 
+    }
+    
+    .supporters-banner .container {
+      padding: 1.25rem 1rem;
     }
   }
   
@@ -667,7 +757,15 @@
     .lede { font-size: 1rem; }
     .hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
     .section { padding-top: 2.25rem; padding-bottom: 2.25rem; }
-    .card { padding: 1.5rem; }
+    .card { 
+      padding: 1.5rem; 
+      transition: all .3s ease;
+    }
+    .card:hover{ 
+      transform:translateY(-8px); 
+      background: color-mix(in srgb, var(--bg) 97%, var(--accent) 3%);
+      box-shadow:var(--shadow-xl);
+    }
     .prize { padding: 1.5rem; }
     
     /* Extra small screen marquee adjustments */
@@ -702,5 +800,24 @@
   @media (max-width: 980px) {
     .supporters-banner .supporters-grid{ 
       grid-template-columns: repeat(3, minmax(0,1fr)); 
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .supporters-banner .supporters-grid{ 
+      grid-template-columns: 1fr; 
+      gap: 4rem; 
+      justify-items: center; 
+      max-width: 80%; 
+      margin: 0 auto; 
+    }
+    
+    .supporters-banner .supporter {
+      width: 100%;
+      max-width: 300px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }

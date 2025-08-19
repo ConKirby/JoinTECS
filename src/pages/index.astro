@@ -28,33 +28,30 @@ import Countdown from "../components/Countdown.astro";
     </section>
 
     <!-- Countdown -->
-    <section class="section" style="background: linear-gradient(180deg, rgba(62, 168, 111, 0.02) 0%, transparent 100%);">
-      <div class="container">
-        <Countdown />
-      </div>
-    </section>
+    <Countdown />
 
   <!-- About -->
   <section id="about" class="section">
     <div class="container">
       <h2>About TECS</h2>
-      <p class="lede" style="margin-bottom: 3rem;">
-        TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.
-        Transition year, 5th year and 6th year students work towards building or creating something unique throughout
-        the month of November. They share progress updates each week and receive feedback from experienced mentors.
-      </p>
+      <ul class="lede" style="margin-bottom: 3rem;">
+        <li>TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.</li>
+        <li>Transition year, 5th year and 6th year students work towards building or creating something unique throughout the month of November.</li>
+        <li>They share progress updates each week and receive feedback from experienced mentors.</li>
+        <li>Prizes are awarded based on progress made during the competition.</li>
+      </ul>
       <div class="cards">
         <div class="card">
-          <h3>€2,000 Top Prize</h3>
-          <p>Awards for students who make the most progress during the competition, with up to €1,000 for their school.</p>
+          <h3>Winner Receives €2,000!</h3>
+          <p>Awards given to students who made the most progress during the competition, with school's receiving up to €1,000.</p>
         </div>
         <div class="card">
           <h3>Expert Mentorship</h3>
-          <p>Get feedback from industry leaders including John Collison (Stripe), Bobby Healy (Manna Aero), and Patricia Scanlon (Soapbox Labs).</p>
+          <p>Get feedback from industry leaders including John Collison (Stripe), Bobby Healy (Manna Aero), and Patricia Scanlon (Soapbox Labs), to name just a few.</p>
         </div>
         <div class="card">
           <h3>National Recognition</h3>
-          <p>Awards ceremony at University of Limerick Concert Hall with tech industry leaders and national media coverage.</p>
+          <p>Awards ceremony held at the University of Limerick Concert Hall with tech industry leaders and national media coverage.</p>
         </div>
       </div>
     </div>
@@ -68,7 +65,7 @@ import Countdown from "../components/Countdown.astro";
         <div class="card">
           <div class="diagram-number">1</div>
           <h3>Choose Your Project</h3>
-          <p>Apply with an idea you'd like to work on or develop further. It could be an app, business idea, social enterprise, research project, creative work, or something entirely different.</p>
+          <p>Apply with an idea you'd like to work on or develop further. It could be an app, business idea, social enterprise, research project, coding project, creative work, or something completely different.</p>
         </div>
         <div class="card">
           <div class="diagram-number">2</div>
@@ -109,22 +106,24 @@ import Countdown from "../components/Countdown.astro";
       <h2>Prizes</h2>
       <div class="prizes">
         <div class="prize">
-          <h3>🥇 First Prize</h3>
+          <h3>🥇 First Place</h3>
+          <span class="prize-amount-label">Student Receives:</span> 
           <span class="prize-amount">€2,000</span>
-          <p>for student</p>
+          <br>
+          <span class="prize-amount-label">School Receives:</span> 
           <span class="prize-amount">€1,000</span>
-          <p>for school</p>
         </div>
         <div class="prize">
-          <h3>🥈 Second Prize</h3>
+          <h3>🥈 Second Place</h3>
+          <span class="prize-amount-label">Student Receives:</span> 
           <span class="prize-amount">€1,000</span>
-          <p>for student</p>
+          <br>
+          <span class="prize-amount-label">School Receives:</span> 
           <span class="prize-amount">€500</span>
-          <p>for school</p>
         </div>
         <div class="prize">
           <h3>🎯 Additional Awards</h3>
-          <p style="padding: 1rem 0;">Active participants and teachers invited to the awards ceremony at University of Limerick</p>
+          <p style="padding: 1rem 0;">Active participants and teachers invited to the awards ceremony at the University of Limerick</p>
         </div>
       </div>
       <div style="text-align: center; margin-top: 2rem;">
@@ -133,6 +132,7 @@ import Countdown from "../components/Countdown.astro";
       </div>
     </div>
   </section>
+  <br>
 
   <!-- Supporters -->
   <section id="supporters" class="section supporters-banner" aria-label="Supporters">
@@ -141,14 +141,20 @@ import Countdown from "../components/Countdown.astro";
       <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
 
       <div class="supporters-grid" role="list" aria-label="Supporters and partners">
-        <div class="supporter" role="listitem">
-          <img class="supporter-logo" src="/images/StripeLogo.png" alt="Stripe"/>
+        <div class="supporter supporter-stripe" role="listitem">
+          <a href="https://stripe.com/ie" target="_blank" rel="noopener noreferrer">
+            <img class="supporter-logo" src="/images/StripeLogo.png" alt="Stripe"/>
+          </a>
         </div>
-        <div class="supporter" role="listitem">
-          <img class="supporter-logo" src="/uni-limerick-logo.svg" alt="University of Limerick"/>
+        <div class="supporter supporter-ul" role="listitem">
+          <a href="https://www.ul.ie/" target="_blank" rel="noopener noreferrer">
+            <img class="supporter-logo" src="/uni-limerick-logo.svg" alt="University of Limerick"/>
+          </a>
         </div>
-        <div class="supporter" role="listitem">
-          <img class="supporter-logo" src="/dogpatch-labs-logo.png" alt="Dogpatch Labs"/>
+        <div class="supporter supporter-dogpatch" role="listitem">
+          <a href="https://dogpatchlabs.com/" target="_blank" rel="noopener noreferrer">
+            <img class="supporter-logo" src="/dogpatch-labs-logo.png" alt="Dogpatch Labs"/>
+          </a>
         </div>
       </div>
     </div>
@@ -166,7 +172,7 @@ import Countdown from "../components/Countdown.astro";
           </div>
           <div class="organiser-body">
             <h3>ISE at UL</h3>
-            <p><strong>Immersive Software Engineering</strong> is a computer science degree at UL where students learn by doing. In four years you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's best tech companies.</p>
+            <p><strong><a href="https://www.software-engineering.ie/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Immersive Software Engineering</a></strong> is a computer science degree at UL where students "learn by doing". In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's most exciting tech companies.</p>
           </div>
         </div>
 
@@ -176,7 +182,7 @@ import Countdown from "../components/Countdown.astro";
           </div>
           <div class="organiser-body">
             <h3>Patch</h3>
-            <p><strong>Patch</strong> is a free summer programme for talented young people who want to work on impactful projects. Students spend seven weeks working on their chosen project, getting to know like-minded peers, and learning from brilliant mentors.</p>
+            <p><strong><a href="https://www.joinpatch.org/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Patch</a></strong> is a free summer programme where talented young people spend seven weeks working on their chosen projects, getting to know like-minded peers, and learning from brilliant mentors.</p>
           </div>
         </div>
       </div>
@@ -192,7 +198,7 @@ import Countdown from "../components/Countdown.astro";
       <div class="faq">
         <details>
           <summary>What is TECS?</summary>
-          <p>TECS is a November-long, progress-focused competition for secondary school students across Ireland. Participants work on a project throughout the month, submit short weekly updates, and receive mentor feedback. Prizes of up to €2,000 are awarded to students who make the most progress; schools can win up to €1,000.</p>
+          <p>TECS is a competition that runs over the course of the month of November. It is a progress-focused competition for secondary school students across Ireland. Participants work on a project throughout the month, submit short weekly updates, and receive mentor feedback. Prizes of up to €2,000 are awarded to students who make the most progress and schools can win up to €1,000.</p>
         </details>
 
         <details>
@@ -311,7 +317,7 @@ import Countdown from "../components/Countdown.astro";
       <div class="faq">
         <details>
           <summary>I have more questions! Where can I learn more?</summary>
-          <p>We'd love to hear from you. You can email us at <a href="mailto:info@jointecs.org">info@jointecs.org</a> or join Office Hours (dates/times announced to participants).</p>
+          <p>We'd love to hear from you. You can email us at <u><a href="mailto:info@jointecs.org">info@jointecs.org</a></u>.</p>
         </details>
       </div>
 
@@ -327,14 +333,14 @@ import Countdown from "../components/Countdown.astro";
 
         <details>
           <summary>Can my students work on team projects?</summary>
-          <p>Students can participate in team projects, but each participant must submit their own application. When applying, please list any collaborators so judges understand who contributed what.</p>
+          <p>Students can participate on team projects, but each participant must submit their own application. When applying, please list any collaborators so judges understand who contributed what.</p>
         </details>
       </div>
     </div>
   </section>
 
   <!-- Sign Up -->
-  <section id="signup" class="section">
+  <section id="signup" class="section signup-section">
     <div class="container">
       <h2>Ready to Build Something Amazing?</h2>
       <p class="lede" style="max-width: 600px; margin-bottom: 2rem;">
