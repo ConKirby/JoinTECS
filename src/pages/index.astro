@@ -28,7 +28,7 @@ import Base from "../layouts/Base.astro";
             <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
             <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
           </div>
-      
+          <!-- optional second initial track -->
           <div class="marquee-track" aria-hidden="true">
             <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
             <span class="m-item"><b>Technologists</b> – Engineers – Creators – Scientists –</span>
@@ -36,6 +36,7 @@ import Base from "../layouts/Base.astro";
           </div>
         </div>
       </div>
+      
     </section>
   
 
@@ -164,18 +165,31 @@ import Base from "../layouts/Base.astro";
   <section id="organisers" class="section">
     <div class="container">
       <h2>Organisers</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>ISE at UL</h3>
-          <p><strong>Immersive Software Engineering</strong> is a computer science degree at UL where students learn by doing. In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's best tech companies.</p>
+
+      <div class="organisers-grid">
+        <div class="organiser">
+          <div class="organiser-media">
+            <img src="/ISElogo.png" alt="ISE at University of Limerick logo" class="organiser-logo" />
+          </div>
+          <div class="organiser-body">
+            <h3>ISE at UL</h3>
+            <p><strong>Immersive Software Engineering</strong> is a computer science degree at UL where students learn by doing. In four years you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's best tech companies.</p>
+          </div>
         </div>
-        <div class="card">
-          <h3>Patch</h3>
-          <p><strong>Patch</strong> is a free summer programme for talented young people who want to work on impactful projects. Students spend seven weeks working on their chosen project, getting to know like-minded peers, and learning from brilliant mentors.</p>
+
+        <div class="organiser">
+          <div class="organiser-media">
+            <img src="/patchlogo.png" alt="Patch programme logo" class="organiser-logo" />
+          </div>
+          <div class="organiser-body">
+            <h3>Patch</h3>
+            <p><strong>Patch</strong> is a free summer programme for talented young people who want to work on impactful projects. Students spend seven weeks working on their chosen project, getting to know like-minded peers, and learning from brilliant mentors.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
+  
 
   <!-- FAQ -->
   <section id="faq" class="section">

@@ -159,75 +159,90 @@
 /* ---------------------
    Infinite seamless marquee (robust)
    --------------------- */
-   .marquee {
-    overflow: hidden;
-    position: relative;
-    border-top: 2px solid var(--accent);
-    border-bottom: 2px solid var(--accent);
-    background: linear-gradient(90deg, rgba(62,168,111,0.03) 0%, rgba(62,168,111,0.06) 50%, rgba(62,168,111,0.03) 100%);
-    z-index: 1;
-  }
-  
-  /* container that slides left; its content must be at least 200% of viewport */
-  .marquee-inner {
-    display: flex;
-    align-items: center;
-    width: max-content;                  /* allow JS to control exact size */
-    animation: marquee-scroll 28s linear infinite;
-    will-change: transform;
-  }
-  
-  /* a track is one repeated sequence; we'll duplicate it via JS if needed */
-  .marquee-track {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    padding: 0.8rem 1rem;
-    white-space: nowrap;
-    box-sizing: border-box;
-  }
-  
-  /* individual items */
-  .m-item {
-    white-space: nowrap;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 3px;
-    font-size: 1.05rem;
-    color: var(--fg);
-  }
-  
-  /* colour the "Technologists" chunk green */
-  .m-item b { color: var(--accent); font-weight: 900; }
-  
-  /* animation: translate by half of the inner width (JS ensures inner is duplicated to cover this) */
-  @keyframes marquee-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); } /* move exactly half of full width (so duplicated content repeats) */
-  }
-  
-  /* pause on hover */
-  .marquee:hover .marquee-inner { animation-play-state: paused; }
-  
-  /* hero-specific styles to make marquee larger & sit on bottom */
-  .hero .marquee {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 1rem 0;
-    z-index: 3;
-    background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.06));
-  }
-  
-  .hero .marquee .m-item {
-    font-size: clamp(1.3rem, 2.2vw, 2rem);
-    letter-spacing: 4px;
-    font-weight: 800;
-  }
-  
-  /* ensure marquee-track is at least full viewport (JS will duplicate content to reach 2x) */
-  .marquee-track { min-width: 100vw; }
+   /* ---------------------
+   Infinite seamless marquee (robust) — CSS
+   --------------------- */
+.marquee {
+  overflow: hidden;
+  position: relative;
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  background: linear-gradient(90deg, rgba(62,168,111,0.03) 0%, rgba(62,168,111,0.06) 50%, rgba(62,168,111,0.03) 100%);
+  z-index: 1;
+}
+
+/* marquee-inner is static until the JS marks the parent as data-ready="1" */
+.marquee .marquee-inner {
+  display: flex;
+  align-items: center;
+  width: max-content;    /* JS will duplicate to reach desired width */
+  transform: translateX(0); /* ensure stable initial position */
+  will-change: transform;
+  /* animation intentionally disabled by default; only enable when parent is ready */
+  animation: none;
+}
+
+/* Start the animation only when the marquee is marked ready */
+.marquee[data-ready="1"] .marquee-inner {
+  animation: marquee-scroll 28s linear infinite;
+}
+
+/* a track is one repeated sequence; we'll duplicate via JS if needed */
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0.8rem 1rem;
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-width: 100vw; /* ensure at least fills initial viewport width */
+}
+
+/* Individual items */
+.m-item {
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: 1.05rem;
+  color: var(--fg);
+}
+
+/* Green "Technologists" */
+.m-item b { color: var(--accent); font-weight: 900; }
+
+/* animation: translate by half of the inner width (JS ensures inner is duplicated to cover this) */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* move exactly half of full width */
+}
+
+/* pause on hover */
+.marquee:hover .marquee-inner { animation-play-state: paused; }
+
+/* hero-specific styles to place marquee at bottom and make it larger */
+.hero .marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 0;
+  z-index: 3;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.06));
+}
+
+.hero .marquee .m-item {
+  font-size: clamp(1.3rem, 2.2vw, 2rem);
+  letter-spacing: 4px;
+  font-weight: 800;
+}
+
+/* accessibility / mobile tweaks */
+@media (max-width: 768px) {
+  .hero .marquee .m-item { font-size: 1rem; letter-spacing: 2px; }
+  .marquee-track { gap: 1rem; padding: .6rem .8rem; min-width: auto; }
+}
+
   
   /* accessibility: keep things readable on small screens */
   @media (max-width: 768px) {
@@ -426,6 +441,127 @@
   color:var(--muted);
   font-size:.95rem;
 }
+
+/* ---------------------
+   Organisers grid + logos
+   --------------------- */
+   .organisers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+  
+  /* each organiser row/card */
+  .organiser {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(62,168,111,0.02), transparent);
+    border: 1px solid var(--border);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+/* ---------------------
+   Organisers grid + logos (solid cards + logo frames)
+   --------------------- */
+   .organisers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+  
+  /* each organiser row/card */
+  .organiser {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 10px;
+    /* solid card background (not transparent) so white logos and text are visible */
+    background: var(--bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .organiser:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 34px rgba(15,23,42,0.07);
+  }
+  
+  /* place logo left, text to the right; add a small contrasting frame behind the logo */
+  .organiser-media {
+    flex: 0 0 96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    padding: 0.5rem;
+    /* dark frame behind logos so white/transparent artwork shows up */
+    background: rgba(15,23,42,0.07);
+  }
+  
+  /* In dark theme, use a lighter frame so logos remain visible */
+  [data-theme="dark"] .organiser-media {
+    background: rgba(255,255,255,0.06);
+  }
+  
+  .organiser-logo {
+    max-width: 88px;
+    max-height: 88px;
+    width: auto;
+    height: auto;
+    display:block;
+    object-fit:contain;
+    /* remove the grayscale/opacity so logos render in full colour */
+    filter: none;
+    opacity: 1;
+    transition: transform .18s ease, filter .18s ease;
+    border-radius: 6px;
+  }
+  .organiser:hover .organiser-logo {
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  /* body text for organiser */
+  .organiser-body h3 {
+    margin: 0 0 .35rem;
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+  .organiser-body p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  
+  /* Mobile tweaks: slightly smaller logo frame and stacked behaviour */
+  @media (max-width: 640px) {
+    .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .hero-inner { padding-top: 2rem; padding-bottom: 2rem; }
+    .hero { min-height: 60vh; }
+    .section { padding-top: 3.25rem; padding-bottom: 3.25rem; }
+  
+    .organiser {
+      flex-direction: row;
+      gap: 0.9rem;
+    }
+    .organiser-media { flex: 0 0 70px; padding: 0.35rem; }
+    .organiser-logo { max-width: 70px; max-height: 70px; border-radius: 6px; }
+  }
+  
+  
+  /* extra polish for very small phones */
+  @media (max-width: 420px) {
+    .lede { font-size: 1rem; }
+    .hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .section { padding-top: 2.25rem; padding-bottom: 2.25rem; }
+  }
+  
 
 /* mobile tweak: stack */
 @media (max-width:720px){
