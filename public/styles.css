@@ -77,7 +77,7 @@
   [data-theme="dark"] .site-header{ background:rgba(10,15,28,.95); }
   
   .header-inner{ display:flex; justify-content:space-between; align-items:center; padding:1.2rem 0; }
-  .brand{ font-size:1.5rem; font-weight:800; letter-spacing:2px; color:var(--accent); }
+  .brand{ font-size:1.5rem; font-weight:700; letter-spacing:2px; color:var(--accent); }
   .nav{ display:flex; gap:2.5rem; align-items:center; }
   .nav a{ color:var(--fg); position:relative; padding:.5rem 0; font-weight:500; font-size:.95rem; letter-spacing:.5px; }
   .nav a:hover{ color:var(--accent); }
