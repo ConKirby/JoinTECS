@@ -85,7 +85,7 @@ const {
       // Create unique animation for each particle
       const animationDuration = 15 + Math.random() * 10;
       const animationDelay = Math.random() * 20;
-      const moveDistance = 5 + Math.random() * 8; // Very small movement distance
+      const moveDistance = 15 + Math.random() * 20; // More movement
       const rotationAmount = 180 + Math.random() * 180;
       
       // Apply CSS animation
@@ -137,15 +137,15 @@ const {
       opacity: 0.3;
     }
     25% {
-      transform: translateY(calc(-1 * var(--move-distance, 10px) * 0.5)) translateX(calc(var(--move-distance, 10px) * 0.3)) rotate(calc(var(--rotation-amount, 180deg) * 0.25));
+      transform: translateY(calc(-1 * var(--move-distance, 20px) * 0.8)) translateX(calc(var(--move-distance, 20px) * 0.6)) rotate(calc(var(--rotation-amount, 180deg) * 0.25));
       opacity: 0.5;
     }
     50% {
-      transform: translateY(calc(-1 * var(--move-distance, 10px) * 0.3)) translateX(calc(-1 * var(--move-distance, 10px) * 0.4)) rotate(calc(var(--rotation-amount, 180deg) * 0.5));
+      transform: translateY(calc(-1 * var(--move-distance, 20px) * 0.6)) translateX(calc(-1 * var(--move-distance, 20px) * 0.7)) rotate(calc(var(--rotation-amount, 180deg) * 0.5));
       opacity: 0.2;
     }
     75% {
-      transform: translateY(calc(-1 * var(--move-distance, 10px) * 0.7)) translateX(calc(var(--move-distance, 10px) * 0.2)) rotate(calc(var(--rotation-amount, 180deg) * 0.75));
+      transform: translateY(calc(-1 * var(--move-distance, 20px) * 1.0)) translateX(calc(var(--move-distance, 20px) * 0.5)) rotate(calc(var(--rotation-amount, 180deg) * 0.75));
       opacity: 0.4;
     }
     100% {
