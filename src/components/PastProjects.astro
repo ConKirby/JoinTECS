@@ -1,0 +1,541 @@
+---
+export interface Props {
+  projects?: Array<{
+    name: string;
+    age: number;
+    school: string;
+    year: number;
+    award: string;
+    description: string;
+  }>;
+}
+
+const {
+  projects = [
+    {
+      name: "Sarah O'Connor",
+      age: 17,
+      school: "St. Mary's Secondary School",
+      year: 2024,
+      award: "Winner",
+      description: "Developed an innovative mobile app that helps students with dyslexia improve their reading skills through interactive exercises and AI-powered text adaptation. The app uses machine learning to personalize the learning experience and has been adopted by three local schools."
+    },
+    {
+      name: "Michael Chen",
+      age: 16,
+      school: "Dublin Technical College",
+      year: 2024,
+      award: "Runner-up",
+      description: "Created a sustainable energy monitoring system for schools using IoT sensors and a custom dashboard. The system tracks electricity usage in real-time and provides recommendations for reducing energy consumption, helping schools save up to 30% on their energy bills."
+    },
+    {
+      name: "Emma Murphy",
+      age: 18,
+      school: "Cork Grammar School",
+      year: 2023,
+      award: "Winner",
+      description: "Built a comprehensive mental health support platform for teenagers, featuring anonymous chat support, mood tracking, and access to professional resources. The platform has helped over 500 students and is now being used by guidance counselors across the region."
+    },
+    {
+      name: "James O'Brien",
+      age: 17,
+      school: "Galway High School",
+      year: 2023,
+      award: "Innovation Award",
+      description: "Developed a smart waste management system for urban areas using computer vision and machine learning. The system automatically sorts recyclable materials and provides data analytics to help cities optimize their waste collection routes."
+    },
+    {
+      name: "Sophie Kelly",
+      age: 16,
+      school: "Limerick Academy",
+      year: 2022,
+      award: "Winner",
+      description: "Created an educational VR experience that takes students on virtual field trips to historical sites and natural wonders. The immersive learning platform has been integrated into the history and geography curriculum at five schools."
+    },
+    {
+      name: "David Walsh",
+      age: 18,
+      school: "Waterford Technical Institute",
+      year: 2022,
+      award: "Technical Excellence",
+      description: "Built an autonomous drone system for agricultural monitoring that uses computer vision to detect crop diseases and pest infestations. The system provides farmers with early warning alerts and treatment recommendations, improving crop yields by 25%."
+    }
+  ]
+} = Astro.props;
+---
+
+<section id="past-projects" class="section past-projects-section">
+  <div class="container">
+    <h2>Past Projects</h2>
+    <p class="muted" style="margin-bottom: 2rem;">See what amazing projects our previous winners have created</p>
+    
+    <div class="gallery-container">
+      <div class="gallery-gradient gallery-gradient-left"></div>
+      <div class="gallery-gradient gallery-gradient-right"></div>
+      <div class="gallery-content">
+        <div class="gallery-track" id="gallery-track">
+          {projects.map((project, i) => (
+            <div class="gallery-item" data-index={i}>
+              <div class="project-card">
+                <div class="project-header">
+                  <h3 class="project-name">{project.name}</h3>
+                  <div class="project-meta">
+                    <span class="project-age">{project.age} years old</span>
+                    <span class="project-school">{project.school}</span>
+                  </div>
+                </div>
+                <div class="project-award">
+                  <span class="award-year">{project.year}</span>
+                  <span class="award-type">{project.award}</span>
+                </div>
+                <div class="project-description">
+                  <p>{project.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="gallery-navigation">
+        <button class="nav-btn nav-btn-prev" id="prev-btn" aria-label="Previous project">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+        </button>
+        <button class="nav-btn nav-btn-next" id="next-btn" aria-label="Next project">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const galleryTrack = document.getElementById('gallery-track');
+    if (!galleryTrack) return;
+
+    const projects = galleryTrack.querySelectorAll('.gallery-item');
+    const projectCount = projects.length;
+    
+    let isScreenSizeSm = window.innerWidth <= 640;
+    let currentIndex = 0;
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let startTransform = 0;
+
+    // Calculate dimensions based on screen size
+    const getDimensions = () => {
+      const containerWidth = galleryTrack.parentElement.offsetWidth;
+      const mainCardWidth = isScreenSizeSm ? containerWidth * 0.6 : containerWidth * 0.4;
+      const sideCardWidth = isScreenSizeSm ? containerWidth * 0.45 : containerWidth * 0.3;
+      const spacing = isScreenSizeSm ? 12 : 20; // Space between main and side cards
+      const cylinderWidth = isScreenSizeSm ? containerWidth * 1.2 : containerWidth * 1.8;
+      const faceCount = projectCount;
+      const radius = cylinderWidth / (2 * Math.PI);
+      return { 
+        cylinderWidth, 
+        faceCount, 
+        mainCardWidth, 
+        sideCardWidth, 
+        spacing, 
+        radius 
+      };
+    };
+
+    // Update gallery layout
+    const updateGallery = () => {
+      const { cylinderWidth, faceCount, mainCardWidth, sideCardWidth, spacing, radius } = getDimensions();
+      
+      galleryTrack.style.width = `${cylinderWidth}px`;
+      
+      projects.forEach((project, i) => {
+        const rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
+        const isMainCard = i === currentIndex;
+        const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
+        const translateZ = isMainCard ? radius : radius + spacing;
+        
+        project.style.width = `${cardWidth}px`;
+        project.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
+      });
+      
+      // Update button states
+      updateButtonStates();
+    };
+
+    // Handle drag start
+    const handleDragStart = (e) => {
+      isDragging = true;
+      startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+      startTransform = currentIndex;
+      galleryTrack.style.cursor = 'grabbing';
+    };
+
+    // Handle drag move
+    const handleDragMove = (e) => {
+      if (!isDragging) return;
+      
+      currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+      const deltaX = currentX - startX;
+      const sensitivity = 0.01;
+      const rotationDelta = deltaX * sensitivity;
+      
+      const { faceCount, mainCardWidth, sideCardWidth, spacing, radius } = getDimensions();
+      
+      projects.forEach((project, i) => {
+        const baseRotation = (i * (360 / faceCount)) - (startTransform * (360 / faceCount));
+        const currentRotation = baseRotation + rotationDelta;
+        const isMainCard = i === startTransform;
+        const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
+        const translateZ = isMainCard ? radius : radius + spacing;
+        
+        project.style.width = `${cardWidth}px`;
+        project.style.transform = `rotateY(${currentRotation}deg) translateZ(${translateZ}px)`;
+      });
+    };
+
+    // Handle drag end
+    const handleDragEnd = () => {
+      if (!isDragging) return;
+      
+      isDragging = false;
+      galleryTrack.style.cursor = 'grab';
+      
+      const deltaX = currentX - startX;
+      const threshold = 50;
+      
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          currentIndex = currentIndex > 0 ? currentIndex - 1 : projectCount - 1;
+        } else {
+          currentIndex = currentIndex < projectCount - 1 ? currentIndex + 1 : 0;
+        }
+      }
+      
+      updateGallery();
+    };
+
+    // Handle click/tap navigation
+    const handleCardClick = (e) => {
+      const clickedCard = e.target.closest('.gallery-item');
+      if (!clickedCard) return;
+      
+      const clickedIndex = parseInt(clickedCard.dataset.index);
+      if (clickedIndex !== currentIndex) {
+        currentIndex = clickedIndex;
+        updateGallery();
+      }
+    };
+
+    // Add event listeners
+    galleryTrack.addEventListener('mousedown', handleDragStart);
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
+    
+    galleryTrack.addEventListener('touchstart', handleDragStart, { passive: false });
+    document.addEventListener('touchmove', handleDragMove, { passive: false });
+    document.addEventListener('touchend', handleDragEnd);
+    
+    // Add click navigation
+    galleryTrack.addEventListener('click', handleCardClick);
+
+    // Navigation button handlers
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    const handlePrevClick = () => {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : projectCount - 1;
+      updateGallery();
+    };
+
+    const handleNextClick = () => {
+      currentIndex = currentIndex < projectCount - 1 ? currentIndex + 1 : 0;
+      updateGallery();
+    };
+
+    if (prevBtn) prevBtn.addEventListener('click', handlePrevClick);
+    if (nextBtn) nextBtn.addEventListener('click', handleNextClick);
+
+    // Update button states
+    const updateButtonStates = () => {
+      if (prevBtn) {
+        prevBtn.disabled = false;
+        prevBtn.style.opacity = '1';
+      }
+      if (nextBtn) {
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = '1';
+      }
+    };
+
+    // Handle resize
+    const handleResize = () => {
+      isScreenSizeSm = window.innerWidth <= 640;
+      updateGallery();
+    };
+    
+    window.addEventListener('resize', handleResize);
+
+    // Initialize
+    updateGallery();
+    updateButtonStates();
+
+    // Cleanup
+    return () => {
+      galleryTrack.removeEventListener('mousedown', handleDragStart);
+      document.removeEventListener('mousemove', handleDragMove);
+      document.removeEventListener('mouseup', handleDragEnd);
+      galleryTrack.removeEventListener('touchstart', handleDragStart);
+      document.removeEventListener('touchmove', handleDragMove);
+      document.removeEventListener('touchend', handleDragEnd);
+      window.removeEventListener('resize', handleResize);
+    };
+  });
+</script>
+
+<style>
+  .past-projects-section {
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gallery-container {
+    position: relative;
+    height: 600px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .gallery-gradient {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 48px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .gallery-gradient-left {
+    left: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, var(--bg) 100%);
+  }
+
+  .gallery-gradient-right {
+    right: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, var(--bg) 100%);
+  }
+
+  .gallery-navigation {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .nav-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.1);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .gallery-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+
+  .gallery-track {
+    display: flex;
+    height: auto;
+    min-height: 200px;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    transform-style: preserve-3d;
+    width: 100%;
+  }
+
+  .gallery-item {
+    position: absolute;
+    display: flex;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    padding: 8%;
+    backface-visibility: hidden;
+  }
+
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 1.25rem;
+    width: 100%;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-item:hover .project-card {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+
+  .project-header {
+    margin-bottom: 1rem;
+  }
+
+  .project-name {
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem 0;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .project-age,
+  .project-school {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .project-award {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--accent);
+    color: white;
+    border-radius: 15px;
+    font-weight: 600;
+    align-self: flex-start;
+  }
+
+  .award-year {
+    font-size: 0.75rem;
+  }
+
+  .award-type {
+    font-size: 0.65rem;
+    opacity: 0.9;
+  }
+
+  .project-description {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .project-description p {
+    color: var(--text);
+    line-height: 1.4;
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .gallery-container {
+      height: 360px;
+    }
+    
+    .gallery-item {
+      padding: 6%;
+    }
+    
+    .project-card {
+      height: 280px;
+      padding: 1rem;
+    }
+    
+    .project-name {
+      font-size: 0.9rem;
+    }
+    
+    .project-description p {
+      font-size: 0.7rem;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .nav-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery-container {
+      height: 320px;
+    }
+    
+    .project-card {
+      height: 260px;
+      padding: 0.8rem;
+    }
+
+    .gallery-navigation {
+      padding: 0 0.5rem;
+    }
+
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+    }
+
+    .nav-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+</style>
