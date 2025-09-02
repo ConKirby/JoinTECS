@@ -1,5 +1,5 @@
 ---
-import ThemeToggle from "../components/ThemeToggle.astro";
+
 import Navigation from "../components/Navigation.astro";
 
 const {
@@ -21,11 +21,13 @@ const {
     <link href="/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <!-- Blueprint Grid Background -->
-    <div class="blueprint-grid"></div>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+
 
     <!-- Theme Toggle -->
-    <ThemeToggle />
+
 
     <a class="skip" href="#content">Skip to Content</a>
 
@@ -61,8 +63,20 @@ const {
       </div>
     </footer>
 
-    <!-- Scroll reveal animation -->
+    <!-- Scroll reveal animation and progress bar -->
     <script>
+      // Progress bar functionality
+      function updateProgressBar() {
+        const progressBar = document.getElementById('progress-bar') as HTMLElement;
+        if (!progressBar) return;
+
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+        
+        progressBar.style.width = scrollPercent + '%';
+      }
+
       // Reveal cards on scroll
       const options = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
       const obs = new IntersectionObserver((entries) => entries.forEach(entry => {
@@ -74,6 +88,13 @@ const {
       }), options);
       
       document.addEventListener('DOMContentLoaded', () => {
+        // Initialize progress bar
+        updateProgressBar();
+        
+        // Set up scroll listener for progress bar
+        window.addEventListener('scroll', updateProgressBar);
+        
+        // Initialize card animations
         document.querySelectorAll('.card').forEach((card, i) => {
           const cardElement = card as HTMLElement;
           cardElement.style.opacity = '0';

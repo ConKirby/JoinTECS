@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 import Marquee from "../components/Marquee.astro";
 import Countdown from "../components/Countdown.astro";
+import Waves from "../components/Waves.astro";
+import Squares from "../components/Squares.astro";
 ---
 
 <Base>
@@ -32,6 +34,21 @@ import Countdown from "../components/Countdown.astro";
 
   <!-- About -->
   <section id="about" class="section">
+    <!-- Animated Wave Background -->
+    <Waves 
+      lineColor="rgba(62, 168, 111, 0.2)"
+      backgroundColor="transparent"
+      waveSpeedX={0.008}
+      waveSpeedY={0.003}
+      waveAmpX={24}
+      waveAmpY={12}
+      xGap={12}
+      yGap={28}
+      friction={0.95}
+      tension={0.003}
+      maxCursorMove={80}
+    />
+    
     <div class="container">
       <h2>About TECS</h2>
       <ul class="lede" style="margin-bottom: 3rem;">
@@ -58,7 +75,16 @@ import Countdown from "../components/Countdown.astro";
   </section>
 
   <!-- How It Works -->
-  <section id="how" class="section" style="background: linear-gradient(180deg, rgba(62, 168, 111, 0.02) 0%, transparent 100%);">
+  <section id="how" class="section">
+    <!-- Animated Squares Background -->
+    <Squares 
+      direction="diagonal"
+      speed={0.2}
+      borderColor="rgba(62, 168, 111, 0.12)"
+      squareSize={50}
+      hoverFillColor="rgba(62, 168, 111, 0.03)"
+    />
+    
     <div class="container">
       <h2>How It Works</h2>
       <div class="cards">
@@ -194,146 +220,151 @@ import Countdown from "../components/Countdown.astro";
     <div class="container">
       <h2>FAQs</h2>
 
-      <!-- General -->
-      <div class="faq">
-        <details>
-          <summary>What is TECS?</summary>
-          <p>TECS is a competition that runs over the course of the month of November. It is a progress-focused competition for secondary school students across Ireland. Participants work on a project throughout the month, submit short weekly updates, and receive mentor feedback. Prizes of up to €2,000 are awarded to students who make the most progress and schools can win up to €1,000.</p>
+      <div class="faq-categories">
+        <!-- General -->
+        <details class="faq-category">
+          <summary class="faq-category-summary">General</summary>
+          <div class="faq-questions">
+            <details>
+              <summary>What is TECS?</summary>
+              <p>TECS is Ireland's premier nationwide talent search that runs over the month of November. It is a progress-focused competition for secondary school students across Ireland. Participants work on a project throughout the month, submit short weekly updates, and receive mentor feedback. Prizes of up to €2,000 are awarded to students who make the most progress and schools can win up to €1,000.</p>
+            </details>
+
+            <details>
+              <summary>When does TECS run?</summary>
+              <p>TECS runs throughout November (example dates previously: 4th–29th November). Students submit weekly progress updates during November; judges review submissions in December, and an awards ceremony takes place in January.</p>
+            </details>
+
+            <details>
+              <summary>Who can take part?</summary>
+              <p>TECS is open to Transition Year, 5th Year and 6th Year students in the Republic of Ireland, and Years 11–14 in Northern Ireland. We welcome technical, scientific and creative projects — past entrants have built apps, organised events, run experiments and written novels.</p>
+            </details>
+
+            <details>
+              <summary>Can I participate from Northern Ireland?</summary>
+              <p>Yes — students enrolled in Years 11–14 in Northern Ireland may apply. Prize values are equivalent in local currency (e.g. the top student prize equates to approximately £1,700 at past exchange rates).</p>
+            </details>
+          </div>
         </details>
 
-        <details>
-          <summary>When does TECS run?</summary>
-          <p>TECS runs throughout November (example dates previously: 4th–29th November). Students submit weekly progress updates during November; judges review submissions in December, and an awards ceremony takes place in January.</p>
+        <!-- Sign-ups -->
+        <details class="faq-category">
+          <summary class="faq-category-summary">Sign-ups</summary>
+          <div class="faq-questions">
+            <details>
+              <summary>What do I need to sign up?</summary>
+              <p>The signup form asks for basic information about you, your school, and the project you plan to work on in November. Sign-up windows are announced ahead of time — previously sign-up opened in early October and ran until late October. Once signed up, you'll only need to submit a brief weekly update for each of the four weeks in November.</p>
+            </details>
+
+            <details>
+              <summary>Can I sign up as a team?</summary>
+              <p>You can apply with a project that has multiple contributors, but each TECS participant must submit their own application. If you're working with others, mention collaborators in your entry.</p>
+            </details>
+
+            <details>
+              <summary>I haven't started my project yet. Can I still take part?</summary>
+              <p>Absolutely — you can start something from scratch. TECS rewards progress over time, not pre-existing polish. If you're stuck for ideas, look at Coolest Projects, IndieHackers or your own daily frustrations for inspiration.</p>
+            </details>
+
+            <details>
+              <summary>I've never worked on a project before. Can I still take part?</summary>
+              <p>Yes. Participants who make consistent progress over the month are eligible for prizes — you don't need prior experience to do well.</p>
+            </details>
+
+            <details>
+              <summary>Is this just for coders?</summary>
+              <p>No — TECS includes technical and non-technical projects alike. Past entries include apps, community projects, research, art and writing. The key is progress and learning.</p>
+            </details>
+
+            <details>
+              <summary>Can I use one of my Transition Year or Leaving Cert projects?</summary>
+              <p>Yes — TECS is a great way to accelerate an existing school project. Mentorship and the prize incentive can help you push the project further than you would alone.</p>
+            </details>
+
+            <details>
+              <summary>Can I use a non-school project?</summary>
+              <p>Yes — projects done outside school (personal projects, clubs, or extracurricular work) are welcome as long as the applicant is eligible by year. TECS is about your progress, wherever that project lives.</p>
+            </details>
+          </div>
         </details>
 
-        <details>
-          <summary>Who can take part?</summary>
-          <p>TECS is open to Transition Year, 5th Year and 6th Year students in the Republic of Ireland, and Years 11–14 in Northern Ireland. We welcome technical, scientific and creative projects — past entrants have built apps, organised events, run experiments and written novels.</p>
+        <!-- Programme -->
+        <details class="faq-category">
+          <summary class="faq-category-summary">Programme</summary>
+          <div class="faq-questions">
+            <details>
+              <summary>What's the time commitment?</summary>
+              <p>Time commitment varies by project. Some projects need only 2–3 hours per week; others require more. Aside from working on the project, the weekly update should take about 5–10 minutes to complete.</p>
+            </details>
+
+            <details>
+              <summary>What's the weekly update?</summary>
+              <p>The weekly update tracks your progress week-to-week. Each week during November you'll receive a form with a few short questions asking what you achieved and what you plan next. TECS scores progress across these updates.</p>
+            </details>
+
+            <details>
+              <summary>What support will I receive along the way?</summary>
+              <p>Participants receive feedback from mentors after the early rounds of updates. You'll also see examples from other students and receive resources and guidance throughout November.</p>
+            </details>
+
+            <details>
+              <summary>Do I have to use a computer?</summary>
+              <p>No — TECS is about progress on an idea. Projects can be physical, event-based, business-focused, or creative. You will only need a computer or smartphone to submit the weekly updates.</p>
+            </details>
+          </div>
         </details>
 
-        <details>
-          <summary>Can I participate from Northern Ireland?</summary>
-          <p>Yes — students enrolled in Years 11–14 in Northern Ireland may apply. Prize values are equivalent in local currency (e.g. the top student prize equates to approximately £1,700 at past exchange rates).</p>
-        </details>
-      </div>
+        <!-- Awards ceremony & prizes -->
+        <details class="faq-category">
+          <summary class="faq-category-summary">Awards ceremony & prizes</summary>
+          <div class="faq-questions">
+            <details>
+              <summary>What can I win?</summary>
+              <p>Prizes include a top student prize (previously €2,000) and a top school prize (previously €1,000), plus additional awards for notable progress and special categories. Active participants and their teachers are typically invited to the awards ceremony.</p>
+            </details>
 
-      <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
+            <details>
+              <summary>Can my TECS project form part of my ISE entrance submission?</summary>
+              <p>Yes — TECS projects are a great way to demonstrate commitment and progress in an application to ISE. You can include your TECS work as part of your entrance materials where appropriate.</p>
+            </details>
 
-      <!-- Sign-ups -->
-      <h3>Sign-ups</h3>
-      <div class="faq">
-        <details>
-          <summary>What do I need to sign up?</summary>
-          <p>The signup form asks for basic information about you, your school, and the project you plan to work on in November. Sign-up windows are announced ahead of time — previously sign-up opened in early October and ran until late October. Once signed up, you'll only need to submit a brief weekly update for each of the four weeks in November.</p>
-        </details>
+            <details>
+              <summary>Does taking part in TECS guarantee me a place in ISE or Patch?</summary>
+              <p>No — participation does not guarantee admission to either programme. Both ISE and Patch have separate application processes. However, consistent progress and demonstrable projects can strengthen your applications for programmes like ISE and Patch.</p>
+            </details>
 
-        <details>
-          <summary>Can I sign up as a team?</summary>
-          <p>You can apply with a project that has multiple contributors, but each TECS participant must submit their own application. If you're working with others, mention collaborators in your entry.</p>
-        </details>
-
-        <details>
-          <summary>I haven't started my project yet. Can I still take part?</summary>
-          <p>Absolutely — you can start something from scratch. TECS rewards progress over time, not pre-existing polish. If you're stuck for ideas, look at Coolest Projects, IndieHackers or your own daily frustrations for inspiration.</p>
-        </details>
-
-        <details>
-          <summary>I've never worked on a project before. Can I still take part?</summary>
-          <p>Yes. Participants who make consistent progress over the month are eligible for prizes — you don't need prior experience to do well.</p>
+            <details>
+              <summary>When and where will the awards ceremony be held?</summary>
+              <p>The awards ceremony is typically held at the University of Limerick in January (exact date announced to participants after judging).</p>
+            </details>
+          </div>
         </details>
 
-        <details>
-          <summary>Is this just for coders?</summary>
-          <p>No — TECS includes technical and non-technical projects alike. Past entries include apps, community projects, research, art and writing. The key is progress and learning.</p>
+        <!-- I have more questions -->
+        <details class="faq-category">
+          <summary class="faq-category-summary">I have more questions</summary>
+          <div class="faq-questions">
+            <details>
+              <summary>I have more questions! Where can I learn more?</summary>
+              <p>We'd love to hear from you. You can email us at <u><a href="mailto:info@jointecs.org">info@jointecs.org</a></u>.</p>
+            </details>
+          </div>
         </details>
 
-        <details>
-          <summary>Can I use one of my Transition Year or Leaving Cert projects?</summary>
-          <p>Yes — TECS is a great way to accelerate an existing school project. Mentorship and the prize incentive can help you push the project further than you would alone.</p>
-        </details>
+        <!-- Teachers and schools -->
+        <details class="faq-category">
+          <summary class="faq-category-summary">Teachers & schools</summary>
+          <div class="faq-questions">
+            <details>
+              <summary>Can multiple students/classes from the same school take part?</summary>
+              <p>Yes — multiple entries from the same school are allowed and encouraged. If a class is working on technical, scientific or creative coursework during November, registering the class can help students benefit from mentorship and shared momentum.</p>
+            </details>
 
-        <details>
-          <summary>Can I use a non-school project?</summary>
-          <p>Yes — projects done outside school (personal projects, clubs, or extracurricular work) are welcome as long as the applicant is eligible by year. TECS is about your progress, wherever that project lives.</p>
-        </details>
-      </div>
-
-      <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
-
-      <!-- Programme -->
-      <h3>Programme</h3>
-      <div class="faq">
-        <details>
-          <summary>What's the time commitment?</summary>
-          <p>Time commitment varies by project. Some projects need only 2–3 hours per week; others require more. Aside from working on the project, the weekly update should take about 5–10 minutes to complete.</p>
-        </details>
-
-        <details>
-          <summary>What's the weekly update?</summary>
-          <p>The weekly update tracks your progress week-to-week. Each week during November you'll receive a form with a few short questions asking what you achieved and what you plan next. TECS scores progress across these updates.</p>
-        </details>
-
-        <details>
-          <summary>What support will I receive along the way?</summary>
-          <p>Participants receive feedback from mentors after the early rounds of updates. You'll also see examples from other students and receive resources and guidance throughout November.</p>
-        </details>
-
-        <details>
-          <summary>Do I have to use a computer?</summary>
-          <p>No — TECS is about progress on an idea. Projects can be physical, event-based, business-focused, or creative. You will only need a computer or smartphone to submit the weekly updates.</p>
-        </details>
-      </div>
-
-      <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
-
-      <!-- Awards ceremony & prizes -->
-      <h3>Awards ceremony &amp; prizes</h3>
-      <div class="faq">
-        <details>
-          <summary>What can I win?</summary>
-          <p>Prizes include a top student prize (previously €2,000) and a top school prize (previously €1,000), plus additional awards for notable progress and special categories. Active participants and their teachers are typically invited to the awards ceremony.</p>
-        </details>
-
-        <details>
-          <summary>Can my TECS project form part of my ISE entrance submission?</summary>
-          <p>Yes — TECS projects are a great way to demonstrate commitment and progress in an application to ISE. You can include your TECS work as part of your entrance materials where appropriate.</p>
-        </details>
-
-        <details>
-          <summary>Does taking part in TECS guarantee me a place in ISE or Patch?</summary>
-          <p>No — participation does not guarantee admission to either programme. Both ISE and Patch have separate application processes. However, consistent progress and demonstrable projects can strengthen your applications for programmes like ISE and Patch.</p>
-        </details>
-
-        <details>
-          <summary>When and where will the awards ceremony be held?</summary>
-          <p>The awards ceremony is typically held at the University of Limerick in January (exact date announced to participants after judging).</p>
-        </details>
-      </div>
-
-      <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
-
-      <!-- Contact -->
-      <h3>I have more questions</h3>
-      <div class="faq">
-        <details>
-          <summary>I have more questions! Where can I learn more?</summary>
-          <p>We'd love to hear from you. You can email us at <u><a href="mailto:info@jointecs.org">info@jointecs.org</a></u>.</p>
-        </details>
-      </div>
-
-      <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
-
-      <!-- Teachers and schools -->
-      <h3>Teachers &amp; schools</h3>
-      <div class="faq">
-        <details>
-          <summary>Can multiple students/classes from the same school take part?</summary>
-          <p>Yes — multiple entries from the same school are allowed and encouraged. If a class is working on technical, scientific or creative coursework during November, registering the class can help students benefit from mentorship and shared momentum.</p>
-        </details>
-
-        <details>
-          <summary>Can my students work on team projects?</summary>
-          <p>Students can participate on team projects, but each participant must submit their own application. When applying, please list any collaborators so judges understand who contributed what.</p>
+            <details>
+              <summary>Can my students work on team projects?</summary>
+              <p>Students can participate on team projects, but each participant must submit their own application. When applying, please list any collaborators so judges understand who contributed what.</p>
+            </details>
+          </div>
         </details>
       </div>
     </div>

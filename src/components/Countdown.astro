@@ -1,5 +1,7 @@
 ---
 // Countdown component for TECS registration deadline
+import Waves from "./Waves.astro";
+
 export interface Props {
   className?: string;
 }
@@ -8,24 +10,48 @@ const { className = "" } = Astro.props;
 ---
 
 <div class={`countdown ${className}`}>
+  <!-- Animated Wave Background -->
+  <Waves 
+    lineColor="rgba(62, 168, 111, 0.2)"
+    backgroundColor="transparent"
+    waveSpeedX={0.008}
+    waveSpeedY={0.003}
+    waveAmpX={24}
+    waveAmpY={12}
+    xGap={12}
+    yGap={28}
+    friction={0.95}
+    tension={0.003}
+    maxCursorMove={80}
+  />
+  
   <div class="container">
     <h2>Registration Closes In</h2>
+    <br><br>
     <div class="countdown-grid">
       <div class="countdown-item">
-        <span class="countdown-number" id="days">00</span>
-        <span class="countdown-label">Days</span>
+        <div class="countdown-card">
+          <div class="countdown-number" id="days">00</div>
+        </div>
+        <span class="countdown-label">DAYS</span>
       </div>
       <div class="countdown-item">
-        <span class="countdown-number" id="hours">00</span>
-        <span class="countdown-label">Hours</span>
+        <div class="countdown-card">
+          <div class="countdown-number" id="hours">00</div>
+        </div>
+        <span class="countdown-label">HOURS</span>
       </div>
       <div class="countdown-item">
-        <span class="countdown-number" id="minutes">00</span>
-        <span class="countdown-label">Minutes</span>
+        <div class="countdown-card">
+          <div class="countdown-number" id="minutes">00</div>
+        </div>
+        <span class="countdown-label">MINUTES</span>
       </div>
       <div class="countdown-item">
-        <span class="countdown-number" id="seconds">00</span>
-        <span class="countdown-label">Seconds</span>
+        <div class="countdown-card">
+          <div class="countdown-number" id="seconds">00</div>
+        </div>
+        <span class="countdown-label">SECONDS</span>
       </div>
     </div>
     <p class="countdown-subtitle">Don't miss your chance to compete!</p>
@@ -33,6 +59,14 @@ const { className = "" } = Astro.props;
 </div>
 
 <script>
+  // Store previous values to detect changes
+  let previousValues = {
+    days: '00',
+    hours: '00',
+    minutes: '00',
+    seconds: '00'
+  };
+
   function updateCountdown() {
     // Target date: October 23rd, 2025, 00:00 UTC+1 (October 22nd, 2025, 23:00 UTC)
     const targetDate = new Date('2025-10-22T23:00:00Z');
@@ -63,10 +97,32 @@ const { className = "" } = Astro.props;
     const minutesEl = document.getElementById('minutes') as HTMLElement;
     const secondsEl = document.getElementById('seconds') as HTMLElement;
 
-    if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
-    if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
-    if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
-    if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
+    // Format numbers with leading zeros
+    const newDays = days.toString().padStart(2, '0');
+    const newHours = hours.toString().padStart(2, '0');
+    const newMinutes = minutes.toString().padStart(2, '0');
+    const newSeconds = seconds.toString().padStart(2, '0');
+
+    // Update numbers if values changed
+    if (daysEl && newDays !== previousValues.days) {
+      daysEl.textContent = newDays;
+      previousValues.days = newDays;
+    }
+
+    if (hoursEl && newHours !== previousValues.hours) {
+      hoursEl.textContent = newHours;
+      previousValues.hours = newHours;
+    }
+
+    if (minutesEl && newMinutes !== previousValues.minutes) {
+      minutesEl.textContent = newMinutes;
+      previousValues.minutes = newMinutes;
+    }
+
+    if (secondsEl && newSeconds !== previousValues.seconds) {
+      secondsEl.textContent = newSeconds;
+      previousValues.seconds = newSeconds;
+    }
   }
 
   // Update countdown every second
