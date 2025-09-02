@@ -303,7 +303,6 @@
   }
   .card:hover{ 
     transform:translateY(-8px) !important; 
-    background: color-mix(in srgb, var(--bg) 97%, var(--accent) 3%) !important;
     box-shadow:var(--shadow-xl) !important;
   }
   .card h3{ color:var(--accent); margin:0 0 1rem; font-size:1.4rem; font-weight:700; letter-spacing:.5px; }
@@ -922,7 +921,6 @@
     }
     .card:hover{ 
       transform:translateY(-8px); 
-      background: color-mix(in srgb, var(--bg) 97%, var(--accent) 3%);
       box-shadow:var(--shadow-xl);
     }
     .prize { padding: 1.5rem; }

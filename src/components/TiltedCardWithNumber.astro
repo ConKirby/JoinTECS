@@ -1,0 +1,155 @@
+---
+export interface Props {
+  title?: string;
+  content?: string;
+  number?: string;
+  className?: string;
+  scaleOnHover?: number;
+  rotateAmplitude?: number;
+}
+
+const {
+  title = '',
+  content = '',
+  number = '',
+  className = '',
+  scaleOnHover = 1.05,
+  rotateAmplitude = 8
+} = Astro.props;
+---
+
+<div class={`tilted-card ${className}`} data-scale={scaleOnHover} data-rotate={rotateAmplitude}>
+  <div class="tilted-card-inner">
+    {number && <div class="diagram-number">{number}</div>}
+    <h3>{title}</h3>
+    <p>{content}</p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.tilted-card');
+    
+    cards.forEach(card => {
+      const inner = card.querySelector('.tilted-card-inner');
+      const scaleOnHover = parseFloat(card.dataset.scale) || 1.05;
+      const rotateAmplitude = parseFloat(card.dataset.rotate) || 8;
+      
+      let isHovering = false;
+      
+      function handleMouseMove(e) {
+        if (!isHovering) return;
+        
+        const rect = card.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const offsetX = e.clientX - centerX;
+        const offsetY = e.clientY - centerY;
+        
+        const rotateX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
+        const rotateY = (offsetX / (rect.width / 2)) * rotateAmplitude;
+        
+        inner.style.transform = `
+          perspective(1000px) 
+          rotateX(${rotateX}deg) 
+          rotateY(${rotateY}deg) 
+          scale(${scaleOnHover})
+        `;
+      }
+      
+      function handleMouseEnter() {
+        isHovering = true;
+        inner.style.transition = 'transform 0.1s ease-out';
+      }
+      
+      function handleMouseLeave() {
+        isHovering = false;
+        inner.style.transition = 'transform 0.3s ease-out';
+        inner.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+      }
+      
+      card.addEventListener('mousemove', handleMouseMove);
+      card.addEventListener('mouseenter', handleMouseEnter);
+      card.addEventListener('mouseleave', handleMouseLeave);
+      
+      // Cleanup
+      return () => {
+        card.removeEventListener('mousemove', handleMouseMove);
+        card.removeEventListener('mouseenter', handleMouseEnter);
+        card.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    });
+  });
+</script>
+
+<style>
+  .tilted-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  
+  .tilted-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    will-change: transform;
+  }
+  
+  .tilted-card h3 {
+    color: var(--accent);
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  
+  .tilted-card p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  
+  /* Numbered corner badge */
+  .diagram-number {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    z-index: 1;
+  }
+  
+  /* Mobile optimization */
+  @media (max-width: 768px) {
+    .tilted-card {
+      perspective: none;
+    }
+    
+    .tilted-card-inner {
+      transition: transform 0.2s ease-out;
+    }
+    
+    .tilted-card:hover .tilted-card-inner {
+      transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02) !important;
+    }
+  }
+</style>

@@ -245,8 +245,6 @@ const {
       mouse.lx = mouse.x;
       mouse.ly = mouse.y;
       mouse.a = Math.atan2(dy, dx);
-      container.style.setProperty('--x', `${mouse.sx}px`);
-      container.style.setProperty('--y', `${mouse.sy}px`);
 
       movePoints(t);
       drawLines();
@@ -311,18 +309,8 @@ const {
     background: v-bind(backgroundColor);
   }
 
-  .waves::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0.5rem;
-    height: 0.5rem;
-    background: #160000;
-    border-radius: 50%;
-    transform: translate3d(calc(var(--x, 0px) - 50%), calc(var(--y, 0px) - 50%), 0);
-    will-change: transform;
-    opacity: 0.1;
+  .waves {
+    cursor: pointer;
   }
 
   .waves-canvas {
