@@ -7,6 +7,7 @@ import Squares from "../components/Squares.astro";
 import Particles from "../components/Particles.astro";
 import TiltedCard from "../components/TiltedCard.astro";
 import TiltedCardWithNumber from "../components/TiltedCardWithNumber.astro";
+import PixelCard from "../components/PixelCard.astro";
 ---
 
 <Base>
@@ -198,21 +199,27 @@ import TiltedCardWithNumber from "../components/TiltedCardWithNumber.astro";
       <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
 
       <div class="supporters-grid" role="list" aria-label="Supporters and partners">
-        <div class="supporter supporter-stripe" role="listitem">
-          <a href="https://stripe.com/ie" target="_blank" rel="noopener noreferrer">
-            <img class="supporter-logo" src="/images/StripeLogo.png" alt="Stripe"/>
-          </a>
-        </div>
-        <div class="supporter supporter-ul" role="listitem">
-          <a href="https://www.ul.ie/" target="_blank" rel="noopener noreferrer">
-            <img class="supporter-logo" src="/uni-limerick-logo.svg" alt="University of Limerick"/>
-          </a>
-        </div>
-        <div class="supporter supporter-dogpatch" role="listitem">
-          <a href="https://dogpatchlabs.com/" target="_blank" rel="noopener noreferrer">
-            <img class="supporter-logo" src="/dogpatch-labs-logo.png" alt="Dogpatch Labs"/>
-          </a>
-        </div>
+        <PixelCard 
+          variant="stripe"
+          href="https://stripe.com/ie"
+          logoSrc="/images/StripeLogo.png"
+          alt="Stripe"
+          role="listitem"
+        />
+        <PixelCard 
+          variant="ul"
+          href="https://www.ul.ie/"
+          logoSrc="/uni-limerick-logo.svg"
+          alt="University of Limerick"
+          role="listitem"
+        />
+        <PixelCard 
+          variant="dogpatch"
+          href="https://dogpatchlabs.com/"
+          logoSrc="/dogpatch-labs-logo.png"
+          alt="Dogpatch Labs"
+          role="listitem"
+        />
       </div>
     </div>
   </section>
