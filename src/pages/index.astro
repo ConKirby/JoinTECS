@@ -4,6 +4,7 @@ import Marquee from "../components/Marquee.astro";
 import Countdown from "../components/Countdown.astro";
 import Waves from "../components/Waves.astro";
 import Squares from "../components/Squares.astro";
+import Particles from "../components/Particles.astro";
 ---
 
 <Base>
@@ -163,6 +164,21 @@ import Squares from "../components/Squares.astro";
   <!-- Supporters -->
   <section id="supporters" class="section supporters-banner" aria-label="Supporters">
     <div class="container">
+      <!-- Animated Particles Background -->
+      <Particles
+        particleCount={100}
+        particleSpread={8}
+        speed={0.05}
+        particleColors={['#3ea86f', '#4fb87a', '#5fc885']}
+        moveParticlesOnHover={false}
+        particleHoverFactor={0.5}
+        alphaParticles={false}
+        particleBaseSize={4}
+        sizeRandomness={0.5}
+        cameraDistance={15}
+        disableRotation={false}
+      />
+      
       <h2>Our Supporters</h2>
       <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
 
