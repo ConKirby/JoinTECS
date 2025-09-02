@@ -8,6 +8,7 @@ import Particles from "../components/Particles.astro";
 import TiltedCard from "../components/TiltedCard.astro";
 import TiltedCardWithNumber from "../components/TiltedCardWithNumber.astro";
 import PixelCard from "../components/PixelCard.astro";
+import ShinyText from "../components/ShinyText.astro";
 ---
 
 <Base>
@@ -204,21 +205,18 @@ import PixelCard from "../components/PixelCard.astro";
           href="https://stripe.com/ie"
           logoSrc="/images/StripeLogo.png"
           alt="Stripe"
-          role="listitem"
         />
         <PixelCard 
           variant="ul"
           href="https://www.ul.ie/"
           logoSrc="/uni-limerick-logo.svg"
           alt="University of Limerick"
-          role="listitem"
         />
         <PixelCard 
           variant="dogpatch"
           href="https://dogpatchlabs.com/"
           logoSrc="/dogpatch-labs-logo.png"
           alt="Dogpatch Labs"
-          role="listitem"
         />
       </div>
     </div>
@@ -418,8 +416,20 @@ import PixelCard from "../components/PixelCard.astro";
         Join Ireland's premier competition for young innovators.
       </p>
       <p>
-        <a href="https://apply.jointecs.org/" class="btn">Student Registration</a>
-        <a href="https://subscribe.jointecs.org/" class="btn btn-outline" style="margin-left: 1rem;">Teacher Registration</a>
+        <ShinyText 
+          text="Student Registration" 
+          speed={3} 
+          href="https://apply.jointecs.org/"
+          className="btn"
+          variant="student"
+        />
+        <ShinyText 
+          text="Teacher Registration" 
+          speed={3} 
+          href="https://subscribe.jointecs.org/"
+          className="btn btn-outline"
+          style="margin-left: 1rem;"
+        />
       </p>
       <p style="margin-top: 2rem; color: var(--muted);">
         Questions? Email us at <a href="mailto:info@jointecs.org" style="color: var(--accent);">info@jointecs.org</a>

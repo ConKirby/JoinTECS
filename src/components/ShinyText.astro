@@ -1,0 +1,74 @@
+---
+export interface Props {
+  text: string;
+  disabled?: boolean;
+  speed?: number;
+  className?: string;
+  href?: string;
+  style?: string;
+  variant?: 'default' | 'student';
+}
+
+const {
+  text,
+  disabled = false,
+  speed = 5,
+  className = '',
+  href,
+  style = ''
+} = Astro.props;
+
+const animationDuration = `${speed}s`;
+---
+
+{href ? (
+  <a 
+    href={href}
+    class={`shiny-text ${disabled ? 'disabled' : ''} ${className}`} 
+    style={style}
+  >
+    {text}
+  </a>
+) : (
+  <span 
+    class={`shiny-text ${disabled ? 'disabled' : ''} ${className}`} 
+    style={style}
+  >
+    {text}
+  </span>
+)}
+
+<style>
+  .shiny-text {
+    color: #000000; /* Black text for contrast */
+    background: 
+      linear-gradient(
+        120deg,
+        transparent 40%,
+        rgba(62, 168, 111, 0.8) 50%,
+        transparent 60%
+      ),
+      #ffffff; /* White background */
+    background-size: 200% 100%, 100% 100%;
+    display: inline-block;
+    animation: shine 4s linear infinite; /* Much slower animation */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 100% 0, 0 0;
+    }
+    100% {
+      background-position: -100% 0, 0 0;
+    }
+  }
+
+  .shiny-text.disabled {
+    animation: none;
+  }
+</style>
