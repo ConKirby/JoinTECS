@@ -240,7 +240,7 @@
   }
   
   /* Hero */
-  .hero{ position:relative; min-height:85vh; display:flex; align-items:center; color:#fff; overflow:hidden; }
+  .hero{ position:relative; min-height:85vh; display:flex; align-items:center; color:#fff; overflow:hidden; margin-bottom: 0; }
   .hero-media, .hero-bg{ position:absolute; inset:0; z-index:0; }
   .hero-media img, .hero-bg img{
     width:100%;
@@ -540,8 +540,6 @@
   .marquee {
     overflow: hidden;
     position: relative;
-    border-top: 2px solid var(--accent);
-    border-bottom: 2px solid var(--accent);
     background: linear-gradient(90deg, rgba(62,168,111,0.03) 0%, rgba(62,168,111,0.06) 50%, rgba(62,168,111,0.03) 100%);
     z-index: 1;
   }
@@ -591,7 +589,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 8px;
+    bottom: 0px;
     padding: 1rem 0;
     z-index: 3;
     background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.06));
@@ -705,7 +703,7 @@
 
   /* Countdown Timer */
   .countdown {
-    padding: 3.6rem 0;
+    padding: 0 0 3.6rem 0;
     margin-top: 0;
     text-align: center;
     background: transparent;
@@ -868,10 +866,24 @@
       width: 100%;
       text-align: center;
       font-size: 1.1rem;
+      background: transparent !important;
+      color: var(--fg) !important;
+      border: none !important;
+      box-shadow: none !important;
+      text-transform: none !important;
+      letter-spacing: 0.5px !important;
+      font-weight: 500 !important;
     }
     
     .nav.mobile-open a:last-child {
       border-bottom: none;
+    }
+    
+    .nav.mobile-open a:hover {
+      background: transparent !important;
+      color: var(--accent) !important;
+      transform: none !important;
+      box-shadow: none !important;
     }
     
     .hamburger{ display: flex }
@@ -896,6 +908,11 @@
     }
 
     /* Mobile marquee adjustments */
+    .hero-marquee {
+      bottom: 0;
+      padding: 0.8rem 0;
+    }
+    
     .hero-marquee .m-item { 
       font-size: 1rem; 
       letter-spacing: 2px; 
@@ -910,7 +927,7 @@
   @media (max-width: 640px) {
     .container { padding-left: 1.25rem; padding-right: 1.25rem; }
     .hero-inner { padding-top: 2rem; padding-bottom: 2rem; }
-    .hero { min-height: 60vh; }
+    .hero { min-height: 60vh; margin-bottom: 0; }
     .section { padding-top: 3.25rem; padding-bottom: 3.25rem; }
   
     .organiser {
@@ -944,6 +961,11 @@
     .prize { padding: 1.5rem; }
     
     /* Extra small screen marquee adjustments */
+    .hero-marquee {
+      bottom: 0;
+      padding: 0.6rem 0;
+    }
+    
     .marquee-track { 
       gap: 0.125rem; 
       padding: .5rem .6rem; 

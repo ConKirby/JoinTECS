@@ -18,10 +18,10 @@ const {
       school: "Crescent College Comprehensive",
       year: 2024,
       award: "Winner",
-      description: ""
+      description: "Developed a real-time piano evaluation system using MIDI, feature analysis, and machine learning. It provided accuracy scoring and detailed performance insights that accelerated learning by identifying mistakes that piano teachers could easily miss."
     },
     {
-      name: "Michael Chen",
+      name: "John Doe",
       age: 16,
       school: "Dublin Technical College",
       year: 2024,
@@ -29,7 +29,7 @@ const {
       description: "Created a sustainable energy monitoring system for schools using IoT sensors and a custom dashboard. The system tracks electricity usage in real-time and provides recommendations for reducing energy consumption, helping schools save up to 30% on their energy bills."
     },
     {
-      name: "Emma Murphy",
+      name: "John Doe",
       age: 18,
       school: "Cork Grammar School",
       year: 2023,
@@ -37,15 +37,15 @@ const {
       description: "Built a comprehensive mental health support platform for teenagers, featuring anonymous chat support, mood tracking, and access to professional resources. The platform has helped over 500 students and is now being used by guidance counselors across the region."
     },
     {
-      name: "James O'Brien",
+      name: "John Doe",
       age: 17,
       school: "Galway High School",
       year: 2023,
-      award: "Innovation Award",
+      award: "Winner",
       description: "Developed a smart waste management system for urban areas using computer vision and machine learning. The system automatically sorts recyclable materials and provides data analytics to help cities optimize their waste collection routes."
     },
     {
-      name: "Sophie Kelly",
+      name: "John Doe",
       age: 16,
       school: "Limerick Academy",
       year: 2022,
@@ -53,7 +53,7 @@ const {
       description: "Created an educational VR experience that takes students on virtual field trips to historical sites and natural wonders. The immersive learning platform has been integrated into the history and geography curriculum at five schools."
     },
     {
-      name: "David Walsh",
+      name: "John Doe",
       age: 18,
       school: "Waterford Technical Institute",
       year: 2022,
@@ -62,6 +62,18 @@ const {
     }
   ]
 } = Astro.props;
+
+// Randomize the order of projects
+const shuffleArray = (array: any[]) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+const randomizedProjects = shuffleArray(projects);
 ---
 
 <section id="past-projects" class="section past-projects-section">
@@ -74,7 +86,7 @@ const {
       <div class="gallery-gradient gallery-gradient-right"></div>
       <div class="gallery-content">
         <div class="gallery-track" id="gallery-track">
-          {projects.map((project, i) => (
+          {randomizedProjects.map((project, i) => (
             <div class="gallery-item" data-index={i}>
               <div class="project-card">
                 <div class="project-header">
