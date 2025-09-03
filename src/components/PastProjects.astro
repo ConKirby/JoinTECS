@@ -13,12 +13,12 @@ export interface Props {
 const {
   projects = [
     {
-      name: "Sarah O'Connor",
-      age: 17,
-      school: "St. Mary's Secondary School",
+      name: "Con Kirby",
+      age: 18,
+      school: "Crescent College Comprehensive",
       year: 2024,
       award: "Winner",
-      description: "Developed an innovative mobile app that helps students with dyslexia improve their reading skills through interactive exercises and AI-powered text adaptation. The app uses machine learning to personalize the learning experience and has been adopted by three local schools."
+      description: ""
     },
     {
       name: "Michael Chen",
@@ -130,36 +130,69 @@ const {
     // Calculate dimensions based on screen size
     const getDimensions = () => {
       const containerWidth = galleryTrack.parentElement.offsetWidth;
-      const mainCardWidth = isScreenSizeSm ? containerWidth * 0.6 : containerWidth * 0.4;
-      const sideCardWidth = isScreenSizeSm ? containerWidth * 0.45 : containerWidth * 0.3;
-      const spacing = isScreenSizeSm ? 12 : 20; // Space between main and side cards
-      const cylinderWidth = isScreenSizeSm ? containerWidth * 1.2 : containerWidth * 1.8;
-      const faceCount = projectCount;
-      const radius = cylinderWidth / (2 * Math.PI);
-      return { 
-        cylinderWidth, 
-        faceCount, 
-        mainCardWidth, 
-        sideCardWidth, 
-        spacing, 
-        radius 
-      };
+      const isSmallScreen = window.innerWidth <= 768; // Changed breakpoint to 768px
+      
+      if (isSmallScreen) {
+        // For small screens, only show main card
+        const mainCardWidth = containerWidth * 0.8;
+        return { 
+          cylinderWidth: containerWidth, 
+          faceCount: 1, // Only show one card at a time
+          mainCardWidth, 
+          sideCardWidth: 0, 
+          spacing: 0, 
+          radius: 0,
+          isSmallScreen: true
+        };
+      } else {
+        // For larger screens, show 3D carousel
+        const mainCardWidth = containerWidth * 0.4;
+        const sideCardWidth = containerWidth * 0.3;
+        const spacing = 20;
+        const cylinderWidth = containerWidth * 1.8;
+        const faceCount = projectCount;
+        const radius = cylinderWidth / (2 * Math.PI);
+        return { 
+          cylinderWidth, 
+          faceCount, 
+          mainCardWidth, 
+          sideCardWidth, 
+          spacing, 
+          radius,
+          isSmallScreen: false
+        };
+      }
     };
 
     // Update gallery layout
     const updateGallery = () => {
-      const { cylinderWidth, faceCount, mainCardWidth, sideCardWidth, spacing, radius } = getDimensions();
+      const { cylinderWidth, faceCount, mainCardWidth, sideCardWidth, spacing, radius, isSmallScreen } = getDimensions();
       
       galleryTrack.style.width = `${cylinderWidth}px`;
       
       projects.forEach((project, i) => {
-        const rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
-        const isMainCard = i === currentIndex;
-        const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
-        const translateZ = isMainCard ? radius : radius + spacing;
-        
-        project.style.width = `${cardWidth}px`;
-        project.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
+        if (isSmallScreen) {
+          // For small screens, only show the current card
+          if (i === currentIndex) {
+            project.style.display = 'flex';
+            project.style.width = `${mainCardWidth}px`;
+            project.style.transform = 'translateX(0)';
+            project.style.opacity = '1';
+          } else {
+            project.style.display = 'none';
+          }
+        } else {
+          // For larger screens, show 3D carousel
+          project.style.display = 'flex';
+          const rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
+          const isMainCard = i === currentIndex;
+          const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
+          const translateZ = isMainCard ? radius : radius + spacing;
+          
+          project.style.width = `${cardWidth}px`;
+          project.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
+          project.style.opacity = '1';
+        }
       });
       
       // Update button states
@@ -177,6 +210,13 @@ const {
     // Handle drag move
     const handleDragMove = (e) => {
       if (!isDragging) return;
+      
+      const { isSmallScreen } = getDimensions();
+      
+      if (isSmallScreen) {
+        // For small screens, don't show drag preview
+        return;
+      }
       
       currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
       const deltaX = currentX - startX;
@@ -273,7 +313,7 @@ const {
 
     // Handle resize
     const handleResize = () => {
-      isScreenSizeSm = window.innerWidth <= 640;
+      isScreenSizeSm = window.innerWidth <= 768; // Updated breakpoint
       updateGallery();
     };
     
@@ -483,16 +523,33 @@ const {
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .gallery-container {
-      height: 360px;
+      height: auto; /* Let container expand with content */
+      min-height: 400px;
+    }
+    
+    .gallery-content {
+      perspective: none; /* Remove 3D perspective for mobile */
+    }
+    
+    .gallery-track {
+      cursor: default; /* Remove grab cursor on mobile */
     }
     
     .gallery-item {
-      padding: 6%;
+      padding: 4%;
+      position: relative !important; /* Override absolute positioning */
+      transform: none !important; /* Override 3D transforms */
     }
     
     .project-card {
-      height: 280px;
-      padding: 1rem;
+      height: auto; /* Let card expand to fit content */
+      min-height: 320px; /* Minimum height for consistency */
+      padding: 1.2rem;
+      max-width: 100%;
+    }
+    
+    .project-description {
+      overflow-y: visible; /* Remove scroll on mobile */
     }
     
     .project-name {
@@ -500,27 +557,29 @@ const {
     }
     
     .project-description p {
-      font-size: 0.7rem;
+      font-size: 1rem;
     }
 
     .nav-btn {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
     }
 
     .nav-btn svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
     }
   }
 
   @media (max-width: 640px) {
     .gallery-container {
-      height: 320px;
+      height: auto; /* Let container expand with content */
+      min-height: 320px;
     }
     
     .project-card {
-      height: 260px;
+      height: auto; /* Let card expand to fit content */
+      min-height: 260px; /* Minimum height for consistency */
       padding: 0.8rem;
     }
 

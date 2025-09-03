@@ -158,6 +158,24 @@
   .btn--ghost{ background:transparent; color:var(--accent); border:2px solid rgba(255,255,255,.2); box-shadow:none; }
   .btn--nav { padding: 0.6rem 1.6rem; font-size: 0.85rem; }
   
+  /* Registration buttons container */
+  .registration-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Mobile layout for registration buttons */
+  @media (max-width: 768px) {
+    .registration-buttons {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+  
   /* Unindent the title in signup section */
   .signup-section .container h2 {
     margin-left: -1rem;

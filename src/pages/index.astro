@@ -22,7 +22,7 @@ import PastProjects from "../components/PastProjects.astro";
   
       <div class="container hero-inner">
         <h1>
-          Submit your project to win <span class="highlight">€3k</span> in prizes
+          Submit your TECS project to win <span class="highlight">€3k</span> in prizes
         </h1>
         <p class="lede">
           Open to transition, 5th &amp; 6th year students throughout Ireland.<br/>
@@ -168,7 +168,13 @@ import PastProjects from "../components/PastProjects.astro";
         </div>
         <div class="prize">
           <h3>🎯 Additional Awards</h3>
-          <p style="padding: 1rem 0;">Active participants and teachers invited to the awards ceremony at the University of Limerick</p>
+          <span class="prize-amount-label">Best Team</span>
+          <br><br>
+          <span class="prize-amount-label">6th Year Award</span>
+          <br><br>
+          <span class="prize-amount-label">5th Year Award</span>
+          <br><br>
+          <span class="prize-amount-label">Transition Year Award</span>
         </div>
       </div>
       <div style="text-align: center; margin-top: 2rem;">
@@ -420,7 +426,7 @@ import PastProjects from "../components/PastProjects.astro";
         Student and teacher registration opens in October.<br/>
         Join Ireland's premier competition for young innovators.
       </p>
-      <p>
+      <div class="registration-buttons">
         <ShinyText 
           text="Student Registration" 
           speed={3} 
@@ -433,9 +439,8 @@ import PastProjects from "../components/PastProjects.astro";
           speed={3} 
           href="https://subscribe.jointecs.org/"
           className="btn btn-outline"
-          style="margin-left: 1rem;"
         />
-      </p>
+      </div>
       <p style="margin-top: 2rem; color: var(--muted);">
         Questions? Email us at <a href="mailto:info@jointecs.org" style="color: var(--accent);">info@jointecs.org</a>
       </p>
