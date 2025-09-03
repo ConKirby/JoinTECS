@@ -1,8 +1,30 @@
 ---
-// Marquee component for the scrolling text banner
+// ========================================
+// MARQUEE COMPONENT
+// ========================================
+// Scrolling text banner for continuous text display
+//
+// PURPOSE:
+// - Creates animated scrolling text effect for branding
+// - Displays TECS target audience: "Technologists – Engineers – Creators – Scientists"
+// - Provides visual interest and reinforces competition focus
+// - Used in hero section and other key areas
+//
+// USAGE:
+// - Hero section: Creates dynamic background text
+// - Can be customized with different text content
+// - Automatically handles responsive behavior
+// - Includes accessibility considerations (aria-hidden)
+//
+// FEATURES:
+// - Smooth infinite scrolling animation
+// - Responsive design for all screen sizes
+// - Customizable text content via props
+// - Performance optimized with CSS animations
+
 export interface Props {
-  text?: string;
-  className?: string;
+  text?: string; // Custom text content (defaults to TECS audience)
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { text = "Technologists – Engineers – Creators – Scientists", className = "" } = Astro.props;

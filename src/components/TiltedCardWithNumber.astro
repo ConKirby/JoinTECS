@@ -1,11 +1,35 @@
 ---
+// ========================================
+// TILTED CARD WITH NUMBER COMPONENT
+// ========================================
+// Interactive card with 3D tilt effect and numbered badge for process steps
+//
+// PURPOSE:
+// - Extends TiltedCard with numbered badge for sequential processes
+// - Used in How It Works section to show step-by-step process
+// - Provides visual hierarchy with numbered steps (1, 2, 3)
+// - Maintains all interactive features of base TiltedCard
+//
+// USAGE:
+// - How It Works section: "Choose Your Project", "Share Weekly Updates", "Get Expert Support"
+// - Process flows and step-by-step instructions
+// - Customizable number display and positioning
+// - Same tilt and hover effects as base TiltedCard
+//
+// FEATURES:
+// - Numbered corner badge with accent color styling
+// - All features from TiltedCard component
+// - 3D perspective transforms and hover effects
+// - Mobile-optimized with reduced effects
+// - Customizable scale and rotation parameters
+
 export interface Props {
-  title?: string;
-  content?: string;
-  number?: string;
-  className?: string;
-  scaleOnHover?: number;
-  rotateAmplitude?: number;
+  title?: string; // Card title text
+  content?: string; // Card description content
+  number?: string; // Number to display in corner badge (e.g., "1", "2", "3")
+  className?: string; // Optional CSS class for styling customization
+  scaleOnHover?: number; // Scale factor on hover (default: 1.05)
+  rotateAmplitude?: number; // Maximum rotation angle in degrees (default: 8)
 }
 
 const {

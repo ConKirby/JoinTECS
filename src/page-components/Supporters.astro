@@ -1,0 +1,55 @@
+---
+// Supporters component for the partners and supporters section with animated particles background
+import Particles from "../components/Particles.astro";
+import PixelCard from "../components/PixelCard.astro";
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- Supporters -->
+<section id="supporters" class={`section supporters-banner ${className}`} aria-label="Supporters">
+  <div class="container">
+    <!-- Animated Particles Background -->
+    <Particles
+      particleCount={100}
+      particleSpread={8}
+      speed={0.05}
+      particleColors={['#3ea86f', '#4fb87a', '#5fc885']}
+      moveParticlesOnHover={false}
+      particleHoverFactor={0.5}
+      alphaParticles={false}
+      particleBaseSize={4}
+      sizeRandomness={0.5}
+      cameraDistance={15}
+      disableRotation={false}
+    />
+    
+    <h2>Our Supporters</h2>
+    <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
+
+    <div class="supporters-grid" role="list" aria-label="Supporters and partners">
+      <PixelCard 
+        variant="stripe"
+        href="https://stripe.com/ie"
+        logoSrc="/images/StripeLogo.png"
+        alt="Stripe"
+      />
+      <PixelCard 
+        variant="ul"
+        href="https://www.ul.ie/"
+        logoSrc="/uni-limerick-logo.svg"
+        alt="University of Limerick"
+      />
+      <PixelCard 
+        variant="dogpatch"
+        href="https://dogpatchlabs.com/"
+        logoSrc="/dogpatch-labs-logo.png"
+        alt="Dogpatch Labs"
+      />
+    </div>
+  </div>
+</section>

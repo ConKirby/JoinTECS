@@ -1,449 +1,141 @@
 ---
+// TECS Website Main Page - Refactored to use component-based architecture
+// This page orchestrates all the main sections of the TECS website using modular components
+// Each section is now encapsulated in its own component for better maintainability and reusability
+
 import Base from "../layouts/Base.astro";
-import Marquee from "../components/Marquee.astro";
-import Countdown from "../components/Countdown.astro";
-import Waves from "../components/Waves.astro";
-import Squares from "../components/Squares.astro";
-import Particles from "../components/Particles.astro";
-import TiltedCard from "../components/TiltedCard.astro";
-import TiltedCardWithNumber from "../components/TiltedCardWithNumber.astro";
-import PixelCard from "../components/PixelCard.astro";
-import ShinyText from "../components/ShinyText.astro";
-import PastProjects from "../components/PastProjects.astro";
+
+// Main section components - each handles a complete page section
+import Hero from "../page-components/Hero.astro";
+import Countdown from "../page-components/Countdown.astro";
+import About from "../page-components/About.astro";
+import HowItWorks from "../page-components/HowItWorks.astro";
+import Prizes from "../page-components/Prizes.astro";
+import PastProjects from "../page-components/PastProjects.astro";
+import Supporters from "../page-components/Supporters.astro";
+import Organisers from "../page-components/Organisers.astro";
+import FAQ from "../page-components/FAQ.astro";
+import SignUp from "../page-components/SignUp.astro";
 ---
 
 <Base>
-    <!-- Hero Section with Image Background -->
-    <section class="hero" style="--hero-scale:1.06; --hero-translate-y:-30px;">
-      <div class="hero-bg">
-        <img src="/images/john-collison-hero-image.jpg" alt="John Collison at TECS awards ceremony" />
-      </div>
-      <div class="hero-overlay"></div>
-  
-      <div class="container hero-inner">
-        <h1>
-          Submit your TECS project to win <span class="highlight">€3k</span> in prizes
-        </h1>
-        <p class="lede">
-          Open to transition, 5th &amp; 6th year students throughout Ireland.<br/>
-          Sign up by <strong>October 24th</strong>
-        </p>
-        <p><a href="https://apply.jointecs.org/" class="btn">Register Now</a></p>
-      </div>
-  
-      <!-- Hero-mounted marquee -->
-      <Marquee className="hero-marquee" />
-    </section>
+    <!-- 
+    ========================================
+    HERO SECTION
+    ========================================
+    Main landing section with background image, call-to-action, and scrolling marquee
+    - Displays the main TECS value proposition and registration deadline
+    - Features John Collison hero image and animated marquee text
+    - Contains primary call-to-action button for student registration
+    -->
+    <Hero />
 
-    <!-- Countdown -->
+    <!-- 
+    ========================================
+    COUNTDOWN SECTION
+    ========================================
+    Dynamic countdown timer showing time remaining until registration deadline
+    - Updates in real-time with days, hours, minutes, and seconds
+    - Features animated wave background for visual appeal
+    - Creates urgency for student registration
+    -->
     <Countdown />
 
-  <!-- About -->
-  <section id="about" class="section">
-    <!-- Animated Wave Background -->
-    <Waves 
-      lineColor="rgba(62, 168, 111, 0.2)"
-      backgroundColor="transparent"
-      waveSpeedX={0.008}
-      waveSpeedY={0.003}
-      waveAmpX={24}
-      waveAmpY={12}
-      xGap={12}
-      yGap={28}
-      friction={0.95}
-      tension={0.003}
-      maxCursorMove={80}
-    />
-    
-    <div class="container">
-      <br/>
-      <h2>About TECS</h2>
-      <ul class="lede" style="margin-bottom: 3rem;">
-        <li>TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.</li>
-        <li>Transition year, 5th year and 6th year students work towards building or creating something unique throughout the month of November.</li>
-        <li>They share progress updates each week and receive feedback from experienced mentors.</li>
-        <li>Prizes are awarded based on progress made during the competition.</li>
-      </ul>
-      <div class="cards">
-        <TiltedCard 
-          title="Winner Receives €2,000!"
-          content="Awards given to students who made the most progress during the competition, with school's receiving up to €1,000."
-          scaleOnHover={1.05}
-          rotateAmplitude={8}
-        />
-        <TiltedCard 
-          title="Expert Mentorship"
-          content="Get feedback from industry leaders including John Collison (Stripe), Bobby Healy (Manna Aero), and Patricia Scanlon (Soapbox Labs), to name just a few."
-          scaleOnHover={1.05}
-          rotateAmplitude={8}
-        />
-        <TiltedCard 
-          title="National Recognition"
-          content="Awards ceremony held at the University of Limerick Concert Hall with tech industry leaders and national media coverage."
-          scaleOnHover={1.05}
-          rotateAmplitude={8}
-        />
-      </div>
-    </div>
-  </section>
+    <!-- 
+    ========================================
+    ABOUT SECTION
+    ========================================
+    Information about TECS competition with animated background and feature highlights
+    - Explains what TECS is and who can participate
+    - Features three key benefits: prizes, mentorship, and recognition
+    - Uses animated wave background and interactive tilted cards
+    - Showcases industry mentors and competition structure
+    -->
+    <About />
 
-  <!-- How It Works -->
-  <section id="how" class="section">
-    <!-- Animated Squares Background -->
-    <Squares 
-      direction="diagonal"
-      speed={0.2}
-      borderColor="rgba(62, 168, 111, 0.12)"
-      squareSize={50}
-      hoverFillColor="rgba(62, 168, 111, 0.03)"
-    />
-    
-    <div class="container">
-      <h2>How It Works</h2>
-      <div class="cards">
-        <TiltedCardWithNumber 
-          number="1"
-          title="Choose Your Project"
-          content="Apply with an idea you'd like to work on or develop further. It could be an app, business idea, social enterprise, research project, coding project, creative work, or something completely different."
-          scaleOnHover={1.05}
-          rotateAmplitude={8}
-        />
-        <TiltedCardWithNumber 
-          number="2"
-          title="Share Weekly Updates"
-          content="Take 5 minutes each week to share your progress, challenges encountered, and plans for the next week. Build momentum through consistent progress."
-          scaleOnHover={1.05}
-          rotateAmplitude={8}
-        />
-        <TiltedCardWithNumber 
-          number="3"
-          title="Get Expert Support"
-          content="Join a community of builders and receive feedback from experienced mentors. Prizes are awarded based on progress made during the competition."
-          scaleOnHover={1.05}
-          rotateAmplitude={8}
-        />
-      </div>
+    <!-- 
+    ========================================
+    HOW IT WORKS SECTION
+    ========================================
+    Step-by-step process explanation with numbered cards and mentor testimonial
+    - Three-step process: Choose Project, Share Updates, Get Support
+    - Features numbered tilted cards with interactive hover effects
+    - Includes animated squares background for visual interest
+    - Contains testimonial quote from Bobby Healy (Manna Aero founder)
+    -->
+    <HowItWorks />
 
-      <!-- Quote -->
-      <figure class="quote-figure">
-        <div class="quote-avatar">
-          <img
-            src="/images/Bobby-Healy-Manna-Aero.jpeg"
-            alt="Bobby Healy, founder of Manna Aero"
-            loading="lazy"
-            width="160"
-            height="160"
-          />
-        </div>
+    <!-- 
+    ========================================
+    PRIZES SECTION
+    ========================================
+    Prize structure and award information with call-to-action buttons
+    - Details first place (€2,000 student, €1,000 school) and second place prizes
+    - Lists additional category awards for different year groups
+    - Features prominent call-to-action buttons for student and teacher registration
+    - Creates incentive for participation with clear prize structure
+    -->
+    <Prizes />
+    <br>
 
-        <blockquote>
-          <p>"Whether you're interested in making an idea happen, or want to pursue an interest in science, tech or business, I'd wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway."</p>
-          <figcaption>— <strong>Bobby Healy</strong>, founder of <em>Manna Aero</em> &mdash; TECS judge.</figcaption>
-        </blockquote>
-      </figure>
+    <!-- 
+    ========================================
+    PAST PROJECTS SECTION
+    ========================================
+    Showcase of previous TECS winners and their innovative projects
+    - Interactive 3D carousel displaying past winning projects
+    - Features project details, student information, and award categories
+    - Includes drag/swipe navigation and responsive mobile layout
+    - Demonstrates the quality and diversity of TECS projects
+    -->
+    <br>
+    <PastProjects />
 
-    </div>
-  </section>
+    <!-- 
+    ========================================
+    SUPPORTERS SECTION
+    ========================================
+    Partner organizations and sponsors with animated particle background
+    - Features major supporters: Stripe, University of Limerick, Dogpatch Labs
+    - Interactive pixel cards with hover animations and company logos
+    - Animated particle background for visual appeal
+    - Builds credibility and shows industry support for TECS
+    -->
+    <Supporters />
 
-  <!-- Prizes -->
-  <section id="prizes" class="section">
-    <div class="container">
-      <h2>Prizes</h2>
-      <div class="prizes">
-        <div class="prize">
-          <h3>🥇 First Place</h3>
-          <span class="prize-amount-label">Student Receives:</span> 
-          <span class="prize-amount">€2,000</span>
-          <br>
-          <span class="prize-amount-label">School Receives:</span> 
-          <span class="prize-amount">€1,000</span>
-        </div>
-        <div class="prize">
-          <h3>🥈 Second Place</h3>
-          <span class="prize-amount-label">Student Receives:</span> 
-          <span class="prize-amount">€1,000</span>
-          <br>
-          <span class="prize-amount-label">School Receives:</span> 
-          <span class="prize-amount">€500</span>
-        </div>
-        <div class="prize">
-          <h3>🎯 Additional Awards</h3>
-          <span class="prize-amount-label">Best Team</span>
-          <br><br>
-          <span class="prize-amount-label">6th Year Award</span>
-          <br><br>
-          <span class="prize-amount-label">5th Year Award</span>
-          <br><br>
-          <span class="prize-amount-label">Transition Year Award</span>
-        </div>
-      </div>
-      <div style="text-align: center; margin-top: 2rem;">
-        <a href="https://apply.jointecs.org/" class="btn">Apply Now</a>
-        <a href="#signup" class="btn btn-outline" style="margin-left: 1rem;">Teacher Sign-Up</a>
-      </div>
-    </div>
-  </section>
-  <br>
-
-  <!-- Past Projects -->
-  <br>
-  <PastProjects />
-
-  <!-- Supporters -->
-  <section id="supporters" class="section supporters-banner" aria-label="Supporters">
-    <div class="container">
-      <!-- Animated Particles Background -->
-      <Particles
-        particleCount={100}
-        particleSpread={8}
-        speed={0.05}
-        particleColors={['#3ea86f', '#4fb87a', '#5fc885']}
-        moveParticlesOnHover={false}
-        particleHoverFactor={0.5}
-        alphaParticles={false}
-        particleBaseSize={4}
-        sizeRandomness={0.5}
-        cameraDistance={15}
-        disableRotation={false}
-      />
-      
-      <h2>Our Supporters</h2>
-      <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
-
-      <div class="supporters-grid" role="list" aria-label="Supporters and partners">
-        <PixelCard 
-          variant="stripe"
-          href="https://stripe.com/ie"
-          logoSrc="/images/StripeLogo.png"
-          alt="Stripe"
-        />
-        <PixelCard 
-          variant="ul"
-          href="https://www.ul.ie/"
-          logoSrc="/uni-limerick-logo.svg"
-          alt="University of Limerick"
-        />
-        <PixelCard 
-          variant="dogpatch"
-          href="https://dogpatchlabs.com/"
-          logoSrc="/dogpatch-labs-logo.png"
-          alt="Dogpatch Labs"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- Organisers -->
-  <section id="organisers" class="section">
-    <div class="container">
-      <h2>Organisers</h2>
-
-      <div class="organisers-grid">
-        <div class="organiser">
-          <div class="organiser-media">
-            <img src="/ISElogo.png" alt="ISE at University of Limerick logo" class="organiser-logo" />
-          </div>
-          <div class="organiser-body">
-            <h3>ISE at UL</h3>
-            <p><strong><a href="https://www.software-engineering.ie/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Immersive Software Engineering</a></strong> is a computer science degree at UL where students "learn by doing". In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's most exciting tech companies.</p>
-          </div>
-        </div>
-
-        <div class="organiser">
-          <div class="organiser-media">
-            <img src="/patchlogo.png" alt="Patch programme logo" class="organiser-logo" />
-          </div>
-          <div class="organiser-body">
-            <h3>Patch</h3>
-            <p><strong><a href="https://www.joinpatch.org/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Patch</a></strong> is a free summer programme where talented young people spend seven weeks working on their chosen projects, getting to know like-minded peers, and learning from brilliant mentors.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- 
+    ========================================
+    ORGANISERS SECTION
+    ========================================
+    Information about the organizing institutions behind TECS
+    - Features ISE (Immersive Software Engineering) at University of Limerick
+    - Highlights Patch summer programme for young innovators
+    - Provides context about the educational institutions running TECS
+    - Links to related programmes and opportunities for students
+    -->
+    <Organisers />
   
-  <!-- FAQ -->
-  <section id="faq" class="section">
-    <div class="container">
-      <br>
-      <h2>FAQs</h2>
+    <!-- 
+    ========================================
+    FAQ SECTION
+    ========================================
+    Comprehensive frequently asked questions with collapsible categories
+    - Organized into logical categories: General, Sign-ups, Programme, Awards, etc.
+    - Covers eligibility, registration process, time commitment, and prizes
+    - Includes information for both students and teachers
+    - Provides contact information for additional questions
+    -->
+    <FAQ />
 
-      <div class="faq-categories">
-        <!-- General -->
-        <details class="faq-category">
-          <summary class="faq-category-summary">General</summary>
-          <div class="faq-questions">
-            <details>
-              <summary>What is TECS?</summary>
-              <p>TECS is Ireland's premier nationwide talent search that runs over the month of November. It is a progress-focused competition for secondary school students across Ireland. Participants work on a project throughout the month, submit short weekly updates, and receive mentor feedback. Prizes of up to €2,000 are awarded to students who make the most progress and schools can win up to €1,000.</p>
-            </details>
-
-            <details>
-              <summary>When does TECS run?</summary>
-              <p>TECS runs throughout November (example dates previously: 4th–29th November). Students submit weekly progress updates during November; judges review submissions in December, and an awards ceremony takes place in January.</p>
-            </details>
-
-            <details>
-              <summary>Who can take part?</summary>
-              <p>TECS is open to Transition Year, 5th Year and 6th Year students in the Republic of Ireland, and Years 11–14 in Northern Ireland. We welcome technical, scientific and creative projects — past entrants have built apps, organised events, run experiments and written novels.</p>
-            </details>
-
-            <details>
-              <summary>Can I participate from Northern Ireland?</summary>
-              <p>Yes — students enrolled in Years 11–14 in Northern Ireland may apply. Prize values are equivalent in local currency (e.g. the top student prize equates to approximately £1,700 at past exchange rates).</p>
-            </details>
-          </div>
-        </details>
-
-        <!-- Sign-ups -->
-        <details class="faq-category">
-          <summary class="faq-category-summary">Sign-ups</summary>
-          <div class="faq-questions">
-            <details>
-              <summary>What do I need to sign up?</summary>
-              <p>The signup form asks for basic information about you, your school, and the project you plan to work on in November. Sign-up windows are announced ahead of time — previously sign-up opened in early October and ran until late October. Once signed up, you'll only need to submit a brief weekly update for each of the four weeks in November.</p>
-            </details>
-
-            <details>
-              <summary>Can I sign up as a team?</summary>
-              <p>You can apply with a project that has multiple contributors, but each TECS participant must submit their own application. If you're working with others, mention collaborators in your entry.</p>
-            </details>
-
-            <details>
-              <summary>I haven't started my project yet. Can I still take part?</summary>
-              <p>Absolutely — you can start something from scratch. TECS rewards progress over time, not pre-existing polish. If you're stuck for ideas, look at Coolest Projects, IndieHackers or your own daily frustrations for inspiration.</p>
-            </details>
-
-            <details>
-              <summary>I've never worked on a project before. Can I still take part?</summary>
-              <p>Yes. Participants who make consistent progress over the month are eligible for prizes — you don't need prior experience to do well.</p>
-            </details>
-
-            <details>
-              <summary>Is this just for coders?</summary>
-              <p>No — TECS includes technical and non-technical projects alike. Past entries include apps, community projects, research, art and writing. The key is progress and learning.</p>
-            </details>
-
-            <details>
-              <summary>Can I use one of my Transition Year or Leaving Cert projects?</summary>
-              <p>Yes — TECS is a great way to accelerate an existing school project. Mentorship and the prize incentive can help you push the project further than you would alone.</p>
-            </details>
-
-            <details>
-              <summary>Can I use a non-school project?</summary>
-              <p>Yes — projects done outside school (personal projects, clubs, or extracurricular work) are welcome as long as the applicant is eligible by year. TECS is about your progress, wherever that project lives.</p>
-            </details>
-          </div>
-        </details>
-
-        <!-- Programme -->
-        <details class="faq-category">
-          <summary class="faq-category-summary">Programme</summary>
-          <div class="faq-questions">
-            <details>
-              <summary>What's the time commitment?</summary>
-              <p>Time commitment varies by project. Some projects need only 2–3 hours per week; others require more. Aside from working on the project, the weekly update should take about 5–10 minutes to complete.</p>
-            </details>
-
-            <details>
-              <summary>What's the weekly update?</summary>
-              <p>The weekly update tracks your progress week-to-week. Each week during November you'll receive a form with a few short questions asking what you achieved and what you plan next. TECS scores progress across these updates.</p>
-            </details>
-
-            <details>
-              <summary>What support will I receive along the way?</summary>
-              <p>Participants receive feedback from mentors after the early rounds of updates. You'll also see examples from other students and receive resources and guidance throughout November.</p>
-            </details>
-
-            <details>
-              <summary>Do I have to use a computer?</summary>
-              <p>No — TECS is about progress on an idea. Projects can be physical, event-based, business-focused, or creative. You will only need a computer or smartphone to submit the weekly updates.</p>
-            </details>
-          </div>
-        </details>
-
-        <!-- Awards ceremony & prizes -->
-        <details class="faq-category">
-          <summary class="faq-category-summary">Awards ceremony & prizes</summary>
-          <div class="faq-questions">
-            <details>
-              <summary>What can I win?</summary>
-              <p>Prizes include a top student prize (previously €2,000) and a top school prize (previously €1,000), plus additional awards for notable progress and special categories. Active participants and their teachers are typically invited to the awards ceremony.</p>
-            </details>
-
-            <details>
-              <summary>Can my TECS project form part of my ISE entrance submission?</summary>
-              <p>Yes — TECS projects are a great way to demonstrate commitment and progress in an application to ISE. You can include your TECS work as part of your entrance materials where appropriate.</p>
-            </details>
-
-            <details>
-              <summary>Does taking part in TECS guarantee me a place in ISE or Patch?</summary>
-              <p>No — participation does not guarantee admission to either programme. Both ISE and Patch have separate application processes. However, consistent progress and demonstrable projects can strengthen your applications for programmes like ISE and Patch.</p>
-            </details>
-
-            <details>
-              <summary>When and where will the awards ceremony be held?</summary>
-              <p>The awards ceremony is typically held at the University of Limerick in January (exact date announced to participants after judging).</p>
-            </details>
-          </div>
-        </details>
-
-        <!-- I have more questions -->
-        <details class="faq-category">
-          <summary class="faq-category-summary">I have more questions</summary>
-          <div class="faq-questions">
-            <details>
-              <summary>I have more questions! Where can I learn more?</summary>
-              <p>We'd love to hear from you. You can email us at <u><a href="mailto:info@jointecs.org">info@jointecs.org</a></u>.</p>
-            </details>
-          </div>
-        </details>
-
-        <!-- Teachers and schools -->
-        <details class="faq-category">
-          <summary class="faq-category-summary">Teachers & schools</summary>
-          <div class="faq-questions">
-            <details>
-              <summary>Can multiple students/classes from the same school take part?</summary>
-              <p>Yes — multiple entries from the same school are allowed and encouraged. If a class is working on technical, scientific or creative coursework during November, registering the class can help students benefit from mentorship and shared momentum.</p>
-            </details>
-
-            <details>
-              <summary>Can my students work on team projects?</summary>
-              <p>Students can participate on team projects, but each participant must submit their own application. When applying, please list any collaborators so judges understand who contributed what.</p>
-            </details>
-          </div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sign Up -->
-  <section id="signup" class="section signup-section">
-    <div class="container">
-      <h2>Ready to Build Something Amazing?</h2>
-      <p class="lede" style="max-width: 600px; margin-bottom: 2rem;">
-        Student and teacher registration opens in October.<br/>
-        Join Ireland's premier competition for young innovators.
-      </p>
-      <div class="registration-buttons">
-        <ShinyText 
-          text="Student Registration" 
-          speed={3} 
-          href="https://apply.jointecs.org/"
-          className="btn"
-          variant="student"
-        />
-        <ShinyText 
-          text="Teacher Registration" 
-          speed={3} 
-          href="https://subscribe.jointecs.org/"
-          className="btn btn-outline"
-        />
-      </div>
-      <p style="margin-top: 2rem; color: var(--muted);">
-        Questions? Email us at <a href="mailto:info@jointecs.org" style="color: var(--accent);">info@jointecs.org</a>
-      </p>
-    </div>
-  </section>
+    <!-- 
+    ========================================
+    SIGN UP SECTION
+    ========================================
+    Final call-to-action section with registration buttons and contact information
+    - Features animated shiny text buttons for student and teacher registration
+    - Provides clear registration timeline and contact information
+    - Serves as the final conversion point for the website
+    - Includes email contact for questions and support
+    -->
+    <SignUp />
 </Base>

@@ -1,0 +1,37 @@
+---
+// Organisers component for the organizing institutions section
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- Organisers -->
+<section id="organisers" class={`section ${className}`}>
+  <div class="container">
+    <h2>Organisers</h2>
+
+    <div class="organisers-grid">
+      <div class="organiser">
+        <div class="organiser-media">
+          <img src="/ISElogo.png" alt="ISE at University of Limerick logo" class="organiser-logo" />
+        </div>
+        <div class="organiser-body">
+          <h3>ISE at UL</h3>
+          <p><strong><a href="https://www.software-engineering.ie/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Immersive Software Engineering</a></strong> is a computer science degree at UL where students "learn by doing". In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's most exciting tech companies.</p>
+        </div>
+      </div>
+
+      <div class="organiser">
+        <div class="organiser-media">
+          <img src="/patchlogo.png" alt="Patch programme logo" class="organiser-logo" />
+        </div>
+        <div class="organiser-body">
+          <h3>Patch</h3>
+          <p><strong><a href="https://www.joinpatch.org/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Patch</a></strong> is a free summer programme where talented young people spend seven weeks working on their chosen projects, getting to know like-minded peers, and learning from brilliant mentors.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

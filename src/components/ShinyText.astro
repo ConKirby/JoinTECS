@@ -1,12 +1,36 @@
 ---
+// ========================================
+// SHINY TEXT COMPONENT
+// ========================================
+// Animated text with shimmer effect for call-to-action buttons
+//
+// PURPOSE:
+// - Creates eye-catching animated buttons for registration and sign-up
+// - Features shimmer animation that draws attention to important actions
+// - Used in Sign Up section for student and teacher registration
+// - Provides visual feedback and enhances conversion rates
+//
+// USAGE:
+// - Sign Up section: "Student Registration" and "Teacher Registration" buttons
+// - Call-to-action buttons throughout the site
+// - Can be used as links or spans depending on href prop
+// - Customizable animation speed and styling
+//
+// FEATURES:
+// - Shimmer animation with customizable speed
+// - Support for both link and span elements
+// - Disabled state for non-interactive use
+// - Customizable styling and CSS classes
+// - Performance optimized with CSS animations
+
 export interface Props {
-  text: string;
-  disabled?: boolean;
-  speed?: number;
-  className?: string;
-  href?: string;
-  style?: string;
-  variant?: 'default' | 'student';
+  text: string; // Text content to display
+  disabled?: boolean; // Disable animation (default: false)
+  speed?: number; // Animation speed in seconds (default: 5)
+  className?: string; // Optional CSS class for styling customization
+  href?: string; // Link URL (if provided, renders as <a> tag)
+  style?: string; // Inline CSS styles
+  variant?: 'default' | 'student'; // Style variant (currently unused)
 }
 
 const {

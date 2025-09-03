@@ -1,0 +1,39 @@
+---
+// SignUp component for the registration section with animated buttons
+import ShinyText from "../components/ShinyText.astro";
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- Sign Up -->
+<section id="signup" class={`section signup-section ${className}`}>
+  <div class="container">
+    <h2>Ready to Build Something Amazing?</h2>
+    <p class="lede" style="max-width: 600px; margin-bottom: 2rem;">
+      Student and teacher registration opens in October.<br/>
+      Join Ireland's premier competition for young innovators.
+    </p>
+    <div class="registration-buttons">
+      <ShinyText 
+        text="Student Registration" 
+        speed={3} 
+        href="https://apply.jointecs.org/"
+        className="btn"
+        variant="student"
+      />
+      <ShinyText 
+        text="Teacher Registration" 
+        speed={3} 
+        href="https://subscribe.jointecs.org/"
+        className="btn btn-outline"
+      />
+    </div>
+    <p style="margin-top: 2rem; color: var(--muted);">
+      Questions? Email us at <a href="mailto:info@jointecs.org" style="color: var(--accent);">info@jointecs.org</a>
+    </p>
+  </div>
+</section>

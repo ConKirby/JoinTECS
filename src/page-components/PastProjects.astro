@@ -1,12 +1,37 @@
 ---
+// ========================================
+// PAST PROJECTS COMPONENT
+// ========================================
+// Interactive 3D carousel showcasing previous TECS winners and their projects
+//
+// PURPOSE:
+// - Demonstrates the quality and diversity of TECS projects
+// - Showcases past winners to inspire new participants
+// - Provides social proof and credibility for the competition
+// - Features interactive 3D carousel with drag/swipe navigation
+//
+// USAGE:
+// - Used in main page to display past winning projects
+// - Automatically randomizes project order on each page load
+// - Responsive design: 3D carousel on desktop, simple cards on mobile
+// - Includes navigation buttons and drag/swipe support
+//
+// FEATURES:
+// - 3D cylindrical carousel with perspective transforms
+// - Drag and swipe navigation support
+// - Responsive breakpoints for mobile optimization
+// - Project randomization for variety
+// - Accessibility features and keyboard navigation
+// - Performance optimized with requestAnimationFrame
+
 export interface Props {
   projects?: Array<{
-    name: string;
-    age: number;
-    school: string;
-    year: number;
-    award: string;
-    description: string;
+    name: string; // Student name
+    age: number; // Student age
+    school: string; // School name
+    year: number; // Competition year
+    award: string; // Award category (Winner, Runner-up, etc.)
+    description: string; // Project description
   }>;
 }
 

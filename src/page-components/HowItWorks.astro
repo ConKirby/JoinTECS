@@ -1,0 +1,69 @@
+---
+// HowItWorks component for the process explanation section with animated background and numbered cards
+import Squares from "../components/Squares.astro";
+import TiltedCardWithNumber from "../components/TiltedCardWithNumber.astro";
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- How It Works -->
+<section id="how" class={`section ${className}`}>
+  <!-- Animated Squares Background -->
+  <Squares 
+    direction="diagonal"
+    speed={0.2}
+    borderColor="rgba(62, 168, 111, 0.12)"
+    squareSize={50}
+    hoverFillColor="rgba(62, 168, 111, 0.03)"
+  />
+  
+  <div class="container">
+    <h2>How It Works</h2>
+    <div class="cards">
+      <TiltedCardWithNumber 
+        number="1"
+        title="Choose Your Project"
+        content="Apply with an idea you'd like to work on or develop further. It could be an app, business idea, social enterprise, research project, coding project, creative work, or something completely different."
+        scaleOnHover={1.05}
+        rotateAmplitude={8}
+      />
+      <TiltedCardWithNumber 
+        number="2"
+        title="Share Weekly Updates"
+        content="Take 5 minutes each week to share your progress, challenges encountered, and plans for the next week. Build momentum through consistent progress."
+        scaleOnHover={1.05}
+        rotateAmplitude={8}
+      />
+      <TiltedCardWithNumber 
+        number="3"
+        title="Get Expert Support"
+        content="Join a community of builders and receive feedback from experienced mentors. Prizes are awarded based on progress made during the competition."
+        scaleOnHover={1.05}
+        rotateAmplitude={8}
+      />
+    </div>
+
+    <!-- Quote -->
+    <figure class="quote-figure">
+      <div class="quote-avatar">
+        <img
+          src="/images/Bobby-Healy-Manna-Aero.jpeg"
+          alt="Bobby Healy, founder of Manna Aero"
+          loading="lazy"
+          width="160"
+          height="160"
+        />
+      </div>
+
+      <blockquote>
+        <p>"Whether you're interested in making an idea happen, or want to pursue an interest in science, tech or business, I'd wholeheartedly recommend taking part in TECS. If I was taking part, I would programme a drone that delivered chips from my local takeaway."</p>
+        <figcaption>— <strong>Bobby Healy</strong>, founder of <em>Manna Aero</em> &mdash; TECS judge.</figcaption>
+      </blockquote>
+    </figure>
+
+  </div>
+</section>

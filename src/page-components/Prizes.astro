@@ -1,0 +1,47 @@
+---
+// Prizes component for the awards and prizes information section
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- Prizes -->
+<section id="prizes" class={`section ${className}`}>
+  <div class="container">
+    <h2>Prizes</h2>
+    <div class="prizes">
+      <div class="prize">
+        <h3>🥇 First Place</h3>
+        <span class="prize-amount-label">Student Receives:</span> 
+        <span class="prize-amount">€2,000</span>
+        <br>
+        <span class="prize-amount-label">School Receives:</span> 
+        <span class="prize-amount">€1,000</span>
+      </div>
+      <div class="prize">
+        <h3>🥈 Second Place</h3>
+        <span class="prize-amount-label">Student Receives:</span> 
+        <span class="prize-amount">€1,000</span>
+        <br>
+        <span class="prize-amount-label">School Receives:</span> 
+        <span class="prize-amount">€500</span>
+      </div>
+      <div class="prize">
+        <h3>🎯 Additional Awards</h3>
+        <span class="prize-amount-label">Best Team</span>
+        <br><br>
+        <span class="prize-amount-label">6th Year Award</span>
+        <br><br>
+        <span class="prize-amount-label">5th Year Award</span>
+        <br><br>
+        <span class="prize-amount-label">Transition Year Award</span>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="https://apply.jointecs.org/" class="btn">Apply Now</a>
+      <a href="#signup" class="btn btn-outline" style="margin-left: 1rem;">Teacher Sign-Up</a>
+    </div>
+  </div>
+</section>

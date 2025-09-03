@@ -1,9 +1,30 @@
 ---
-// Countdown component for TECS registration deadline
-import Waves from "./Waves.astro";
+// ========================================
+// COUNTDOWN COMPONENT
+// ========================================
+// Real-time countdown timer for TECS registration deadline
+// 
+// PURPOSE:
+// - Creates urgency for student registration by showing time remaining
+// - Updates every second with days, hours, minutes, and seconds
+// - Features animated wave background for visual appeal
+// - Automatically handles countdown expiration
+//
+// USAGE:
+// - Used in main page to show registration deadline
+// - Target date: October 23rd, 2025, 00:00 UTC+1
+// - Includes accessibility features and responsive design
+//
+// FEATURES:
+// - Real-time updates with performance optimization
+// - Animated wave background using Waves component
+// - Responsive grid layout for countdown display
+// - Automatic cleanup and error handling
+
+import Waves from "../components/Waves.astro";
 
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;

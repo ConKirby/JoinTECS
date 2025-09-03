@@ -1,10 +1,34 @@
 ---
+// ========================================
+// TILTED CARD COMPONENT
+// ========================================
+// Interactive card with 3D tilt effect on mouse hover
+//
+// PURPOSE:
+// - Creates engaging interactive cards for feature highlights
+// - Provides 3D tilt effect that follows mouse movement
+// - Used in About section to showcase TECS benefits
+// - Enhances user engagement with interactive elements
+//
+// USAGE:
+// - About section: Winner prizes, Expert mentorship, National recognition
+// - How It Works section: Process steps (with TiltedCardWithNumber variant)
+// - Customizable tilt intensity and hover scale effects
+// - Responsive design with mobile optimizations
+//
+// FEATURES:
+// - 3D perspective transforms based on mouse position
+// - Smooth transitions and hover effects
+// - Customizable scale and rotation parameters
+// - Mobile-optimized with reduced effects
+// - Performance optimized with will-change CSS property
+
 export interface Props {
-  title?: string;
-  content?: string;
-  className?: string;
-  scaleOnHover?: number;
-  rotateAmplitude?: number;
+  title?: string; // Card title text
+  content?: string; // Card description content
+  className?: string; // Optional CSS class for styling customization
+  scaleOnHover?: number; // Scale factor on hover (default: 1.05)
+  rotateAmplitude?: number; // Maximum rotation angle in degrees (default: 8)
 }
 
 const {

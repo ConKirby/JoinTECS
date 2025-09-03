@@ -1,0 +1,60 @@
+---
+// About component for the TECS information section with animated background and feature cards
+import Waves from "../components/Waves.astro";
+import TiltedCard from "../components/TiltedCard.astro";
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- About -->
+<section id="about" class={`section ${className}`}>
+  <!-- Animated Wave Background -->
+  <Waves 
+    lineColor="rgba(62, 168, 111, 0.2)"
+    backgroundColor="transparent"
+    waveSpeedX={0.008}
+    waveSpeedY={0.003}
+    waveAmpX={24}
+    waveAmpY={12}
+    xGap={12}
+    yGap={28}
+    friction={0.95}
+    tension={0.003}
+    maxCursorMove={80}
+  />
+  
+  <div class="container">
+    <br/>
+    <h2>About TECS</h2>
+    <ul class="lede" style="margin-bottom: 3rem;">
+      <li>TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.</li>
+      <li>Transition year, 5th year and 6th year students work towards building or creating something unique throughout the month of November.</li>
+      <li>They share progress updates each week and receive feedback from experienced mentors.</li>
+      <li>Prizes are awarded based on progress made during the competition.</li>
+    </ul>
+    <div class="cards">
+      <TiltedCard 
+        title="Winner Receives €2,000!"
+        content="Awards given to students who made the most progress during the competition, with school's receiving up to €1,000."
+        scaleOnHover={1.05}
+        rotateAmplitude={8}
+      />
+      <TiltedCard 
+        title="Expert Mentorship"
+        content="Get feedback from industry leaders including John Collison (Stripe), Bobby Healy (Manna Aero), and Patricia Scanlon (Soapbox Labs), to name just a few."
+        scaleOnHover={1.05}
+        rotateAmplitude={8}
+      />
+      <TiltedCard 
+        title="National Recognition"
+        content="Awards ceremony held at the University of Limerick Concert Hall with tech industry leaders and national media coverage."
+        scaleOnHover={1.05}
+        rotateAmplitude={8}
+      />
+    </div>
+  </div>
+</section>

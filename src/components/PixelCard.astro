@@ -1,14 +1,39 @@
 ---
+// ========================================
+// PIXEL CARD COMPONENT
+// ========================================
+// Interactive card with animated pixel effects and company logos
+//
+// PURPOSE:
+// - Creates engaging visual cards for supporters and partners
+// - Features animated pixel effects that respond to hover/focus
+// - Used in Supporters section to showcase partner organizations
+// - Provides interactive feedback with smooth animations
+//
+// USAGE:
+// - Supporters section: Stripe, University of Limerick, Dogpatch Labs
+// - Partner showcase and sponsor displays
+// - Customizable variants for different brand colors
+// - Clickable cards that link to partner websites
+//
+// FEATURES:
+// - Animated pixel effects with customizable colors and speed
+// - Pre-configured variants for major partners (stripe, ul, dogpatch)
+// - Responsive design with mobile optimizations
+// - Accessibility features with focus management
+// - Performance optimized with requestAnimationFrame
+// - Respects user's reduced motion preferences
+
 export interface Props {
-  variant?: 'stripe' | 'ul' | 'dogpatch' | 'default';
-  gap?: number;
-  speed?: number;
-  colors?: string;
-  noFocus?: boolean;
-  className?: string;
-  href?: string;
-  alt?: string;
-  logoSrc?: string;
+  variant?: 'stripe' | 'ul' | 'dogpatch' | 'default'; // Pre-configured color schemes
+  gap?: number; // Pixel grid spacing (default varies by variant)
+  speed?: number; // Animation speed (default varies by variant)
+  colors?: string; // Custom color palette (comma-separated hex values)
+  noFocus?: boolean; // Disable focus animations for accessibility
+  className?: string; // Optional CSS class for styling customization
+  href?: string; // Link URL for clickable cards
+  alt?: string; // Alt text for logo images
+  logoSrc?: string; // Logo image source path
 }
 
 const {

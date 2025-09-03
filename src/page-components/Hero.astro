@@ -1,0 +1,32 @@
+---
+// Hero component for the main landing section with background image and call-to-action
+import Marquee from "../components/Marquee.astro";
+
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- Hero Section with Image Background -->
+<section class={`hero ${className}`} style="--hero-scale:1.06; --hero-translate-y:-30px;">
+  <div class="hero-bg">
+    <img src="/images/john-collison-hero-image.jpg" alt="John Collison at TECS awards ceremony" />
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="container hero-inner">
+    <h1>
+      Enter TECS 2025 to win up to <span class="highlight">€3k</span> in prizes
+    </h1>
+    <p class="lede">
+      Open to transition, 5th &amp; 6th year students throughout Ireland.<br/>
+      Sign up by <strong>October 24th</strong>
+    </p>
+    <p><a href="https://apply.jointecs.org/" class="btn">Register Now</a></p>
+  </div>
+
+  <!-- Hero-mounted marquee -->
+  <Marquee className="hero-marquee" />
+</section>
