@@ -128,7 +128,10 @@ const {
     const container = document.getElementById('waves-container');
     const canvas = document.getElementById('waves-canvas');
     
-    if (!container || !canvas) return;
+    if (!container || !canvas) {
+      console.error('Waves component: Container or canvas not found');
+      return;
+    }
 
     const ctx = canvas.getContext('2d');
     let bounding = { width: 0, height: 0, left: 0, top: 0 };
@@ -147,6 +150,7 @@ const {
       set: false
     };
     let frameId = null;
+    let isActive = true;
 
     function setSize() {
       bounding = container.getBoundingClientRect();
@@ -234,6 +238,8 @@ const {
     }
 
     function tick(t) {
+      if (!isActive) return;
+      
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
       const dx = mouse.x - mouse.lx,
@@ -257,15 +263,36 @@ const {
     }
     
     function onMouseMove(e) {
-      updateMouse(e.clientX, e.clientY);
+      if (!isActive) return;
+      // Only update mouse if it's over the waves container
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        updateMouse(x, y);
+      } else {
+        // Mouse is outside the container, reset to center
+        resetMouse();
+      }
     }
     
     function onTouchMove(e) {
+      if (!isActive) return;
       const touch = e.touches[0];
-      updateMouse(touch.clientX, touch.clientY);
+      const rect = container.getBoundingClientRect();
+      const x = touch.clientX;
+      const y = touch.clientY;
+      
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        updateMouse(x, y);
+      } else {
+        resetMouse();
+      }
     }
     
     function updateMouse(x, y) {
+      if (!isActive) return;
       const b = bounding;
       mouse.x = x - b.left;
       mouse.y = y - b.top;
@@ -277,22 +304,75 @@ const {
         mouse.set = true;
       }
     }
+    
+    function resetMouse() {
+      // Reset mouse to center of container when not hovering
+      const b = bounding;
+      mouse.x = b.width / 2;
+      mouse.y = b.height / 2;
+      mouse.sx = mouse.x;
+      mouse.sy = mouse.y;
+      mouse.lx = mouse.x;
+      mouse.ly = mouse.y;
+      mouse.v = 0;
+      mouse.vs = 0;
+      mouse.a = 0;
+    }
 
+    // Initialize
     setSize();
     setLines();
     frameId = requestAnimationFrame(tick);
     
+    // Handle visibility change to pause/resume animation
+    function onVisibilityChange() {
+      if (document.hidden) {
+        isActive = false;
+        if (frameId) {
+          cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+      } else {
+        isActive = true;
+        if (!frameId) {
+          frameId = requestAnimationFrame(tick);
+        }
+      }
+    }
+
+    // Add event listeners
     window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    
+    // Add container-specific event listeners for better control
+    container.addEventListener('mouseenter', () => {
+      // Mouse entered the waves container
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      // Mouse left the waves container, reset to center
+      resetMouse();
+    });
 
-    // Cleanup function
-    return () => {
+    // Store cleanup function globally so it can be called when needed
+    window.wavesCleanup = () => {
+      isActive = false;
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('touchmove', onTouchMove);
-      if (frameId) cancelAnimationFrame(frameId);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      container.removeEventListener('mouseenter', () => {});
+      container.removeEventListener('mouseleave', resetMouse);
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
     };
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', window.wavesCleanup);
   });
 </script>
 
