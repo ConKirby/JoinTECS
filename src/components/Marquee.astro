@@ -43,3 +43,107 @@ const { text = "Technologists – Engineers – Creators – Scientists", classN
   </div>
 </div>
 
+<style>
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    background: rgba(62, 168, 111, 0.05);
+  }
+  
+  .marquee-inner {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 45s linear infinite;
+    will-change: transform;
+  }
+  
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    white-space: nowrap;
+  }
+  
+  .m-item {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  .m-item b { 
+    color: var(--accent); 
+    font-weight: 900; 
+  }
+  
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.333%); }
+  }
+  
+  .marquee:hover .marquee-inner { 
+    animation-play-state: paused; 
+  }
+  
+  /* Hero marquee specific styles */
+  .hero-marquee {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    padding: 0;
+    z-index: 15;
+    background: transparent;
+    border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    background: rgba(62, 168, 111, 0.08);
+  }
+  
+  .hero-marquee .m-item {
+    font-size: clamp(1.3rem, 2.2vw, 2rem);
+    letter-spacing: 4px;
+    font-weight: 700;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .hero-marquee {
+      bottom: 0;
+      padding: 0;
+    }
+    
+    .hero-marquee .m-item { 
+      font-size: 1rem; 
+      letter-spacing: 2px; 
+      font-weight: 700;
+    }
+    
+    .marquee-track { 
+      gap: 0.25rem; 
+      padding: 1.2rem .8rem; 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-marquee {
+      bottom: 0;
+      padding: 0;
+    }
+    
+    .marquee-track { 
+      gap: 0.125rem; 
+      padding: 1.4rem .6rem; 
+    }
+    
+    .hero-marquee .m-item { 
+      font-size: 0.9rem; 
+      letter-spacing: 1px; 
+      font-weight: 700;
+    }
+  }
+</style>
+
