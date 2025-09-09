@@ -316,7 +316,7 @@ const randomizedProjects = shuffleArray(projects);
       if (!isDragging) return;
       
       isDragging = false;
-      galleryTrack.style.cursor = 'grab';
+      galleryTrack.style.cursor = 'default'; // Changed from 'grab' to 'default'
       
       const deltaX = currentX - startX;
       const threshold = 50;
@@ -339,10 +339,35 @@ const randomizedProjects = shuffleArray(projects);
       if (!clickedCard) return;
       
       const clickedIndex = parseInt(clickedCard.dataset.index);
-      if (clickedIndex !== currentIndex) {
-        currentIndex = clickedIndex;
-        updateGallery();
-      }
+      
+      // COMMENTED OUT: Side card detection logic - completely disable side card clicks
+      // Check if this is a side card (not the main card) - DISABLE SIDE CARD CLICKS
+      // const { isSmallScreen } = getDimensions();
+      
+      // if (!isSmallScreen) {
+      //   // For 3D carousel, check if it's a side card
+      //   const { faceCount } = getDimensions();
+      //   let rotation = (clickedIndex * (360 / faceCount)) - (currentIndex * (360 / faceCount));
+      
+      //   // Normalize rotation to be between -180 and 180
+      //   while (rotation > 180) rotation -= 360;
+      //   while (rotation < -180) rotation += 360;
+      
+      //   // Check if it's a side card (not the main card)
+      //   const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
+      //   const isSideCard = Math.abs(rotation) < 60 && !isMainCard; // Side cards are within 60 degrees but not main
+      
+      //   if (isSideCard) {
+      //     // SIDE CARD CLICKS DISABLED - do nothing, prevent navigation
+      //     return;
+      //   }
+      // }
+      
+      // DISABLED: Only allow main card or small screen navigation
+      // if (clickedIndex !== currentIndex) {
+      //   currentIndex = clickedIndex;
+      //   updateGallery();
+      // }
     };
 
     // Add event listeners
@@ -504,7 +529,7 @@ const randomizedProjects = shuffleArray(projects);
     min-height: 200px;
     justify-content: center;
     align-items: center;
-    cursor: grab;
+    cursor: default; /* Changed from grab to default */
     transform-style: preserve-3d;
     width: 100%;
   }
@@ -532,10 +557,12 @@ const randomizedProjects = shuffleArray(projects);
     flex-direction: column;
   }
 
+  /* Only apply hover effects to main card, not side cards */
   .gallery-item:hover .project-card {
-    transform: scale(1.05);
+    /* Hover effects disabled for side cards - only main card will have hover */
+    /* transform: scale(1.05);
     box-shadow: var(--shadow-lg);
-    border-color: var(--accent);
+    border-color: var(--accent); */
   }
 
   .project-header {
