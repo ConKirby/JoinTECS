@@ -201,8 +201,8 @@ const randomizedProjects = shuffleArray(projects);
       }
     };
 
-    // Update gallery layout
-    const updateGallery = () => {
+    // Update gallery layout with smooth transitions
+    const updateGallery = (animate = true) => {
       const { cylinderWidth, faceCount, mainCardWidth, sideCardWidth, spacing, radius, isSmallScreen } = getDimensions();
       
       galleryTrack.style.width = `${cylinderWidth}px`;
@@ -215,20 +215,39 @@ const randomizedProjects = shuffleArray(projects);
             project.style.width = `${mainCardWidth}px`;
             project.style.transform = 'translateX(0)';
             project.style.opacity = '1';
+            project.style.transition = animate ? 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
           } else {
             project.style.display = 'none';
           }
         } else {
-          // For larger screens, show 3D carousel
+          // For larger screens, show 3D carousel with smooth transitions
           project.style.display = 'flex';
-          const rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
-          const isMainCard = i === currentIndex;
+          
+          // Calculate continuous rotation for seamless looping
+          let rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
+          
+          // Normalize rotation to be between -180 and 180 for smoother transitions
+          while (rotation > 180) rotation -= 360;
+          while (rotation < -180) rotation += 360;
+          
+          // Determine card type based on rotation angle for continuous feel
+          const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
+          const isSideCard = Math.abs(rotation) < 60; // Side cards are within 60 degrees
+          const isVisible = Math.abs(rotation) < 90; // Only show cards within 90 degrees
+          
+          if (!isVisible) {
+            project.style.display = 'none';
+            return;
+          }
+          
           const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
           const translateZ = isMainCard ? radius : radius + spacing;
+          const opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
           
           project.style.width = `${cardWidth}px`;
           project.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
-          project.style.opacity = '1';
+          project.style.opacity = opacity;
+          project.style.transition = animate ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
         }
       });
       
@@ -263,14 +282,32 @@ const randomizedProjects = shuffleArray(projects);
       const { faceCount, mainCardWidth, sideCardWidth, spacing, radius } = getDimensions();
       
       projects.forEach((project, i) => {
-        const baseRotation = (i * (360 / faceCount)) - (startTransform * (360 / faceCount));
-        const currentRotation = baseRotation + rotationDelta;
-        const isMainCard = i === startTransform;
+        let baseRotation = (i * (360 / faceCount)) - (startTransform * (360 / faceCount));
+        let currentRotation = baseRotation + rotationDelta;
+        
+        // Normalize rotation for continuous flow
+        while (currentRotation > 180) currentRotation -= 360;
+        while (currentRotation < -180) currentRotation += 360;
+        
+        // Determine visibility and card type during drag
+        const isVisible = Math.abs(currentRotation) < 90;
+        const isMainCard = Math.abs(currentRotation) < 15;
+        const isSideCard = Math.abs(currentRotation) < 60;
+        
+        if (!isVisible) {
+          project.style.display = 'none';
+          return;
+        }
+        
         const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
         const translateZ = isMainCard ? radius : radius + spacing;
+        const opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
         
+        project.style.display = 'flex';
         project.style.width = `${cardWidth}px`;
         project.style.transform = `rotateY(${currentRotation}deg) translateZ(${translateZ}px)`;
+        project.style.opacity = opacity;
+        project.style.transition = 'none'; // Disable transitions during drag
       });
     };
 
@@ -292,7 +329,8 @@ const randomizedProjects = shuffleArray(projects);
         }
       }
       
-      updateGallery();
+      // Update with smooth animation
+      updateGallery(true);
     };
 
     // Handle click/tap navigation
@@ -325,12 +363,12 @@ const randomizedProjects = shuffleArray(projects);
 
     const handlePrevClick = () => {
       currentIndex = currentIndex > 0 ? currentIndex - 1 : projectCount - 1;
-      updateGallery();
+      updateGallery(true);
     };
 
     const handleNextClick = () => {
       currentIndex = currentIndex < projectCount - 1 ? currentIndex + 1 : 0;
-      updateGallery();
+      updateGallery(true);
     };
 
     if (prevBtn) prevBtn.addEventListener('click', handlePrevClick);
