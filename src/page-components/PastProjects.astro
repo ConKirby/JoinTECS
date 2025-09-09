@@ -20,9 +20,7 @@
 // - 3D cylindrical carousel with perspective transforms
 // - Drag and swipe navigation support
 // - Responsive breakpoints for mobile optimization
-// - Project randomization for variety
-// - Accessibility features and keyboard navigation
-// - Performance optimized with requestAnimationFrame
+// - Project randomised
 
 export interface Props {
   projects?: Array<{
@@ -189,13 +187,17 @@ const randomizedProjects = shuffleArray(projects);
     let currentX = 0;
     let startTransform = 0;
 
-    // Calculate dimensions based on screen size
+    /*
+     * Calculate responsive dimensions for the 3D carousel
+     * Returns different card sizes and spacing based on screen size
+     * Mobile: Larger cards (70% width) with tighter spacing
+     * Desktop: Smaller cards (50% width) with more spacing
+     */
     const getDimensions = () => {
       const containerWidth = galleryTrack.parentElement?.offsetWidth || 800;
       const isMobile = window.innerWidth <= 768;
       
       if (isMobile) {
-        // For mobile screens, show 3D carousel with smaller dimensions
         const mainCardWidth = containerWidth * 0.7;
         const sideCardWidth = containerWidth * 0.5;
         const spacing = 15;
@@ -209,7 +211,7 @@ const randomizedProjects = shuffleArray(projects);
           sideCardWidth, 
           spacing, 
           radius,
-          isSmallScreen: false // Enable 3D carousel for mobile
+          isSmallScreen: false
         };
       } else {
         // For larger screens, show 3D carousel
@@ -231,7 +233,11 @@ const randomizedProjects = shuffleArray(projects);
       }
     };
 
-    // Update gallery layout with smooth transitions
+    /*
+     * Main function that updates the 3D carousel layout
+     * Positions all cards in a cylindrical formation with proper rotation
+     * Handles visibility, opacity, and z-index for mobile vs desktop
+     */
     const updateGallery = (animate = true) => {
       const { cylinderWidth, faceCount, mainCardWidth, sideCardWidth, spacing, radius, isSmallScreen } = getDimensions();
       
@@ -249,10 +255,9 @@ const randomizedProjects = shuffleArray(projects);
         while (rotation > 180) rotation -= 360;
         while (rotation < -180) rotation += 360;
         
-        // Determine card type based on rotation angle for continuous feel
-        const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
-        const isSideCard = Math.abs(rotation) < 60; // Side cards are within 60 degrees
-        const isVisible = Math.abs(rotation) < 90; // Only show cards within 90 degrees
+        const isMainCard = Math.abs(rotation) < 15;
+        const isSideCard = Math.abs(rotation) < 60;
+        const isVisible = Math.abs(rotation) < 90;
         
         if (!isVisible) {
           projectElement.style.display = 'none';
@@ -266,8 +271,8 @@ const randomizedProjects = shuffleArray(projects);
         const isMobile = window.innerWidth <= 768;
         let opacity, zIndex;
         if (isMobile) {
-          opacity = isMainCard ? 1 : 0; // Side cards completely invisible on mobile
-          zIndex = isMainCard ? 100 : 1; // Main card much higher z-index
+          opacity = isMainCard ? 1 : 0;
+          zIndex = isMainCard ? 100 : 1;
         } else {
           opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
           zIndex = 'auto';
@@ -284,7 +289,11 @@ const randomizedProjects = shuffleArray(projects);
       updateButtonStates();
     };
 
-    // Handle drag start
+    /*
+     * DRAG INTERACTION HANDLERS
+     * Handle mouse and touch drag events for carousel navigation
+     */
+    
     const handleDragStart = (e) => {
       isDragging = true;
       startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
@@ -329,8 +338,8 @@ const randomizedProjects = shuffleArray(projects);
         const isMobile = window.innerWidth <= 768;
         let opacity, zIndex;
         if (isMobile) {
-          opacity = isMainCard ? 1 : 0; // Side cards completely invisible on mobile
-          zIndex = isMainCard ? 100 : 1; // Main card much higher z-index
+          opacity = isMainCard ? 1 : 0;
+          zIndex = isMainCard ? 100 : 1;
         } else {
           opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
           zIndex = 'auto';
@@ -341,7 +350,7 @@ const randomizedProjects = shuffleArray(projects);
         projectElement.style.transform = `rotateY(${currentRotation}deg) translateZ(${translateZ}px)`;
         projectElement.style.opacity = opacity.toString();
         projectElement.style.zIndex = zIndex.toString();
-        projectElement.style.transition = 'none'; // Disable transitions during drag
+        projectElement.style.transition = 'none';
       });
     };
 
@@ -350,7 +359,7 @@ const randomizedProjects = shuffleArray(projects);
       if (!isDragging) return;
       
       isDragging = false;
-      galleryTrack.style.cursor = 'default'; // Changed from 'grab' to 'default'
+      galleryTrack.style.cursor = 'default';
       
       const deltaX = currentX - startX;
       const threshold = 50;
@@ -367,44 +376,11 @@ const randomizedProjects = shuffleArray(projects);
       updateGallery(true);
     };
 
-    // COMMENTED OUT: Handle click/tap navigation - completely disabled card clicks
-    // const handleCardClick = (e) => {
-    //   const clickedCard = e.target.closest('.gallery-item');
-    //   if (!clickedCard) return;
-      
-    //   const clickedIndex = parseInt(clickedCard.dataset.index);
-      
-    //   // COMMENTED OUT: Side card detection logic - completely disable side card clicks
-    //   // Check if this is a side card (not the main card) - DISABLE SIDE CARD CLICKS
-    //   // const { isSmallScreen } = getDimensions();
-      
-    //   // if (!isSmallScreen) {
-    //   //   // For 3D carousel, check if it's a side card
-    //   //   const { faceCount } = getDimensions();
-    //   //   let rotation = (clickedIndex * (360 / faceCount)) - (currentIndex * (360 / faceCount));
-      
-    //   //   // Normalize rotation to be between -180 and 180
-    //   //   while (rotation > 180) rotation -= 360;
-    //   //   while (rotation < -180) rotation += 360;
-      
-    //   //   // Check if it's a side card (not the main card)
-    //   //   const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
-    //   //   const isSideCard = Math.abs(rotation) < 60 && !isMainCard; // Side cards are within 60 degrees but not main
-      
-    //   //   if (isSideCard) {
-    //   //     // SIDE CARD CLICKS DISABLED - do nothing, prevent navigation
-    //   //     return;
-    //   //   }
-    //   // }
-      
-    //   // DISABLED: Only allow main card or small screen navigation
-    //   // if (clickedIndex !== currentIndex) {
-    //   //   currentIndex = clickedIndex;
-    //   //   updateGallery();
-    //   // }
-    // };
-
-    // Add event listeners for mouse and touch interactions
+    /*
+     * EVENT LISTENERS AND NAVIGATION
+     * Set up mouse, touch, and button interactions
+     */
+    
     galleryTrack.addEventListener('mousedown', handleDragStart);
     document.addEventListener('mousemove', handleDragMove);
     document.addEventListener('mouseup', handleDragEnd);
@@ -412,11 +388,7 @@ const randomizedProjects = shuffleArray(projects);
     galleryTrack.addEventListener('touchstart', handleDragStart, { passive: false });
     document.addEventListener('touchmove', handleDragMove, { passive: false });
     document.addEventListener('touchend', handleDragEnd);
-    
-    // COMMENTED OUT: Add click navigation - disabled card clicks
-    // galleryTrack.addEventListener('click', handleCardClick);
 
-    // Navigation button handlers
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
@@ -447,19 +419,16 @@ const randomizedProjects = shuffleArray(projects);
 
     // Handle resize
     const handleResize = () => {
-      isScreenSizeSm = window.innerWidth <= 768; // Updated breakpoint
+      isScreenSizeSm = window.innerWidth <= 768;
       updateGallery();
     };
     
     window.addEventListener('resize', handleResize);
 
-    // Initialize
     updateGallery();
     updateButtonStates();
 
-    // Cleanup
     return () => {
-      // Remove event listeners
       galleryTrack.removeEventListener('mousedown', handleDragStart);
       document.removeEventListener('mousemove', handleDragMove);
       document.removeEventListener('mouseup', handleDragEnd);
@@ -472,6 +441,11 @@ const randomizedProjects = shuffleArray(projects);
 </script>
 
 <style>
+  /*
+   * PAST PROJECTS SECTION STYLES
+   * 3D Carousel with responsive design for mobile and desktop
+   */
+  
   .past-projects-section {
     background: var(--bg);
     position: relative;
@@ -485,6 +459,7 @@ const randomizedProjects = shuffleArray(projects);
     overflow: hidden;
   }
 
+  /* Side fade gradients for visual polish */
   .gallery-gradient {
     position: absolute;
     top: 0;
@@ -504,6 +479,7 @@ const randomizedProjects = shuffleArray(projects);
     background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, var(--bg) 100%);
   }
 
+  /* Navigation buttons */
   .gallery-navigation {
     position: absolute;
     top: 50%;
@@ -549,6 +525,7 @@ const randomizedProjects = shuffleArray(projects);
     height: 20px;
   }
 
+  /* 3D carousel container with perspective */
   .gallery-content {
     display: flex;
     height: 100%;
@@ -558,17 +535,19 @@ const randomizedProjects = shuffleArray(projects);
     transform-style: preserve-3d;
   }
 
+  /* Main carousel track */
   .gallery-track {
     display: flex;
     height: auto;
     min-height: 200px;
     justify-content: center;
     align-items: center;
-    cursor: default; /* Changed from grab to default */
+    cursor: default;
     transform-style: preserve-3d;
     width: 100%;
   }
 
+  /* Individual project cards positioned absolutely for 3D transforms */
   .gallery-item {
     position: absolute;
     display: flex;
@@ -579,6 +558,7 @@ const randomizedProjects = shuffleArray(projects);
     backface-visibility: hidden;
   }
 
+  /* Project card styling */
   .project-card {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -592,7 +572,7 @@ const randomizedProjects = shuffleArray(projects);
     flex-direction: column;
   }
 
-  /* Only apply hover effects to main card, not side cards */
+  /* Hover effects disabled to prevent side card interference */
   .gallery-item:hover .project-card {
     /* Hover effects disabled for side cards - only main card will have hover */
     /* transform: scale(1.05);
