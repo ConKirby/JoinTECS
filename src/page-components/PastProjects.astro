@@ -33,6 +33,10 @@ export interface Props {
     award: string; // Award category (Winner, Runner-up, etc.)
     description: string; // Project description
     image: string; // Student profile image URL
+    links?: Array<{
+      label: string; // Link label (e.g., "GitHub", "Demo", "Website")
+      url: string; // Link URL
+    }>;
   }>;
 }
 
@@ -43,55 +47,55 @@ const {
       age: 18,
       school: "Crescent College Comprehensive",
       year: 2024,
-      award: "Winner",
+      award: "Overall Winner",
       description: "Developed a real-time piano evaluation system using MIDI, feature analysis, and machine learning. It provided accuracy scoring and detailed performance insights that accelerated learning by identifying mistakes that piano teachers could easily miss.",
-      image: "/images/students/Con-Kirby.JPG"
+      image: "/images/students/Con-Kirby.JPG",
+      links: [
+      { label: "Portfolio", url: "https://conkirby.com/projects/tecs/" },
+      ]
     },
     {
-      name: "John Doe",
-      age: 16,
-      school: "Dublin Technical College",
-      year: 2024,
-      award: "Runner-up",
-      description: "Created a sustainable energy monitoring system for schools using IoT sensors and a custom dashboard. The system tracks electricity usage in real-time and provides recommendations for reducing energy consumption, helping schools save up to 30% on their energy bills.",
-      image: "/images/students/Con-Kirby.JPG"
-    },
-    {
-      name: "John Doe",
-      age: 18,
-      school: "Cork Grammar School",
-      year: 2023,
-      award: "Winner",
-      description: "Built a comprehensive mental health support platform for teenagers, featuring anonymous chat support, mood tracking, and access to professional resources. The platform has helped over 500 students and is now being used by guidance counselors across the region.",
-      image: "/images/students/Con-Kirby.JPG"
-    },
-    {
-      name: "John Doe",
+      name: "Donna Mae Quinto",
       age: 17,
-      school: "Galway High School",
-      year: 2023,
-      award: "Winner",
-      description: "Developed a smart waste management system for urban areas using computer vision and machine learning. The system automatically sorts recyclable materials and provides data analytics to help cities optimize their waste collection routes.",
-      image: "/images/students/Con-Kirby.JPG"
+      school: "Test School",
+      year: 2024,
+      award: "Overall Runner-up",
+      description: "Plant-based prevention of hyperuricaemia.",
+      image: "/images/students/Donna-Mae-Quinto.JPG",
+      links: []
     },
     {
-      name: "John Doe",
-      age: 16,
-      school: "Limerick Academy",
-      year: 2022,
-      award: "Winner",
-      description: "Created an educational VR experience that takes students on virtual field trips to historical sites and natural wonders. The immersive learning platform has been integrated into the history and geography curriculum at five schools.",
-      image: "/images/students/Con-Kirby.JPG "
-    },
-    {
-      name: "John Doe",
+      name: "Aditya Joshi",
       age: 18,
-      school: "Waterford Technical Institute",
-      year: 2022,
-      award: "Technical Excellence",
-      description: "Built an autonomous drone system for agricultural monitoring that uses computer vision to detect crop diseases and pest infestations. The system provides farmers with early warning alerts and treatment recommendations, improving crop yields by 25%.",
-      image: "/images/students/Con-Kirby.JPG"
-    }
+      school: "Test School",
+      year: 2024,
+      award: "6th Year Winner",
+      description: "3D-printed Spotify record player controller.",
+      image: "/images/students/Aditya-Joshi.JPG",
+      links: []
+    },
+    {
+      name: "Rosheen Sharma",
+      age: 17,
+      school: "Test School",
+      year: 2024,
+      award: "5th Year Winner",
+      description: "Plastic sorting system for efficiency and cost reduction.",
+      image: "/images/students/Rosheen-Sharma.JPG",
+      links: []
+    },
+    {
+      name: "Samir Bioud",
+      age: 16,
+      school: "Rice College, Clare",
+      year: 2021,
+      award: "Overall Winner",
+      description: "Compiler for his own programming language, Quinoa.",
+      image: "/images/students/Samir-Bioud.JPG",
+      links: [
+        { label: "GitHub", url: "https://github.com/KronsyC/quinoa" },
+      ]
+    },
   ]
 } = Astro.props;
 
@@ -140,6 +144,15 @@ const randomizedProjects = shuffleArray(projects);
                 <div class="project-description">
                   <p>{project.description}</p>
                 </div>
+                {project.links && project.links.length > 0 && (
+                  <div class="project-links">
+                    {project.links.map((link) => (
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" class="project-link">
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -604,8 +617,8 @@ const randomizedProjects = shuffleArray(projects);
   }
 
   .project-image {
-    width: 60px;
-    height: 60px;
+    width: 85px;
+    height: 85px;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
@@ -658,6 +671,30 @@ const randomizedProjects = shuffleArray(projects);
     font-size: 0.7rem;
   }
 
+  .project-links {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-link {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    background: navy;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .project-link:hover {
+    background: #000080;
+    transform: translateY(-1px);
+  }
+
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .gallery-container {
@@ -699,8 +736,8 @@ const randomizedProjects = shuffleArray(projects);
     }
 
     .project-image {
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 70px;
     }
 
     .nav-btn {
@@ -741,8 +778,8 @@ const randomizedProjects = shuffleArray(projects);
     }
 
     .project-image {
-      width: 45px;
-      height: 45px;
+      width: 70px;
+      height: 70px;
     }
   }
 </style>
