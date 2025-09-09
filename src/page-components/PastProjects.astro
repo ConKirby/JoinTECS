@@ -59,7 +59,7 @@ const {
       year: 2024,
       award: "Overall Runner-up",
       description: "Plant-based prevention of hyperuricaemia.",
-      image: "/images/students/Donna-Mae-Quinto.JPG",
+      image: "/images/students/placeholder.png",
       links: []
     },
     {
@@ -69,7 +69,7 @@ const {
       year: 2024,
       award: "6th Year Winner",
       description: "3D-printed Spotify record player controller.",
-      image: "/images/students/Aditya-Joshi.JPG",
+      image: "/images/students/placeholder.png",
       links: []
     },
     {
@@ -79,7 +79,7 @@ const {
       year: 2024,
       award: "5th Year Winner",
       description: "Plastic sorting system for efficiency and cost reduction.",
-      image: "/images/students/Rosheen-Sharma.JPG",
+      image: "/images/students/placeholder.png",
       links: []
     },
     {
@@ -89,7 +89,7 @@ const {
       year: 2021,
       award: "Overall Winner",
       description: "Compiler for his own programming language, Quinoa.",
-      image: "/images/students/Samir-Bioud.JPG",
+      image: "/images/students/placeholder.png",
       links: [
         { label: "GitHub", url: "https://github.com/KronsyC/quinoa" },
       ]
@@ -278,15 +278,34 @@ const randomizedProjects = shuffleArray(projects);
           zIndex = 'auto';
         }
         
-        projectElement.style.width = `${cardWidth}px`;
-        projectElement.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
+        // Force integer values to prevent subpixel rendering
+        const roundedRotation = Math.round(rotation);
+        const roundedTranslateZ = Math.round(translateZ);
+        const roundedCardWidth = Math.round(cardWidth);
+        
+        projectElement.style.width = `${roundedCardWidth}px`;
+        projectElement.style.transform = `rotateY(${roundedRotation}deg) translateZ(${roundedTranslateZ}px)`;
         projectElement.style.opacity = opacity.toString();
         projectElement.style.zIndex = zIndex.toString();
         projectElement.style.transition = animate ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+        
+        // Force consistent rendering for main card
+        if (isMainCard) {
+          projectElement.style.willChange = 'transform';
+          // Force browser to recalculate rendering
+          projectElement.offsetHeight;
+        }
       });
       
       // Update button states
       updateButtonStates();
+      
+      // Force a final repaint after all updates to ensure consistent rendering
+      setTimeout(() => {
+        if (galleryTrack) {
+          galleryTrack.offsetHeight;
+        }
+      }, 0);
     };
 
     /*
@@ -345,12 +364,23 @@ const randomizedProjects = shuffleArray(projects);
           zIndex = 'auto';
         }
         
+        // Force integer values to prevent subpixel rendering during drag
+        const roundedCurrentRotation = Math.round(currentRotation);
+        const roundedTranslateZ = Math.round(translateZ);
+        const roundedCardWidth = Math.round(cardWidth);
+        
         projectElement.style.display = 'flex';
-        projectElement.style.width = `${cardWidth}px`;
-        projectElement.style.transform = `rotateY(${currentRotation}deg) translateZ(${translateZ}px)`;
+        projectElement.style.width = `${roundedCardWidth}px`;
+        projectElement.style.transform = `rotateY(${roundedCurrentRotation}deg) translateZ(${roundedTranslateZ}px)`;
         projectElement.style.opacity = opacity.toString();
         projectElement.style.zIndex = zIndex.toString();
         projectElement.style.transition = 'none';
+        
+        // Force consistent rendering for main card during drag
+        if (isMainCard) {
+          projectElement.style.willChange = 'transform';
+          projectElement.offsetHeight;
+        }
       });
     };
 
@@ -556,6 +586,16 @@ const randomizedProjects = shuffleArray(projects);
     justify-content: center;
     padding: 8%;
     backface-visibility: hidden;
+    /* Improve text rendering on 3D transforms */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    will-change: transform;
+    /* Force consistent rendering */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Prevent subpixel rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
   /* Project card styling */
@@ -570,6 +610,20 @@ const randomizedProjects = shuffleArray(projects);
     height: 320px;
     display: flex;
     flex-direction: column;
+    /* Test: Use a more 3D-friendly font stack */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    /* Fix blurry text on 3D transforms */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    transform: translateZ(0); /* Force hardware acceleration */
+    /* Force consistent rendering */
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Prevent subpixel rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
   /* Hover effects disabled to prevent side card interference */
@@ -668,12 +722,12 @@ const randomizedProjects = shuffleArray(projects);
 
   .project-link {
     display: inline-block;
-    padding: 0.3rem 0.6rem;
+    padding: 0.4rem 0.8rem;
     background: navy;
     color: white;
     text-decoration: none;
     border-radius: 12px;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     transition: all 0.2s ease;
   }
