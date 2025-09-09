@@ -1,23 +1,51 @@
 ---
-// SignUp component for the registration section with animated buttons
+// ========================================
+// SIGN UP COMPONENT
+// ========================================
+// Registration section with animated buttons and call-to-action
+//
+// PURPOSE:
+// - Provides clear registration options for students and teachers
+// - Creates urgency with registration timing information
+// - Features animated buttons for visual appeal and engagement
+// - Includes contact information for additional support
+//
+// USAGE:
+// - Used in main page to drive registrations
+// - Features two distinct registration paths
+// - Includes animated text effects for attention
+//
+// FEATURES:
+// - Animated ShinyText components for buttons
+// - Clear separation between student and teacher registration
+// - Contact information for support
+// - Responsive design with clear visual hierarchy
+// - Engaging animations to encourage action
+
 import ShinyText from "../components/ShinyText.astro";
 
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;
 ---
 
-<!-- Sign Up -->
+<!-- Sign Up Section -->
 <section id="signup" class={`section signup-section ${className}`}>
   <div class="container">
+    <!-- Motivational heading to encourage participation -->
     <h2>Ready to Build Something Amazing?</h2>
+    
+    <!-- Registration timing and value proposition -->
     <p class="lede" style="max-width: 600px; margin-bottom: 2rem;">
       Student and teacher registration opens in October.<br/>
       Join Ireland's premier competition for young innovators.
     </p>
+    
+    <!-- Registration buttons with animated effects -->
     <div class="registration-buttons">
+      <!-- Student registration with animated ShinyText -->
       <ShinyText 
         text="Student Registration" 
         speed={3} 
@@ -26,6 +54,8 @@ const { className = "" } = Astro.props;
         variant="student"
       />
       <br> <br>
+      
+      <!-- Teacher registration with animated ShinyText -->
       <ShinyText 
         text="Teacher Registration" 
         speed={3} 
@@ -33,6 +63,8 @@ const { className = "" } = Astro.props;
         className="btn btn-outline"
       />
     </div>
+    
+    <!-- Contact information for support -->
     <p style="margin-top: 2rem; color: var(--muted);">
       Questions? Email us at <a href="mailto:info@jointecs.org" style="color: var(--accent);">info@jointecs.org</a>
     </p>

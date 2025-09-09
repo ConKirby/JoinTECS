@@ -1,19 +1,41 @@
 ---
-// Supporters component for the partners and supporters section with animated particles background
+// ========================================
+// SUPPORTERS COMPONENT
+// ========================================
+// Partners and supporters section with animated particles background
+//
+// PURPOSE:
+// - Showcases key partners and supporters who make TECS possible
+// - Builds credibility through association with well-known organizations
+// - Features animated background for visual appeal
+// - Provides links to partner websites for additional information
+//
+// USAGE:
+// - Used in main page to display supporting organizations
+// - Features three main supporters with logos and links
+// - Includes animated particles background for engagement
+//
+// FEATURES:
+// - Animated particles background using Particles component
+// - PixelCard components for each supporter
+// - External links to supporter websites
+// - Responsive grid layout for different screen sizes
+// - Accessibility features with proper ARIA labels
+
 import Particles from "../components/Particles.astro";
 import PixelCard from "../components/PixelCard.astro";
 
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;
 ---
 
-<!-- Supporters -->
+<!-- Supporters Section -->
 <section id="supporters" class={`section supporters-banner ${className}`} aria-label="Supporters">
   <div class="container">
-    <!-- Animated Particles Background -->
+    <!-- Animated Particles Background for visual interest -->
     <Particles
       particleCount={100}
       particleSpread={8}
@@ -28,22 +50,31 @@ const { className = "" } = Astro.props;
       disableRotation={false}
     />
     
+    <!-- Section heading -->
     <h2>Our Supporters</h2>
+    
+    <!-- Gratitude message for partners -->
     <p class="muted" style="margin-bottom:0.75rem">Thanks to our partners who make TECS possible</p>
 
+    <!-- Grid of supporter organizations -->
     <div class="supporters-grid" role="list" aria-label="Supporters and partners">
+      <!-- Stripe supporter card -->
       <PixelCard 
         variant="stripe"
         href="https://stripe.com/ie"
         logoSrc="/images/StripeLogo.png"
         alt="Stripe"
       />
+      
+      <!-- University of Limerick supporter card -->
       <PixelCard 
         variant="ul"
         href="https://www.ul.ie/"
         logoSrc="/uni-limerick-logo.svg"
         alt="University of Limerick"
       />
+      
+      <!-- Dogpatch Labs supporter card -->
       <PixelCard 
         variant="dogpatch"
         href="https://dogpatchlabs.com/"

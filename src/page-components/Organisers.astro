@@ -1,32 +1,62 @@
 ---
-// Organisers component for the organizing institutions section
+// ========================================
+// ORGANISERS COMPONENT
+// ========================================
+// Information section about the organizing institutions behind TECS
+//
+// PURPOSE:
+// - Establishes credibility and authority of the competition
+// - Introduces the two main organizing institutions
+// - Provides links to learn more about each program
+// - Builds trust through institutional backing
+//
+// USAGE:
+// - Used in main page to show who organizes TECS
+// - Features two main organizing institutions
+// - Includes logos and descriptions for each
+//
+// FEATURES:
+// - Clean grid layout for institutional information
+// - Logo display for visual recognition
+// - External links to institutional websites
+// - Responsive design for different screen sizes
+// - Clear descriptions of each organization's role
+
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;
 ---
 
-<!-- Organisers -->
+<!-- Organisers Section -->
 <section id="organisers" class={`section ${className}`}>
   <div class="container">
+    <!-- Section heading -->
     <h2>Organisers</h2>
 
+    <!-- Grid layout for organizing institutions -->
     <div class="organisers-grid">
+      <!-- ISE at University of Limerick -->
       <div class="organiser">
+        <!-- Logo and visual branding -->
         <div class="organiser-media">
           <img src="/ISElogo.png" alt="ISE at University of Limerick logo" class="organiser-logo" />
         </div>
+        <!-- Organization description and information -->
         <div class="organiser-body">
           <h3>ISE at UL</h3>
           <p><strong><a href="https://www.software-engineering.ie/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Immersive Software Engineering</a></strong> is a computer science degree at UL where students "learn by doing". In four years, you get an integrated Masters/Bachelors degree and spend half your time getting paid to work in some of the world's most exciting tech companies.</p>
         </div>
       </div>
 
+      <!-- Patch Program -->
       <div class="organiser">
+        <!-- Logo and visual branding -->
         <div class="organiser-media">
           <img src="/patchlogo.png" alt="Patch programme logo" class="organiser-logo" />
         </div>
+        <!-- Organization description and information -->
         <div class="organiser-body">
           <h3>Patch</h3>
           <p><strong><a href="https://www.joinpatch.org/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Patch</a></strong> is a free summer programme where talented young people spend seven weeks working on their chosen projects, getting to know like-minded peers, and learning from brilliant mentors.</p>

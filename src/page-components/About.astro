@@ -1,18 +1,39 @@
 ---
-// About component for the TECS information section with animated background and feature cards
+// ========================================
+// ABOUT COMPONENT
+// ========================================
+// Main information section explaining what TECS is and its key features
+//
+// PURPOSE:
+// - Introduces visitors to the TECS competition concept
+// - Highlights key benefits and features of participating
+// - Provides social proof through prize amounts and mentorship
+// - Features animated wave background for visual appeal
+//
+// USAGE:
+// - Used in main page to explain the competition to potential participants
+// - Includes three feature cards highlighting main benefits
+// - Responsive design with animated background elements
+//
+// FEATURES:
+// - Animated wave background using Waves component
+// - Three tilted cards showcasing key benefits
+// - Clean, informative layout with clear value propositions
+// - Accessibility features and semantic HTML structure
+
 import Waves from "../components/Waves.astro";
 import TiltedCard from "../components/TiltedCard.astro";
 
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;
 ---
 
-<!-- About -->
+<!-- About Section -->
 <section id="about" class={`section ${className}`}>
-  <!-- Animated Wave Background -->
+  <!-- Animated Wave Background for visual appeal -->
   <Waves 
     lineColor="rgba(62, 168, 111, 0.2)"
     backgroundColor="transparent"
@@ -29,26 +50,34 @@ const { className = "" } = Astro.props;
   
   <div class="container">
     <br/>
+    <!-- Main heading for the about section -->
     <h2>About TECS</h2>
+    
+    <!-- Key information about TECS in an easy-to-scan list format -->
     <ul class="lede" style="margin-bottom: 3rem;">
       <li>TECS is Ireland's premier nationwide talent search for aspiring technologists, engineers, creators and scientists.</li>
       <li>Transition year, 5th year and 6th year students work towards building or creating something unique throughout the month of November.</li>
       <li>They share progress updates each week and receive feedback from experienced mentors.</li>
       <li>Prizes are awarded based on progress made during the competition.</li>
     </ul>
+    
+    <!-- Feature cards highlighting key benefits of participating -->
     <div class="cards">
+      <!-- Prize information card -->
       <TiltedCard 
         title="Winner Receives €2,000!"
         content="Awards given to students who made the most progress during the competition, with school's receiving up to €1,000."
         scaleOnHover={1.05}
         rotateAmplitude={8}
       />
+      <!-- Mentorship information card -->
       <TiltedCard 
         title="Expert Mentorship"
         content="Get feedback from industry leaders including John Collison (Stripe), Bobby Healy (Manna Aero), and Patricia Scanlon (Soapbox Labs), to name just a few."
         scaleOnHover={1.05}
         rotateAmplitude={8}
       />
+      <!-- Recognition information card -->
       <TiltedCard 
         title="National Recognition"
         content="Awards ceremony held at the University of Limerick Concert Hall with tech industry leaders and national media coverage."

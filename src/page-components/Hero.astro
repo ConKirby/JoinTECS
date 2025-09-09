@@ -1,9 +1,31 @@
 ---
-// Hero component for the main landing section with background image and call-to-action
+// ========================================
+// HERO COMPONENT
+// ========================================
+// Main landing section with background image and primary call-to-action
+//
+// PURPOSE:
+// - Creates immediate visual impact and brand recognition
+// - Communicates key value proposition and prize information
+// - Provides primary registration call-to-action
+// - Features prominent background image for visual appeal
+//
+// USAGE:
+// - Used as the first section on the main page
+// - Includes animated marquee for additional visual interest
+// - Responsive design with overlay for text readability
+//
+// FEATURES:
+// - Full-screen hero section with background image
+// - Overlay for text contrast and readability
+// - Prominent call-to-action button
+// - Animated marquee component for visual interest
+// - Responsive typography and layout
+
 import Marquee from "../components/Marquee.astro";
 
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;
@@ -11,22 +33,31 @@ const { className = "" } = Astro.props;
 
 <!-- Hero Section with Image Background -->
 <section class={`hero ${className}`} style="--hero-scale:1.06; --hero-translate-y:-30px;">
+  <!-- Background image for visual impact -->
   <div class="hero-bg">
     <img src="/images/john-collison-hero-image.jpg" alt="John Collison at TECS awards ceremony" />
   </div>
+  
+  <!-- Overlay for text readability over background image -->
   <div class="hero-overlay"></div>
 
+  <!-- Main hero content container -->
   <div class="container hero-inner">
+    <!-- Primary headline with prize highlight -->
     <h1>
       Enter TECS 2025 to win up to <span class="highlight">€3k</span> in prizes
     </h1>
+    
+    <!-- Subtitle with eligibility and deadline information -->
     <p class="lede">
       Open to transition, 5th &amp; 6th year students throughout Ireland.<br/>
       Sign up by <strong>October 24th</strong>
     </p>
+    
+    <!-- Primary call-to-action button -->
     <p><a href="https://apply.jointecs.org/" class="btn">Register Now</a></p>
   </div>
 
-  <!-- Hero-mounted marquee -->
+  <!-- Animated marquee for additional visual interest -->
   <Marquee className="hero-marquee" />
 </section>

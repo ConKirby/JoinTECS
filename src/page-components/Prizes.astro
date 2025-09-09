@@ -1,17 +1,43 @@
 ---
-// Prizes component for the awards and prizes information section
+// ========================================
+// PRIZES COMPONENT
+// ========================================
+// Awards and prizes information section with call-to-action buttons
+//
+// PURPOSE:
+// - Displays prize structure and amounts for motivation
+// - Shows both student and school prize categories
+// - Provides clear call-to-action for registration
+// - Highlights the value proposition of participating
+//
+// USAGE:
+// - Used in main page to showcase competition rewards
+// - Features three prize tiers with clear amounts
+// - Includes registration buttons for immediate action
+//
+// FEATURES:
+// - Clear prize structure with emoji indicators
+// - Separate student and school prize amounts
+// - Call-to-action buttons for registration
+// - Clean, organized layout for easy scanning
+// - Responsive design for all screen sizes
+
 export interface Props {
-  className?: string;
+  className?: string; // Optional CSS class for styling customization
 }
 
 const { className = "" } = Astro.props;
 ---
 
-<!-- Prizes -->
+<!-- Prizes Section -->
 <section id="prizes" class={`section ${className}`}>
   <div class="container">
+    <!-- Section heading -->
     <h2>Prizes</h2>
+    
+    <!-- Prize structure grid -->
     <div class="prizes">
+      <!-- First Place Prize -->
       <div class="prize">
         <h3>🥇 First Place</h3>
         <span class="prize-amount-label">Student Receives:</span> 
@@ -20,6 +46,8 @@ const { className = "" } = Astro.props;
         <span class="prize-amount-label">School Receives:</span> 
         <span class="prize-amount">€1,000</span>
       </div>
+      
+      <!-- Second Place Prize -->
       <div class="prize">
         <h3>🥈 Second Place</h3>
         <span class="prize-amount-label">Student Receives:</span> 
@@ -28,6 +56,8 @@ const { className = "" } = Astro.props;
         <span class="prize-amount-label">School Receives:</span> 
         <span class="prize-amount">€500</span>
       </div>
+      
+      <!-- Additional Awards -->
       <div class="prize">
         <h3>🎯 Additional Awards</h3>
         <span class="prize-amount-label">Best Team</span>
@@ -39,8 +69,12 @@ const { className = "" } = Astro.props;
         <span class="prize-amount-label">Transition Year Award</span>
       </div>
     </div>
+    
+    <!-- Call-to-action buttons -->
     <div style="text-align: center; margin-top: 2rem;">
+      <!-- Student registration button -->
       <a href="https://apply.jointecs.org/" class="btn">Apply Now</a>
+      <!-- Teacher registration button -->
       <a href="#signup" class="btn btn-outline" style="margin-left: 1rem;">Teacher Sign-Up</a>
     </div>
   </div>
