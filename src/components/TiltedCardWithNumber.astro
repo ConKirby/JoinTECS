@@ -71,8 +71,12 @@ const {
         const offsetX = e.clientX - centerX;
         const offsetY = e.clientY - centerY;
         
-        const rotateX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
-        const rotateY = (offsetX / (rect.width / 2)) * rotateAmplitude;
+        // Reduce rotation amplitude on mobile devices
+        const isMobile = window.innerWidth <= 768;
+        const effectiveRotateAmplitude = isMobile ? rotateAmplitude * 0.6 : rotateAmplitude;
+        
+        const rotateX = (offsetY / (rect.height / 2)) * -effectiveRotateAmplitude;
+        const rotateY = (offsetX / (rect.width / 2)) * effectiveRotateAmplitude;
         
         inner.style.transform = `
           perspective(1000px) 
@@ -162,18 +166,19 @@ const {
     z-index: 1;
   }
   
-  /* Mobile optimization */
+  /* Mobile optimization - keep tilt animations but with reduced intensity */
   @media (max-width: 768px) {
     .tilted-card {
-      perspective: none;
+      perspective: 1000px;
     }
     
     .tilted-card-inner {
       transition: transform 0.2s ease-out;
     }
     
-    .tilted-card:hover .tilted-card-inner {
-      transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02) !important;
+    /* Reduce tilt intensity on mobile for better performance and usability */
+    .tilted-card[data-rotate] {
+      --mobile-rotate-amplitude: calc(var(--rotate-amplitude, 8) * 0.6);
     }
   }
 </style>

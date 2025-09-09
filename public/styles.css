@@ -809,18 +809,19 @@
   /* Responsive countdown */
   @media (max-width: 768px) {
     .countdown-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      max-width: 400px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      max-width: 100%;
+      padding: 0 1rem;
     }
     
     .countdown-number {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     
     .countdown-card {
-      padding: 1.25rem 0.75rem;
-      min-width: 70px;
+      padding: 1rem 0.5rem;
+      min-width: 50px;
     }
     
     .countdown h2 {
@@ -834,21 +835,22 @@
 
   @media (max-width: 480px) {
     .countdown-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      padding: 0 0.5rem;
     }
     
     .countdown-number {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
     }
     
     .countdown-card {
-      padding: 1rem 0.5rem;
-      min-width: 60px;
+      padding: 0.75rem 0.25rem;
+      min-width: 40px;
     }
     
     .countdown-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
     
     .countdown h2 {
