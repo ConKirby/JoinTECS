@@ -345,54 +345,54 @@ const randomizedProjects = shuffleArray(projects);
       updateGallery(true);
     };
 
-    // Handle click/tap navigation
-    const handleCardClick = (e) => {
-      const clickedCard = e.target.closest('.gallery-item');
-      if (!clickedCard) return;
+    // COMMENTED OUT: Handle click/tap navigation - completely disabled card clicks
+    // const handleCardClick = (e) => {
+    //   const clickedCard = e.target.closest('.gallery-item');
+    //   if (!clickedCard) return;
       
-      const clickedIndex = parseInt(clickedCard.dataset.index);
+    //   const clickedIndex = parseInt(clickedCard.dataset.index);
       
-      // COMMENTED OUT: Side card detection logic - completely disable side card clicks
-      // Check if this is a side card (not the main card) - DISABLE SIDE CARD CLICKS
-      // const { isSmallScreen } = getDimensions();
+    //   // COMMENTED OUT: Side card detection logic - completely disable side card clicks
+    //   // Check if this is a side card (not the main card) - DISABLE SIDE CARD CLICKS
+    //   // const { isSmallScreen } = getDimensions();
       
-      // if (!isSmallScreen) {
-      //   // For 3D carousel, check if it's a side card
-      //   const { faceCount } = getDimensions();
-      //   let rotation = (clickedIndex * (360 / faceCount)) - (currentIndex * (360 / faceCount));
+    //   // if (!isSmallScreen) {
+    //   //   // For 3D carousel, check if it's a side card
+    //   //   const { faceCount } = getDimensions();
+    //   //   let rotation = (clickedIndex * (360 / faceCount)) - (currentIndex * (360 / faceCount));
       
-      //   // Normalize rotation to be between -180 and 180
-      //   while (rotation > 180) rotation -= 360;
-      //   while (rotation < -180) rotation += 360;
+    //   //   // Normalize rotation to be between -180 and 180
+    //   //   while (rotation > 180) rotation -= 360;
+    //   //   while (rotation < -180) rotation += 360;
       
-      //   // Check if it's a side card (not the main card)
-      //   const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
-      //   const isSideCard = Math.abs(rotation) < 60 && !isMainCard; // Side cards are within 60 degrees but not main
+    //   //   // Check if it's a side card (not the main card)
+    //   //   const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
+    //   //   const isSideCard = Math.abs(rotation) < 60 && !isMainCard; // Side cards are within 60 degrees but not main
       
-      //   if (isSideCard) {
-      //     // SIDE CARD CLICKS DISABLED - do nothing, prevent navigation
-      //     return;
-      //   }
-      // }
+    //   //   if (isSideCard) {
+    //   //     // SIDE CARD CLICKS DISABLED - do nothing, prevent navigation
+    //   //     return;
+    //   //   }
+    //   // }
       
-      // DISABLED: Only allow main card or small screen navigation
-      // if (clickedIndex !== currentIndex) {
-      //   currentIndex = clickedIndex;
-      //   updateGallery();
-      // }
-    };
+    //   // DISABLED: Only allow main card or small screen navigation
+    //   // if (clickedIndex !== currentIndex) {
+    //   //   currentIndex = clickedIndex;
+    //   //   updateGallery();
+    //   // }
+    // };
 
-    // Add event listeners
-    galleryTrack.addEventListener('mousedown', handleDragStart);
-    document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('mouseup', handleDragEnd);
+    // COMMENTED OUT: Add event listeners - disabled all mouse and touch interactions
+    // galleryTrack.addEventListener('mousedown', handleDragStart);
+    // document.addEventListener('mousemove', handleDragMove);
+    // document.addEventListener('mouseup', handleDragEnd);
     
-    galleryTrack.addEventListener('touchstart', handleDragStart, { passive: false });
-    document.addEventListener('touchmove', handleDragMove, { passive: false });
-    document.addEventListener('touchend', handleDragEnd);
+    // galleryTrack.addEventListener('touchstart', handleDragStart, { passive: false });
+    // document.addEventListener('touchmove', handleDragMove, { passive: false });
+    // document.addEventListener('touchend', handleDragEnd);
     
-    // Add click navigation
-    galleryTrack.addEventListener('click', handleCardClick);
+    // COMMENTED OUT: Add click navigation - disabled card clicks
+    // galleryTrack.addEventListener('click', handleCardClick);
 
     // Navigation button handlers
     const prevBtn = document.getElementById('prev-btn');
@@ -437,12 +437,13 @@ const randomizedProjects = shuffleArray(projects);
 
     // Cleanup
     return () => {
-      galleryTrack.removeEventListener('mousedown', handleDragStart);
-      document.removeEventListener('mousemove', handleDragMove);
-      document.removeEventListener('mouseup', handleDragEnd);
-      galleryTrack.removeEventListener('touchstart', handleDragStart);
-      document.removeEventListener('touchmove', handleDragMove);
-      document.removeEventListener('touchend', handleDragEnd);
+      // COMMENTED OUT: Remove event listeners - disabled all mouse and touch interactions
+      // galleryTrack.removeEventListener('mousedown', handleDragStart);
+      // document.removeEventListener('mousemove', handleDragMove);
+      // document.removeEventListener('mouseup', handleDragEnd);
+      // galleryTrack.removeEventListener('touchstart', handleDragStart);
+      // document.removeEventListener('touchmove', handleDragMove);
+      // document.removeEventListener('touchend', handleDragEnd);
       window.removeEventListener('resize', handleResize);
     };
   });
