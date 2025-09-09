@@ -191,24 +191,29 @@ const randomizedProjects = shuffleArray(projects);
 
     // Calculate dimensions based on screen size
     const getDimensions = () => {
-      const containerWidth = galleryTrack.parentElement.offsetWidth;
-      const isSmallScreen = window.innerWidth <= 768; // Changed breakpoint to 768px
+      const containerWidth = galleryTrack.parentElement?.offsetWidth || 800;
+      const isMobile = window.innerWidth <= 768;
       
-      if (isSmallScreen) {
-        // For small screens, only show main card
-        const mainCardWidth = containerWidth * 0.8;
+      if (isMobile) {
+        // For mobile screens, show 3D carousel with smaller dimensions
+        const mainCardWidth = containerWidth * 0.7;
+        const sideCardWidth = containerWidth * 0.5;
+        const spacing = 15;
+        const cylinderWidth = containerWidth * 1.4;
+        const faceCount = projectCount;
+        const radius = cylinderWidth / (2 * Math.PI);
         return { 
-          cylinderWidth: containerWidth, 
-          faceCount: 1, // Only show one card at a time
+          cylinderWidth, 
+          faceCount, 
           mainCardWidth, 
-          sideCardWidth: 0, 
-          spacing: 0, 
-          radius: 0,
-          isSmallScreen: true
+          sideCardWidth, 
+          spacing, 
+          radius,
+          isSmallScreen: false // Enable 3D carousel for mobile
         };
       } else {
         // For larger screens, show 3D carousel
-        const mainCardWidth = containerWidth * 0.4;
+        const mainCardWidth = containerWidth * 0.5;
         const sideCardWidth = containerWidth * 0.3;
         const spacing = 20;
         const cylinderWidth = containerWidth * 1.8;
@@ -233,47 +238,46 @@ const randomizedProjects = shuffleArray(projects);
       galleryTrack.style.width = `${cylinderWidth}px`;
       
       projects.forEach((project, i) => {
-        if (isSmallScreen) {
-          // For small screens, only show the current card
-          if (i === currentIndex) {
-            project.style.display = 'flex';
-            project.style.width = `${mainCardWidth}px`;
-            project.style.transform = 'translateX(0)';
-            project.style.opacity = '1';
-            project.style.transition = animate ? 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
-          } else {
-            project.style.display = 'none';
-          }
-        } else {
-          // For larger screens, show 3D carousel with smooth transitions
-          project.style.display = 'flex';
-          
-          // Calculate continuous rotation for seamless looping
-          let rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
-          
-          // Normalize rotation to be between -180 and 180 for smoother transitions
-          while (rotation > 180) rotation -= 360;
-          while (rotation < -180) rotation += 360;
-          
-          // Determine card type based on rotation angle for continuous feel
-          const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
-          const isSideCard = Math.abs(rotation) < 60; // Side cards are within 60 degrees
-          const isVisible = Math.abs(rotation) < 90; // Only show cards within 90 degrees
-          
-          if (!isVisible) {
-            project.style.display = 'none';
-            return;
-          }
-          
-          const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
-          const translateZ = isMainCard ? radius : radius + spacing;
-          const opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
-          
-          project.style.width = `${cardWidth}px`;
-          project.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
-          project.style.opacity = opacity;
-          project.style.transition = animate ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+        const projectElement = project as HTMLElement;
+        // Show 3D carousel for all screen sizes
+        projectElement.style.display = 'flex';
+        
+        // Calculate continuous rotation for seamless looping
+        let rotation = (i * (360 / faceCount)) - (currentIndex * (360 / faceCount));
+        
+        // Normalize rotation to be between -180 and 180 for smoother transitions
+        while (rotation > 180) rotation -= 360;
+        while (rotation < -180) rotation += 360;
+        
+        // Determine card type based on rotation angle for continuous feel
+        const isMainCard = Math.abs(rotation) < 15; // Main card is within 15 degrees of center
+        const isSideCard = Math.abs(rotation) < 60; // Side cards are within 60 degrees
+        const isVisible = Math.abs(rotation) < 90; // Only show cards within 90 degrees
+        
+        if (!isVisible) {
+          projectElement.style.display = 'none';
+          return;
         }
+        
+        const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
+        const translateZ = isMainCard ? radius : radius + spacing;
+        
+        // On mobile, make side cards completely transparent and behind main card
+        const isMobile = window.innerWidth <= 768;
+        let opacity, zIndex;
+        if (isMobile) {
+          opacity = isMainCard ? 1 : 0; // Side cards completely invisible on mobile
+          zIndex = isMainCard ? 100 : 1; // Main card much higher z-index
+        } else {
+          opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
+          zIndex = 'auto';
+        }
+        
+        projectElement.style.width = `${cardWidth}px`;
+        projectElement.style.transform = `rotateY(${rotation}deg) translateZ(${translateZ}px)`;
+        projectElement.style.opacity = opacity.toString();
+        projectElement.style.zIndex = zIndex.toString();
+        projectElement.style.transition = animate ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
       });
       
       // Update button states
@@ -292,13 +296,6 @@ const randomizedProjects = shuffleArray(projects);
     const handleDragMove = (e) => {
       if (!isDragging) return;
       
-      const { isSmallScreen } = getDimensions();
-      
-      if (isSmallScreen) {
-        // For small screens, don't show drag preview
-        return;
-      }
-      
       currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
       const deltaX = currentX - startX;
       const sensitivity = 0.01;
@@ -307,6 +304,7 @@ const randomizedProjects = shuffleArray(projects);
       const { faceCount, mainCardWidth, sideCardWidth, spacing, radius } = getDimensions();
       
       projects.forEach((project, i) => {
+        const projectElement = project as HTMLElement;
         let baseRotation = (i * (360 / faceCount)) - (startTransform * (360 / faceCount));
         let currentRotation = baseRotation + rotationDelta;
         
@@ -315,24 +313,35 @@ const randomizedProjects = shuffleArray(projects);
         while (currentRotation < -180) currentRotation += 360;
         
         // Determine visibility and card type during drag
-        const isVisible = Math.abs(currentRotation) < 90;
         const isMainCard = Math.abs(currentRotation) < 15;
         const isSideCard = Math.abs(currentRotation) < 60;
+        const isVisible = Math.abs(currentRotation) < 90;
         
         if (!isVisible) {
-          project.style.display = 'none';
+          projectElement.style.display = 'none';
           return;
         }
         
         const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
         const translateZ = isMainCard ? radius : radius + spacing;
-        const opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
         
-        project.style.display = 'flex';
-        project.style.width = `${cardWidth}px`;
-        project.style.transform = `rotateY(${currentRotation}deg) translateZ(${translateZ}px)`;
-        project.style.opacity = opacity;
-        project.style.transition = 'none'; // Disable transitions during drag
+        // On mobile, make side cards completely transparent and behind main card
+        const isMobile = window.innerWidth <= 768;
+        let opacity, zIndex;
+        if (isMobile) {
+          opacity = isMainCard ? 1 : 0; // Side cards completely invisible on mobile
+          zIndex = isMainCard ? 100 : 1; // Main card much higher z-index
+        } else {
+          opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
+          zIndex = 'auto';
+        }
+        
+        projectElement.style.display = 'flex';
+        projectElement.style.width = `${cardWidth}px`;
+        projectElement.style.transform = `rotateY(${currentRotation}deg) translateZ(${translateZ}px)`;
+        projectElement.style.opacity = opacity.toString();
+        projectElement.style.zIndex = zIndex.toString();
+        projectElement.style.transition = 'none'; // Disable transitions during drag
       });
     };
 
@@ -395,14 +404,14 @@ const randomizedProjects = shuffleArray(projects);
     //   // }
     // };
 
-    // COMMENTED OUT: Add event listeners - disabled all mouse and touch interactions
-    // galleryTrack.addEventListener('mousedown', handleDragStart);
-    // document.addEventListener('mousemove', handleDragMove);
-    // document.addEventListener('mouseup', handleDragEnd);
+    // Add event listeners for mouse and touch interactions
+    galleryTrack.addEventListener('mousedown', handleDragStart);
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
     
-    // galleryTrack.addEventListener('touchstart', handleDragStart, { passive: false });
-    // document.addEventListener('touchmove', handleDragMove, { passive: false });
-    // document.addEventListener('touchend', handleDragEnd);
+    galleryTrack.addEventListener('touchstart', handleDragStart, { passive: false });
+    document.addEventListener('touchmove', handleDragMove, { passive: false });
+    document.addEventListener('touchend', handleDragEnd);
     
     // COMMENTED OUT: Add click navigation - disabled card clicks
     // galleryTrack.addEventListener('click', handleCardClick);
@@ -427,11 +436,11 @@ const randomizedProjects = shuffleArray(projects);
     // Update button states
     const updateButtonStates = () => {
       if (prevBtn) {
-        prevBtn.disabled = false;
+        (prevBtn as HTMLButtonElement).disabled = false;
         prevBtn.style.opacity = '1';
       }
       if (nextBtn) {
-        nextBtn.disabled = false;
+        (nextBtn as HTMLButtonElement).disabled = false;
         nextBtn.style.opacity = '1';
       }
     };
@@ -450,13 +459,13 @@ const randomizedProjects = shuffleArray(projects);
 
     // Cleanup
     return () => {
-      // COMMENTED OUT: Remove event listeners - disabled all mouse and touch interactions
-      // galleryTrack.removeEventListener('mousedown', handleDragStart);
-      // document.removeEventListener('mousemove', handleDragMove);
-      // document.removeEventListener('mouseup', handleDragEnd);
-      // galleryTrack.removeEventListener('touchstart', handleDragStart);
-      // document.removeEventListener('touchmove', handleDragMove);
-      // document.removeEventListener('touchend', handleDragEnd);
+      // Remove event listeners
+      galleryTrack.removeEventListener('mousedown', handleDragStart);
+      document.removeEventListener('mousemove', handleDragMove);
+      document.removeEventListener('mouseup', handleDragEnd);
+      galleryTrack.removeEventListener('touchstart', handleDragStart);
+      document.removeEventListener('touchmove', handleDragMove);
+      document.removeEventListener('touchend', handleDragEnd);
       window.removeEventListener('resize', handleResize);
     };
   });
@@ -655,8 +664,7 @@ const randomizedProjects = shuffleArray(projects);
   }
 
   .award-type {
-    font-size: 0.6rem;
-    opacity: 0.9;
+    font-size: 0.7rem;
   }
 
   .project-description {
@@ -698,33 +706,34 @@ const randomizedProjects = shuffleArray(projects);
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .gallery-container {
-      height: auto; /* Let container expand with content */
-      min-height: 400px;
+      height: 600px; /* Increased height for taller cards */
+      min-height: 600px;
     }
     
     .gallery-content {
-      perspective: none; /* Remove 3D perspective for mobile */
+      perspective: 1000px; /* Keep 3D perspective for mobile */
+      transform-style: preserve-3d;
     }
     
     .gallery-track {
-      cursor: default; /* Remove grab cursor on mobile */
+      cursor: grab; /* Enable grab cursor for mobile */
     }
     
     .gallery-item {
       padding: 4%;
-      position: relative !important; /* Override absolute positioning */
-      transform: none !important; /* Override 3D transforms */
+      position: absolute; /* Keep absolute positioning for 3D transforms */
+      transform-style: preserve-3d;
     }
     
     .project-card {
-      height: auto; /* Let card expand to fit content */
-      min-height: 320px; /* Minimum height for consistency */
+      height: 420px; /* Increased height for mobile */
+      min-height: 420px;
       padding: 1.2rem;
       max-width: 100%;
     }
     
     .project-description {
-      overflow-y: visible; /* Remove scroll on mobile */
+      overflow-y: auto; /* Keep scroll for longer content */
     }
     
     .project-name {
@@ -732,13 +741,12 @@ const randomizedProjects = shuffleArray(projects);
     }
     
     .project-description p {
-      font-size: 1rem;
+      font-size: 0.9rem; /* Slightly smaller for mobile */
     }
 
     .project-image {
-      width: 70px;
-      height: 70px;
-    }
+      width: 65px;
+      height: 65px;
 
     .nav-btn {
       width: 44px;
@@ -753,13 +761,13 @@ const randomizedProjects = shuffleArray(projects);
 
   @media (max-width: 640px) {
     .gallery-container {
-      height: auto; /* Let container expand with content */
-      min-height: 320px;
+      height: 550px; /* Increased height for taller cards */
+      min-height: 550px;
     }
     
     .project-card {
-      height: auto; /* Let card expand to fit content */
-      min-height: 260px; /* Minimum height for consistency */
+      height: 380px; /* Increased height for smaller mobile */
+      min-height: 380px;
       padding: 0.8rem;
     }
 
@@ -778,8 +786,8 @@ const randomizedProjects = shuffleArray(projects);
     }
 
     .project-image {
-      width: 70px;
-      height: 70px;
+      width: 65px;
+      height: 65px;
     }
   }
 </style>
