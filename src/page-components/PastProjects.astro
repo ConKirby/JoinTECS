@@ -214,11 +214,11 @@ const randomizedProjects = shuffleArray(projects);
           isSmallScreen: false
         };
       } else {
-        // For larger screens, show 3D carousel
+        // For larger screens, show 3D carousel with reduced complexity
         const mainCardWidth = containerWidth * 0.5;
         const sideCardWidth = containerWidth * 0.3;
         const spacing = 20;
-        const cylinderWidth = containerWidth * 1.8;
+        const cylinderWidth = containerWidth * 1.4; // Reduced from 1.8 to 1.4 for less extreme 3D
         const faceCount = projectCount;
         const radius = cylinderWidth / (2 * Math.PI);
         return { 
@@ -231,6 +231,29 @@ const randomizedProjects = shuffleArray(projects);
           isSmallScreen: false
         };
       }
+    };
+
+    /*
+     * Force text re-rendering to ensure crisp text after 3D transforms
+     * This is a critical function to prevent blurry text in 3D carousels
+     */
+    const forceTextRerender = (element) => {
+      if (!element) return;
+      
+      // Force a reflow to ensure the browser recalculates text rendering
+      const originalTransform = element.style.transform;
+      element.style.transform = originalTransform + ' translateZ(0.1px)';
+      element.offsetHeight; // Force reflow
+      element.style.transform = originalTransform;
+      
+      // Force text elements to re-render
+      const textElements = element.querySelectorAll('h3, p, span, div');
+      textElements.forEach(textEl => {
+        const originalTransform = textEl.style.transform;
+        textEl.style.transform = originalTransform + ' translateZ(0.1px)';
+        textEl.offsetHeight; // Force reflow
+        textEl.style.transform = originalTransform;
+      });
     };
 
     /*
@@ -267,24 +290,27 @@ const randomizedProjects = shuffleArray(projects);
         const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
         const translateZ = isMainCard ? radius : radius + spacing;
         
-        // On mobile, make side cards completely transparent and behind main card
+        // Simplified rendering - only show main card clearly, hide others
         const isMobile = window.innerWidth <= 768;
         let opacity, zIndex;
         if (isMobile) {
           opacity = isMainCard ? 1 : 0;
           zIndex = isMainCard ? 100 : 1;
         } else {
-          opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
-          zIndex = 'auto';
+          // Desktop: Only show main card clearly, hide side cards to prevent blur
+          opacity = isMainCard ? 1 : 0;
+          zIndex = isMainCard ? 100 : 1;
         }
         
+        // ADVANCED PRECISION POSITIONING TO PREVENT SUBPIXEL RENDERING
         // Force integer values to prevent subpixel rendering
-        const roundedRotation = Math.round(rotation);
+        const roundedRotation = Math.round(rotation * 100) / 100; // Round to 2 decimal places
         const roundedTranslateZ = Math.round(translateZ);
         const roundedCardWidth = Math.round(cardWidth);
         
+        // Force integer pixel positioning
         projectElement.style.width = `${roundedCardWidth}px`;
-        projectElement.style.transform = `rotateY(${roundedRotation}deg) translateZ(${roundedTranslateZ}px)`;
+        projectElement.style.transform = `rotateY(${roundedRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
         projectElement.style.opacity = opacity.toString();
         projectElement.style.zIndex = zIndex.toString();
         projectElement.style.transition = animate ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
@@ -292,8 +318,16 @@ const randomizedProjects = shuffleArray(projects);
         // Force consistent rendering for main card
         if (isMainCard) {
           projectElement.style.willChange = 'transform';
+          projectElement.style.transform = `rotateY(${roundedRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
           // Force browser to recalculate rendering
           projectElement.offsetHeight;
+          // Force a repaint to ensure crisp rendering
+          projectElement.style.transform = `rotateY(${roundedRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
+          
+          // Force text re-rendering for crisp text
+          setTimeout(() => {
+            forceTextRerender(projectElement);
+          }, 0);
         }
       });
       
@@ -353,25 +387,27 @@ const randomizedProjects = shuffleArray(projects);
         const cardWidth = isMainCard ? mainCardWidth : sideCardWidth;
         const translateZ = isMainCard ? radius : radius + spacing;
         
-        // On mobile, make side cards completely transparent and behind main card
+        // Simplified rendering - only show main card clearly, hide others
         const isMobile = window.innerWidth <= 768;
         let opacity, zIndex;
         if (isMobile) {
           opacity = isMainCard ? 1 : 0;
           zIndex = isMainCard ? 100 : 1;
         } else {
-          opacity = isMainCard ? 1 : (isSideCard ? 0.8 : 0.4);
-          zIndex = 'auto';
+          // Desktop: Only show main card clearly, hide side cards to prevent blur
+          opacity = isMainCard ? 1 : 0;
+          zIndex = isMainCard ? 100 : 1;
         }
         
+        // ADVANCED PRECISION POSITIONING DURING DRAG
         // Force integer values to prevent subpixel rendering during drag
-        const roundedCurrentRotation = Math.round(currentRotation);
+        const roundedCurrentRotation = Math.round(currentRotation * 100) / 100; // Round to 2 decimal places
         const roundedTranslateZ = Math.round(translateZ);
         const roundedCardWidth = Math.round(cardWidth);
         
         projectElement.style.display = 'flex';
         projectElement.style.width = `${roundedCardWidth}px`;
-        projectElement.style.transform = `rotateY(${roundedCurrentRotation}deg) translateZ(${roundedTranslateZ}px)`;
+        projectElement.style.transform = `rotateY(${roundedCurrentRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
         projectElement.style.opacity = opacity.toString();
         projectElement.style.zIndex = zIndex.toString();
         projectElement.style.transition = 'none';
@@ -379,7 +415,13 @@ const randomizedProjects = shuffleArray(projects);
         // Force consistent rendering for main card during drag
         if (isMainCard) {
           projectElement.style.willChange = 'transform';
+          projectElement.style.transform = `rotateY(${roundedCurrentRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
           projectElement.offsetHeight;
+          // Force a repaint to ensure crisp rendering during drag
+          projectElement.style.transform = `rotateY(${roundedCurrentRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
+          
+          // Force text re-rendering for crisp text during drag
+          forceTextRerender(projectElement);
         }
       });
     };
@@ -563,6 +605,22 @@ const randomizedProjects = shuffleArray(projects);
     justify-content: center;
     perspective: 1000px;
     transform-style: preserve-3d;
+    
+    /* FORCE HIGHEST QUALITY TEXT RENDERING FOR ENTIRE CAROUSEL */
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force hardware acceleration */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Prevent subpixel rendering issues */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   /* Main carousel track */
@@ -575,6 +633,22 @@ const randomizedProjects = shuffleArray(projects);
     cursor: default;
     transform-style: preserve-3d;
     width: 100%;
+    
+    /* FORCE HIGHEST QUALITY TEXT RENDERING FOR TRACK */
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force hardware acceleration */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Prevent subpixel rendering issues */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   /* Individual project cards positioned absolutely for 3D transforms */
@@ -586,16 +660,45 @@ const randomizedProjects = shuffleArray(projects);
     justify-content: center;
     padding: 8%;
     backface-visibility: hidden;
-    /* Improve text rendering on 3D transforms */
+    -webkit-backface-visibility: hidden;
+    
+    /* ADVANCED TEXT RENDERING FIXES FOR 3D TRANSFORMS */
+    /* Force hardware acceleration and consistent rendering */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Enhanced text rendering for 3D transforms */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    will-change: transform;
-    /* Force consistent rendering */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    /* Prevent subpixel rendering */
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Prevent subpixel rendering issues */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    
+    /* Force consistent rendering and prevent blur */
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    
+    /* Additional rendering optimizations */
+    contain: layout style paint;
+    -webkit-contain: layout style paint;
+    
+    /* Force integer pixel positioning */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    
+    /* Prevent text selection issues during transforms */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   /* Project card styling */
@@ -610,20 +713,47 @@ const randomizedProjects = shuffleArray(projects);
     height: 320px;
     display: flex;
     flex-direction: column;
-    /* Test: Use a more 3D-friendly font stack */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    /* Fix blurry text on 3D transforms */
+    
+    /* OPTIMIZED FONT STACK FOR 3D RENDERING */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Arial, sans-serif;
+    
+    /* ADVANCED TEXT RENDERING FOR 3D TRANSFORMS */
+    /* Force hardware acceleration and consistent rendering */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Enhanced text rendering for 3D transforms */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    transform: translateZ(0); /* Force hardware acceleration */
-    /* Force consistent rendering */
-    -webkit-transform: translateZ(0);
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force consistent rendering and prevent blur */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    /* Prevent subpixel rendering */
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    
+    /* Prevent subpixel rendering issues */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    
+    /* Additional rendering optimizations */
+    contain: layout style paint;
+    -webkit-contain: layout style paint;
+    
+    /* Force integer pixel positioning */
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    
+    /* Prevent text selection issues during transforms */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   /* Hover effects disabled to prevent side card interference */
@@ -632,6 +762,53 @@ const randomizedProjects = shuffleArray(projects);
     /* transform: scale(1.05);
     box-shadow: var(--shadow-lg);
     border-color: var(--accent); */
+  }
+
+  /* SPECIAL RENDERING FOR MAIN CARD TO ENSURE CRISP TEXT */
+  .gallery-item[style*="opacity: 1"] .project-card {
+    /* Force the highest quality text rendering for the main card */
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force hardware acceleration with highest priority */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Prevent any subpixel rendering issues */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    
+    /* Force integer pixel positioning */
+    contain: layout style paint;
+    -webkit-contain: layout style paint;
+  }
+
+  /* Additional text sharpening for main card text elements */
+  .gallery-item[style*="opacity: 1"] .project-name,
+  .gallery-item[style*="opacity: 1"] .project-description p,
+  .gallery-item[style*="opacity: 1"] .project-age,
+  .gallery-item[style*="opacity: 1"] .project-school {
+    /* Force crisp text rendering */
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force hardware acceleration */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Prevent subpixel rendering */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   .project-header {
@@ -651,6 +828,28 @@ const randomizedProjects = shuffleArray(projects);
     font-size: 0.9rem;
     font-weight: 700;
     margin: 0 0 0.4rem 0;
+    
+    /* CRISP TEXT RENDERING FOR 3D TRANSFORMS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force hardware acceleration */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Prevent subpixel rendering */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    
+    /* Force integer pixel positioning */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   .project-meta {
@@ -711,6 +910,28 @@ const randomizedProjects = shuffleArray(projects);
     line-height: 1.4;
     margin: 0;
     font-size: 0.7rem;
+    
+    /* CRISP TEXT RENDERING FOR 3D TRANSFORMS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smooth: always;
+    
+    /* Force hardware acceleration */
+    transform: translateZ(0) translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0) translate3d(0, 0, 0);
+    will-change: transform;
+    
+    /* Prevent subpixel rendering */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    
+    /* Force integer pixel positioning */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   .project-links {
@@ -747,16 +968,37 @@ const randomizedProjects = shuffleArray(projects);
     .gallery-content {
       perspective: 1000px; /* Keep 3D perspective for mobile */
       transform-style: preserve-3d;
+      
+      /* FORCE HIGHEST QUALITY TEXT RENDERING FOR MOBILE */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-smooth: always;
+      -webkit-font-smooth: always;
     }
     
     .gallery-track {
       cursor: grab; /* Enable grab cursor for mobile */
+      
+      /* FORCE HIGHEST QUALITY TEXT RENDERING FOR MOBILE TRACK */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-smooth: always;
+      -webkit-font-smooth: always;
     }
     
     .gallery-item {
       padding: 4%;
       position: absolute; /* Keep absolute positioning for 3D transforms */
       transform-style: preserve-3d;
+      
+      /* FORCE HIGHEST QUALITY TEXT RENDERING FOR MOBILE ITEMS */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-smooth: always;
+      -webkit-font-smooth: always;
     }
     
     .project-card {
@@ -764,6 +1006,13 @@ const randomizedProjects = shuffleArray(projects);
       min-height: 420px;
       padding: 1.2rem;
       max-width: 100%;
+      
+      /* FORCE HIGHEST QUALITY TEXT RENDERING FOR MOBILE CARDS */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-smooth: always;
+      -webkit-font-smooth: always;
     }
     
     .project-description {
@@ -772,15 +1021,30 @@ const randomizedProjects = shuffleArray(projects);
     
     .project-name {
       font-size: 0.9rem;
+      
+      /* FORCE HIGHEST QUALITY TEXT RENDERING FOR MOBILE NAMES */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-smooth: always;
+      -webkit-font-smooth: always;
     }
     
     .project-description p {
       font-size: 0.9rem; /* Slightly smaller for mobile */
+      
+      /* FORCE HIGHEST QUALITY TEXT RENDERING FOR MOBILE DESCRIPTIONS */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-smooth: always;
+      -webkit-font-smooth: always;
     }
 
     .project-image {
       width: 65px;
       height: 65px;
+    }
 
     .nav-btn {
       width: 44px;
