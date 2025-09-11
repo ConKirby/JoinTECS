@@ -87,3 +87,30 @@ const { className = "" } = Astro.props;
     </div>
   </div>
 </section>
+
+<style>
+  /* About section styling */
+  #about {
+    background: transparent;
+    padding-bottom: 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #about .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Special case for about section to use full width */
+  #about .lede {
+    max-width: none;
+    width: 100%;
+  }
+
+  /* Ensure about section list items use full width properly */
+  #about .lede li {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+</style>

@@ -84,3 +84,90 @@ const { className = "" } = Astro.props;
     </div>
   </div>
 </section>
+
+<style>
+  /* Supporters banner */
+  .supporters-banner{
+    padding: 2.5rem 0;
+  }
+
+  .supporters-banner .container{
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 1rem;
+  }
+  
+  /* Dark theme supporters background */
+  [data-theme="dark"] .supporters-banner .container {
+    background: linear-gradient(135deg, rgba(62,168,111,0.05) 0%, rgba(62,168,111,0.02) 100%);
+  }
+
+  .supporters-banner .supporters-grid{
+    width:100%;
+    padding:1rem 0;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items:center;
+    justify-items:center;
+  }
+
+  /* Individual supporter hover effects */
+  .supporters-banner .supporter-stripe:hover {
+    background: rgba(147, 112, 219, 0.1);
+    border-color: rgba(147, 112, 219, 0.3);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .supporters-banner .supporter-ul:hover {
+    background: rgba(62, 168, 111, 0.1);
+    border-color: rgba(62, 168, 111, 0.3);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .supporters-banner .supporter-dogpatch:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  @media (max-width: 640px) {
+    .supporters-banner { 
+      padding: 1.25rem 0; 
+    }
+    
+    .supporters-banner .container {
+      padding: 1.25rem 1rem;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .supporters-banner .supporters-grid{ 
+      grid-template-columns: repeat(3, minmax(0,1fr)); 
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .supporters-banner .supporters-grid{ 
+      grid-template-columns: 1fr; 
+      gap: 4rem; 
+      justify-items: center; 
+      max-width: 80%; 
+      margin: 0 auto; 
+    }
+    
+    .supporters-banner .supporter {
+      width: 100%;
+      max-width: 300px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>

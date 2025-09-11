@@ -199,10 +199,6 @@
     }
   }
   
-  /* Unindent the title in signup section */
-  .signup-section .container h2 {
-    margin-left: -1rem;
-  }
   
   /* Desktop navigation button styling - make it look like regular nav links */
   @media (min-width: 769px) {
@@ -293,42 +289,6 @@
   .hero .highlight{ color:#00ff41; font-weight:900; }
   .lede{ font-size:1.3rem; margin-bottom:2rem; max-width:650px; }
 
-  /* Special case for about section to use full width */
-  #about .lede {
-    max-width: none;
-    width: 100%;
-  }
-
-  /* Ensure about section list items use full width properly */
-  #about .lede li {
-    margin-bottom: 1rem;
-    line-height: 1.6;
-  }
-
-  /* About section styling */
-  #about {
-    background: transparent;
-    padding-bottom: 6rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #about .container {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* How It Works section styling */
-  #how {
-    background: transparent;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #how .container {
-    position: relative;
-    z-index: 2;
-  }
   
   /* Enhanced Cards */
   .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:2rem; margin-top:3rem; }
@@ -395,24 +355,6 @@
   [data-theme="dark"] .supporter-logo{ filter:grayscale(100%) brightness(1.5) opacity(.7); }
   .supporter:hover .supporter-logo{ filter:grayscale(0%) opacity(1); }
   
-  /* Individual supporter hover effects */
-  .supporters-banner .supporter-stripe:hover {
-    background: rgba(147, 112, 219, 0.1);
-    border-color: rgba(147, 112, 219, 0.3);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-  }
-  
-  .supporters-banner .supporter-ul:hover {
-    background: rgba(62, 168, 111, 0.1);
-    border-color: rgba(62, 168, 111, 0.3);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-  }
-  
-  .supporters-banner .supporter-dogpatch:hover {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-  }
   
   /* FAQ */
   .faq-categories {
@@ -622,241 +564,8 @@
     font-weight: 700;
   }
 
-  /* Organisers grid */
-  .organisers-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    align-items: start;
-    margin-top: 1.5rem;
-  }
   
-  .organiser {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    padding: 1rem;
-    border-radius: 10px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-md);
-    transition: transform .18s ease, box-shadow .18s ease;
-  }
-  
-  .organiser:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-xl);
-  }
-  
-  .organiser-media {
-    flex: 0 0 96px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-    padding: 0.5rem;
-    background: #0a0f1c;
-  }
-  
-  [data-theme="dark"] .organiser-media {
-    background: rgba(15,23,42,0.15);
-  }
-  
-  .organiser-logo {
-    max-width: 88px;
-    max-height: 88px;
-    width: auto;
-    height: auto;
-    display:block;
-    object-fit:contain;
-    filter: none;
-    opacity: 1;
-    transition: transform .18s ease, filter .18s ease;
-    border-radius: 6px;
-  }
-  
-  .organiser:hover .organiser-logo {
-    transform: translateY(-2px) scale(1.02);
-  }
-  
-  .organiser-body h3 {
-    margin: 0 0 .35rem;
-    font-size: 1.15rem;
-    color: var(--accent);
-  }
-  
-  .organiser-body p {
-    margin: 0;
-    color: var(--muted);
-    line-height: 1.55;
-  }
-  
-  /* Supporters banner */
-  .supporters-banner{
-    padding: 2.5rem 0;
-  }
 
-  .supporters-banner .container{
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 2.5rem 2rem;
-    border-radius: 12px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap: 1rem;
-  }
-  
-  /* Dark theme supporters background */
-  [data-theme="dark"] .supporters-banner .container {
-    background: linear-gradient(135deg, rgba(62,168,111,0.05) 0%, rgba(62,168,111,0.02) 100%);
-  }
-
-  .supporters-banner .supporters-grid{
-    width:100%;
-    padding:1rem 0;
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    align-items:center;
-    justify-items:center;
-  }
-
-  /* Countdown Timer */
-  .countdown {
-    padding: 0 0 3.6rem 0;
-    margin-top: 0;
-    text-align: center;
-    background: transparent;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  .countdown .container {
-    background: transparent;
-    padding: 3.6rem 2rem;
-    border-radius: 12px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .countdown h2 {
-    color: #3ea86f;
-    margin-bottom: 1rem;
-    font-size: 2.2rem;
-    font-weight: 800;
-    line-height: 1.2;
-    text-transform: none;
-    letter-spacing: normal;
-  }
-
-  .countdown-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-width: 600px;
-    margin: 0 auto 2rem;
-  }
-
-  .countdown-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .countdown-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-top: 3px solid #3ea86f;
-    border-radius: 8px;
-    padding: 1.5rem 1rem;
-    min-width: 80px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .countdown-number {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: #1f2937;
-    line-height: 1;
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Arial, sans-serif;
-    transition: opacity 0.2s ease;
-    position: relative;
-    display: inline-block;
-  }
-
-  .countdown-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #475569;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 0.25rem;
-  }
-
-  .countdown-subtitle {
-    color: #475569;
-    font-size: 1rem;
-    margin: 0;
-    font-weight: 500;
-  }
-
-  /* Responsive countdown */
-  @media (max-width: 768px) {
-    .countdown-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      max-width: 100%;
-      padding: 0 1rem;
-    }
-    
-    .countdown-number {
-      font-size: 1.8rem;
-    }
-    
-    .countdown-card {
-      padding: 1rem 0.5rem;
-      min-width: 50px;
-    }
-    
-    .countdown h2 {
-      font-size: 1.8rem;
-    }
-    
-    .countdown .container {
-      padding: 2.5rem 1rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .countdown-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      padding: 0 0.5rem;
-    }
-    
-    .countdown-number {
-      font-size: 1.5rem;
-    }
-    
-    .countdown-card {
-      padding: 0.75rem 0.25rem;
-      min-width: 40px;
-    }
-    
-    .countdown-label {
-      font-size: 0.7rem;
-    }
-    
-    .countdown h2 {
-      font-size: 1.6rem;
-    }
-  }
 
   /* Responsive Design */
   @media (max-width:768px){
@@ -921,15 +630,6 @@
     .supporters-grid{ grid-template-columns: 1fr; gap: 2rem; justify-items: center; max-width: 80%; margin: 0 auto; }
     .prizes{ grid-template-columns: 1fr }
     
-    .supporters-banner .supporter {
-      width: 100%;
-      max-width: 400px;
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-    }
 
     /* Mobile marquee adjustments */
     .hero-marquee {
@@ -955,20 +655,7 @@
     .hero { min-height: 60vh; margin-bottom: 0; }
     .section { padding-top: 3.25rem; padding-bottom: 3.25rem; }
   
-    .organiser {
-      flex-direction: row;
-      gap: 0.9rem;
-    }
-    .organiser-media { flex: 0 0 70px; padding: 0.35rem; }
-    .organiser-logo { max-width: 70px; max-height: 70px; border-radius: 6px; }
     
-    .supporters-banner { 
-      padding: 1.25rem 0; 
-    }
-    
-    .supporters-banner .container {
-      padding: 1.25rem 1rem;
-    }
   }
   
   @media (max-width: 420px) {
@@ -1020,27 +707,3 @@
     }
   }
 
-  @media (max-width: 980px) {
-    .supporters-banner .supporters-grid{ 
-      grid-template-columns: repeat(3, minmax(0,1fr)); 
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .supporters-banner .supporters-grid{ 
-      grid-template-columns: 1fr; 
-      gap: 4rem; 
-      justify-items: center; 
-      max-width: 80%; 
-      margin: 0 auto; 
-    }
-    
-    .supporters-banner .supporter {
-      width: 100%;
-      max-width: 300px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }

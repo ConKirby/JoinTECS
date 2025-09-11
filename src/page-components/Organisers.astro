@@ -65,3 +65,83 @@ const { className = "" } = Astro.props;
     </div>
   </div>
 </section>
+
+<style>
+  /* Organisers grid */
+  .organisers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+  
+  .organiser {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  
+  .organiser:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .organiser-media {
+    flex: 0 0 96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    padding: 0.5rem;
+    background: #0a0f1c;
+  }
+  
+  [data-theme="dark"] .organiser-media {
+    background: rgba(15,23,42,0.15);
+  }
+  
+  .organiser-logo {
+    max-width: 88px;
+    max-height: 88px;
+    width: auto;
+    height: auto;
+    display:block;
+    object-fit:contain;
+    filter: none;
+    opacity: 1;
+    transition: transform .18s ease, filter .18s ease;
+    border-radius: 6px;
+  }
+  
+  .organiser:hover .organiser-logo {
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .organiser-body h3 {
+    margin: 0 0 .35rem;
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+  
+  .organiser-body p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 640px) {
+    .organiser {
+      flex-direction: row;
+      gap: 0.9rem;
+    }
+    .organiser-media { flex: 0 0 70px; padding: 0.35rem; }
+    .organiser-logo { max-width: 70px; max-height: 70px; border-radius: 6px; }
+  }
+</style>

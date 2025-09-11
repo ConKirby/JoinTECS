@@ -150,3 +150,221 @@ const { className = "" } = Astro.props;
   updateCountdown();
   setInterval(updateCountdown, 1000);
 </script>
+
+<style>
+  /* Countdown Timer */
+  .countdown {
+    padding: 0 0 3.6rem 0;
+    margin-top: 0;
+    text-align: center;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .countdown .container {
+    background: transparent;
+    padding: 3.6rem 2rem;
+    border-radius: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .countdown h2 {
+    color: #3ea86f;
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .countdown .countdown-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 3rem; /* Increased spacing for desktop */
+    max-width: 700px; /* Slightly wider to accommodate more spacing */
+    margin: 0 auto 2rem;
+    width: 100%;
+    flex-wrap: nowrap !important;
+    /* Force 4 columns on all screen sizes */
+    grid-template-rows: 1fr !important;
+    /* Override any potential conflicts from global styles */
+    grid-auto-flow: row !important;
+  }
+
+  /* Additional specificity to override any global mobile grid styles */
+  .countdown .countdown-grid.countdown-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-rows: 1fr !important;
+  }
+
+  .countdown .countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+    /* Ensure items don't wrap or stack */
+    flex-shrink: 0;
+    flex-grow: 1;
+    flex-basis: 0;
+  }
+
+  .countdown-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-top: 3px solid #3ea86f;
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    min-width: 0;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    min-height: 120px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .countdown-number {
+    font-size: 3.5rem; 
+    font-weight: 900;
+    color: #1f2937;
+    line-height: 1;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Arial, sans-serif;
+    transition: opacity 0.2s ease;
+    position: relative;
+    display: inline-block;
+  }
+
+  .countdown-label {
+    font-size: 1rem; /* Increased from 0.8rem */
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+  }
+
+  .countdown-subtitle {
+    color: #475569;
+    font-size: 1.2rem; /* Increased from 1rem */
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* Responsive countdown */
+  @media (max-width: 768px) {
+    .countdown .countdown-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      grid-template-rows: 1fr !important;
+      gap: 0.5rem;
+      max-width: 100%;
+      padding: 0 1rem;
+      width: 100%;
+      /* Override any potential conflicts */
+      grid-auto-flow: row !important;
+    }
+    
+    .countdown-number {
+      font-size: 2.5rem;
+    }
+    
+    .countdown-card {
+      padding: 1.5rem 0.5rem;
+      min-width: 0;
+      width: 100%;
+      min-height: 140px;
+    }
+    
+    .countdown h2 {
+      font-size: 1.8rem;
+    }
+    
+    .countdown .container {
+      padding: 2.5rem 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .countdown .countdown-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      grid-template-rows: 1fr !important;
+      gap: 0.25rem;
+      padding: 0 0.25rem;
+      width: 100%;
+      /* Override any potential conflicts */
+      grid-auto-flow: row !important;
+    }
+    
+    .countdown-number {
+      font-size: 1.8rem; 
+    }
+    
+    .countdown-card {
+      padding: 1rem 0.125rem; 
+      min-width: 0;
+      width: 100%;
+      min-height: 120px; 
+    }
+    
+    .countdown-label {
+      font-size: 0.8rem; 
+      letter-spacing: 0.5px;
+    }
+    
+    .countdown h2 {
+      font-size: 1.4rem;
+    }
+    
+    .countdown .container {
+      padding: 2rem 0.5rem;
+    }
+  }
+
+  /* Extra small screens - ensure 4 cards stay in row */
+  @media (max-width: 360px) {
+    .countdown .countdown-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      grid-template-rows: 1fr !important;
+      gap: 0.125rem;
+      padding: 0 0.125rem;
+      width: 100%;
+      /* Override any potential conflicts */
+      grid-auto-flow: row !important;
+    }
+    
+    .countdown-number {
+      font-size: 1.4rem; /* Increased from 1rem */
+    }
+    
+    .countdown-card {
+      padding: 0.75rem 0.0625rem; /* Increased padding for taller cards */
+      min-width: 0;
+      width: 100%;
+      min-height: 100px; /* Taller cards on extra small screens */
+    }
+    
+    .countdown-label {
+      font-size: 0.7rem; /* Increased from 0.5rem */
+      letter-spacing: 0.25px;
+    }
+    
+    .countdown h2 {
+      font-size: 1.2rem;
+    }
+    
+    .countdown .container {
+      padding: 1.5rem 0.25rem;
+    }
+  }
+</style>
