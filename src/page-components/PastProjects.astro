@@ -42,11 +42,10 @@ const {
   projects = [
     {
       name: "Con Kirby",
-      age: 18,
-      school: "Crescent College Comprehensive",
+      school: "Crescent College Comprehensive, Limerick",
       year: 2024,
       award: "Overall Winner",
-      description: "Developed a real-time piano evaluation system using MIDI, feature analysis, and machine learning. It provided accuracy scoring and detailed performance insights that accelerated learning by identifying mistakes that piano teachers could easily miss.",
+      description: "Con developed an advanced real-time piano evaluation system that combined MIDI technology, detailed feature analysis, and machine learning to provide feedback on piano performances. His system not only calculated precise accuracy scores but also revealed subtle mistakes that even experienced piano teachers might overlook. By pinpointing areas for improvement, Con's work has the potential to significantly accelerate piano learning for students.",
       image: "/images/students/Con-Kirby.JPG",
       links: [
       { label: "Portfolio", url: "https://conkirby.com/projects/tecs/" },
@@ -54,45 +53,41 @@ const {
     },
     {
       name: "Donna Mae Quinto",
-      age: 17,
-      school: "Test School",
+      school: "St Patrick's Comprehensive, Clare",
       year: 2024,
       award: "Overall Runner-up",
-      description: "Plant-based prevention of hyperuricaemia.",
-      image: "/images/students/placeholder.png",
-      links: []
-    },
-    {
-      name: "Aditya Joshi",
-      age: 18,
-      school: "Test School",
-      year: 2024,
-      award: "6th Year Winner",
-      description: "3D-printed Spotify record player controller.",
-      image: "/images/students/placeholder.png",
-      links: []
-    },
-    {
-      name: "Rosheen Sharma",
-      age: 17,
-      school: "Test School",
-      year: 2024,
-      award: "5th Year Winner",
-      description: "Plastic sorting system for efficiency and cost reduction.",
-      image: "/images/students/placeholder.png",
+      description: "Donna explored how everyday plants might help prevent hyperuricaemia—a buildup of uric acid that can cause joint pain, swelling, kidney stones, and other health issues. She tested ginger, turmeric, hibiscus, nettle, and lemon in various concentrations to identify which most effectively reduced uric acid. Promising extracts were combined to see if mixtures improved results, with further testing to find the best ratios. Her project showed that simple, accessible plants could offer a natural, affordable way to prevent high uric acid and related conditions.",
+      image: "/images/students/donna.jpeg",
       links: []
     },
     {
       name: "Samir Bioud",
-      age: 16,
       school: "Rice College, Clare",
       year: 2021,
       award: "Overall Winner",
-      description: "Compiler for his own programming language, Quinoa.",
-      image: "/images/students/placeholder.png",
+      description: "Developed a systems programming language compiler in C++ using LLVM. Implemented type inference, generics, method overloading, modules with packaging support, and syntax highlighting. The compiler generated efficient machine code with a minimal standard library, exploring how modern language features can be built from foundational compiler techniques.",
+      image: "/images/students/samir_b.jpeg",
       links: [
         { label: "GitHub", url: "https://github.com/KronsyC/quinoa" },
       ]
+    },
+    {
+      name: "Abutalha Alam",
+      school: "Castletroy College, Limerick",
+      year: 2020,
+      award: "Overall Winner",
+      description: "Sign Language Translator - Developed a translator for fingerspelling across British, American, and Irish Sign Languages. The system incorporated available resources for learning, as well as speech-to-text and text-to-speech features. Originally envisioned as an accessible educational tool for beginners, the project demonstrated the feasibility of multi-language sign recognition, though further development was not pursued.",
+      image: "/images/students/abut.jpeg",
+      links: []
+    },
+    {
+      name: "Emma Burgess",
+      school: "Wesley College, Dublin",
+      year: 2020,
+      award: "Overall Runner-up",
+      description: "Vector-borne diseases are responsible for over 700,000 deaths annually, accounting for more than 17% of all infectious diseases. Emma’s project leverages image recognition through Neural Networks to identify harmful vectors, such as insects and arachnids, that may carry diseases. By recognizing key morphological features of these vectors, we can differentiate between disease-carrying species and non-harmful animals.",
+      image: "/images/students/emma_burgess.png",
+      links: [{ label: "GitHub", url: "https://github.com/b00rg/vector-born-diseases" },]
     },
   ]
 } = Astro.props;
@@ -127,17 +122,17 @@ const randomizedProjects = shuffleArray(projects);
                   <div class="project-info">
                     <h3 class="project-name">{project.name}</h3>
                     <div class="project-meta">
-                      <span class="project-age">{project.age} years old</span>
+                      <span class="project-age">{project.age}</span>
                       <span class="project-school">{project.school}</span>
+                    </div>
+                    <div class="project-award">
+                      <span class="award-year">{project.year}</span>
+                      <span class="award-type">{project.award}</span>
                     </div>
                   </div>
                   <div class="project-image">
                     <img src={project.image} alt={`${project.name} profile picture`} />
                   </div>
-                </div>
-                <div class="project-award">
-                  <span class="award-year">{project.year}</span>
-                  <span class="award-type">{project.award}</span>
                 </div>
                 <div class="project-description">
                   <p>{project.description}</p>
@@ -215,7 +210,7 @@ const randomizedProjects = shuffleArray(projects);
         };
       } else {
         // For larger screens, show 3D carousel with reduced complexity
-        const mainCardWidth = containerWidth * 0.5;
+        const mainCardWidth = containerWidth * 0.55;
         const sideCardWidth = containerWidth * 0.3;
         const spacing = 20;
         const cylinderWidth = containerWidth * 1.4; // Reduced from 1.8 to 1.4 for less extreme 3D
@@ -531,7 +526,7 @@ const randomizedProjects = shuffleArray(projects);
 
   .gallery-container {
     position: relative;
-    height: 600px;
+    height: 550px;
     width: 100%;
     overflow: hidden;
   }
@@ -720,7 +715,7 @@ const randomizedProjects = shuffleArray(projects);
     width: 100%;
     box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
-    height: 320px;
+    height: 340px;
     display: flex;
     flex-direction: column;
     
@@ -935,13 +930,15 @@ const randomizedProjects = shuffleArray(projects);
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1rem;
     padding: 0.4rem 0.8rem;
     background: var(--accent);
     color: white;
     border-radius: 15px;
     font-weight: 600;
     align-self: flex-start;
+    width: fit-content;
   }
 
   .award-year {
@@ -1073,8 +1070,8 @@ const randomizedProjects = shuffleArray(projects);
     }
     
     .project-card {
-      height: 420px; /* Increased height for mobile */
-      min-height: 420px;
+      height: 480px; /* Increased height for mobile */
+      min-height: 480px;
       padding: 1.2rem;
       max-width: 100%;
       
@@ -1130,13 +1127,13 @@ const randomizedProjects = shuffleArray(projects);
 
   @media (max-width: 640px) {
     .gallery-container {
-      height: 550px; /* Increased height for taller cards */
-      min-height: 550px;
+      height: 600px; /* Increased height for taller cards */
+      min-height: 600px;
     }
     
     .project-card {
-      height: 380px; /* Increased height for smaller mobile */
-      min-height: 380px;
+      height: 440px; /* Increased height for smaller mobile */
+      min-height: 440px;
       padding: 0.8rem;
     }
 
