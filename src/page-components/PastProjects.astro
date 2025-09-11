@@ -292,14 +292,16 @@ const randomizedProjects = shuffleArray(projects);
         
         // Simplified rendering - only show main card clearly, hide others
         const isMobile = window.innerWidth <= 768;
-        let opacity, zIndex;
+        let opacity, zIndex, visibility;
         if (isMobile) {
           opacity = isMainCard ? 1 : 0;
-          zIndex = isMainCard ? 1000 : 1;
+          zIndex = isMainCard ? 1000 : -1000; // Move side cards far behind
+          visibility = isMainCard ? 'visible' : 'hidden'; // Completely hide side cards
         } else {
           // Desktop: Only show main card clearly, hide side cards to prevent blur
           opacity = isMainCard ? 1 : 0;
-          zIndex = isMainCard ? 1000 : 1;
+          zIndex = isMainCard ? 1000 : -1000; // Move side cards far behind
+          visibility = isMainCard ? 'visible' : 'hidden'; // Completely hide side cards
         }
         
         // ADVANCED PRECISION POSITIONING TO PREVENT SUBPIXEL RENDERING
@@ -313,6 +315,7 @@ const randomizedProjects = shuffleArray(projects);
         projectElement.style.transform = `rotateY(${roundedRotation}deg) translateZ(${roundedTranslateZ}px) translate3d(0, 0, 0)`;
         projectElement.style.opacity = opacity.toString();
         projectElement.style.zIndex = zIndex.toString();
+        projectElement.style.visibility = visibility;
         projectElement.style.transition = animate ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
         
         // Force consistent rendering for main card
@@ -389,14 +392,16 @@ const randomizedProjects = shuffleArray(projects);
         
         // Simplified rendering - only show main card clearly, hide others
         const isMobile = window.innerWidth <= 768;
-        let opacity, zIndex;
+        let opacity, zIndex, visibility;
         if (isMobile) {
           opacity = isMainCard ? 1 : 0;
-          zIndex = isMainCard ? 1000 : 1;
+          zIndex = isMainCard ? 1000 : -1000; // Move side cards far behind
+          visibility = isMainCard ? 'visible' : 'hidden'; // Completely hide side cards
         } else {
           // Desktop: Only show main card clearly, hide side cards to prevent blur
           opacity = isMainCard ? 1 : 0;
-          zIndex = isMainCard ? 1000 : 1;
+          zIndex = isMainCard ? 1000 : -1000; // Move side cards far behind
+          visibility = isMainCard ? 'visible' : 'hidden'; // Completely hide side cards
         }
         
         // ADVANCED PRECISION POSITIONING DURING DRAG
@@ -662,6 +667,11 @@ const randomizedProjects = shuffleArray(projects);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     
+    /* Safari-specific fixes for card layering */
+    isolation: isolate;
+    contain: layout style paint;
+    -webkit-contain: layout style paint;
+    
     /* ADVANCED TEXT RENDERING FIXES FOR 3D TRANSFORMS */
     /* Force hardware acceleration and consistent rendering */
     transform: translateZ(0) translate3d(0, 0, 0);
@@ -714,6 +724,13 @@ const randomizedProjects = shuffleArray(projects);
     display: flex;
     flex-direction: column;
     
+    /* Safari-specific fixes for card opacity and layering */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    isolation: isolate;
+    position: relative;
+    z-index: 1;
+    
     /* OPTIMIZED FONT STACK FOR 3D RENDERING */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Arial, sans-serif;
     
@@ -762,6 +779,41 @@ const randomizedProjects = shuffleArray(projects);
     /* transform: scale(1.05);
     box-shadow: var(--shadow-lg);
     border-color: var(--accent); */
+  }
+
+  /* Safari-specific fix: Completely hide side cards to prevent bleeding through */
+  .gallery-item[style*="visibility: hidden"] {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateZ(-1000px) !important;
+    -webkit-transform: translateZ(-1000px) !important;
+    z-index: -1000 !important;
+  }
+
+  /* Ensure main card is always on top and fully opaque */
+  .gallery-item[style*="opacity: 1"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Additional Safari mobile fix: Force solid background for main card */
+  .gallery-item[style*="opacity: 1"] .project-card {
+    background: var(--bg) !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  /* Ensure side cards are completely hidden and don't interfere */
+  .gallery-item[style*="opacity: 0"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateZ(-1000px) !important;
+    -webkit-transform: translateZ(-1000px) !important;
+    z-index: -1000 !important;
   }
 
   /* SPECIAL RENDERING FOR MAIN CARD TO ENSURE CRISP TEXT */
@@ -956,6 +1008,25 @@ const randomizedProjects = shuffleArray(projects);
   .project-link:hover {
     background: #000080;
     transform: translateY(-1px);
+  }
+
+  /* Safari-specific mobile fixes */
+  @media screen and (-webkit-min-device-pixel-ratio: 0) and (max-width: 768px) {
+    .gallery-item {
+      /* Force complete isolation for Safari mobile */
+      isolation: isolate !important;
+      contain: layout style paint !important;
+      -webkit-contain: layout style paint !important;
+    }
+    
+    .project-card {
+      /* Ensure main card is completely opaque on Safari mobile */
+      background: var(--bg) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
+    }
   }
 
   /* Mobile adjustments */
