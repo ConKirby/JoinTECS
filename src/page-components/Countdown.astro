@@ -89,8 +89,8 @@ const { className = "" } = Astro.props;
   };
 
   function updateCountdown() {
-    // Target date: October 23rd, 2025, 00:00 UTC+1 (October 22nd, 2025, 23:00 UTC)
-    const targetDate = new Date('2025-10-22T23:00:00Z');
+    // Target date: October 26th, 2025, 23:59 UTC+1 (October 26th, 2025, 22:59 UTC)
+    const targetDate = new Date('2025-10-26T22:59:00Z');
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 

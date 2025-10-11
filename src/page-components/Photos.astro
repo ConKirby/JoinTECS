@@ -53,7 +53,12 @@ const { className = "" } = Astro.props;
       <div class="photo-card-container" id="photoCardContainer">
         {photos.map((photo, index) => (
           <div class="photo-card" data-index={index}>
-            <img src={photo} alt={`TECS 2024 highlight ${index + 1}`} />
+            <img 
+              src={photo} 
+              alt={`TECS 2024 highlight ${index + 1}`}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+            />
           </div>
         ))}
       </div>
