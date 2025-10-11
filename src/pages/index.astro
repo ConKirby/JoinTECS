@@ -9,6 +9,7 @@ import Base from "../layouts/Base.astro";
 import Hero from "../page-components/Hero.astro";
 import Countdown from "../page-components/Countdown.astro";
 import About from "../page-components/About.astro";
+import Photos from "../page-components/Photos.astro";
 import HowItWorks from "../page-components/HowItWorks.astro";
 import Prizes from "../page-components/Prizes.astro";
 import PastProjects from "../page-components/PastProjects.astro";
@@ -52,6 +53,18 @@ import SignUp from "../page-components/SignUp.astro";
     - Showcases industry mentors and competition structure
     -->
     <About />
+
+    <!-- 
+    ========================================
+    PHOTOS SECTION
+    ========================================
+    Animated photo gallery showcasing highlights from TECS 2024
+    - Displays photos from last year's event with card swap animation
+    - Uses GSAP for smooth drop and cycle animations
+    - Responsive design with straight-on card presentation
+    - Easy to update by modifying photo array in Photos.astro
+    -->
+    <Photos />
 
     <!-- 
     ========================================

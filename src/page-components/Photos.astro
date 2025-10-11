@@ -1,0 +1,311 @@
+---
+// ========================================
+// PHOTOS COMPONENT
+// ========================================
+// Animated photo gallery showcasing highlights from TECS 2024
+//
+// PURPOSE:
+// - Displays photos from last year's TECS event
+// - Creates engaging visual content with card swap animation
+// - Uses GSAP for smooth animations and transitions
+//
+// USAGE:
+// - Used on main page between About and How It Works sections
+// - Photos are dynamically loaded from configuration array
+// - Easy to add/remove photos by updating the photos array
+//
+// FEATURES:
+// - Animated card swap effect with GSAP
+// - Front card drops, back cards come forward
+// - Responsive design for desktop and mobile
+// - Straight-on card presentation (no skew or 3D rotation)
+
+// ⭐ PHOTO CONFIGURATION - Add/Remove photos here ⭐
+// Simply add or remove paths from this array to update the carousel
+const photos = [
+  '/images/photos-section/ConConvoTECS.jpg',
+  '/images/photos-section/RunnersUp2TECS.jpg',
+  '/images/photos-section/ConTrophyTECS.jpg',
+  '/images/photos-section/DonnaTrophyTECS.jpg',
+  '/images/photos-section/AJTrophy2TECS.jpg',
+  '/images/photos-section/RoisinTrophyTECS.jpg',
+  '/images/photos-section/threeguysTECS.jpg',
+  '/images/photos-section/LiamJulianEvanJakubConTECS.jpg',
+  '/images/photos-section/MurphySistersTECS.jpg',
+];
+
+export interface Props {
+  className?: string; // Optional CSS class for styling customization
+}
+
+const { className = "" } = Astro.props;
+---
+
+<!-- Photos Section -->
+<section id="photos" class={`section photos-section ${className}`}>
+  <div class="container">
+    <!-- Section Title -->
+    <h2 class="section-title">TECS 2024 Highlights</h2>
+    <br><br><br><br><br><br><br>
+    
+    <!-- Photo Card Swap Container -->
+    <div class="photo-card-swap-wrapper">
+      <div class="photo-card-container" id="photoCardContainer">
+        {photos.map((photo, index) => (
+          <div class="photo-card" data-index={index}>
+            <img src={photo} alt={`TECS 2024 highlight ${index + 1}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Section Styling */
+  .photos-section {
+    background: #ffffff;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #2d2d2d;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 60px;
+  }
+
+  /* Wrapper for centering the card container */
+  .photo-card-swap-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+  }
+
+  /* Card Container - centered, no 3D perspective */
+  .photo-card-container {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+    height: 500px;
+    margin-left: -50px;  /*Move the container left to fit the screen better */
+  }
+
+  /* Individual Photo Cards - straight on, no skew */
+  .photo-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    will-change: transform;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      margin-bottom: 40px;
+    }
+
+    .photo-card-container {
+      width: 95%;
+      height: 400px;
+    }
+
+    .photo-card {
+      height: 320px;
+    }
+
+    .photo-card-swap-wrapper {
+      min-height: 400px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .photos-section {
+      padding: 60px 0;
+    }
+
+    .photo-card {
+      height: 280px;
+    }
+
+    .photo-card-container {
+      height: 350px;
+    }
+
+    .photo-card-swap-wrapper {
+      min-height: 350px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  // Wait for DOM to be ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('photoCardContainer');
+    if (!container) return;
+
+    const cards = Array.from(container.querySelectorAll('.photo-card'));
+    const total = cards.length;
+    
+    if (total < 2) return; // Need at least 2 cards for animation
+
+    // Configuration
+    const config = {
+      cardDistance: 20,        // Horizontal spacing between cards
+      verticalDistance: 20,    // Vertical spacing between cards
+      delay: 4000,            // Time between swaps (ms)
+      ease: 'elastic.out(0.6,0.9)',
+      durDrop: 2,             // Duration of drop animation
+      durMove: 2,             // Duration of promote animation
+      durReturn: 2,           // Duration of return animation
+      promoteOverlap: 0.9,    // How much promote overlaps with drop
+      returnDelay: 0.05       // Delay multiplier for return
+    };
+
+    // Create slot positions for cards (no skew, no 3D)
+    const makeSlot = (i, distX, distY, total) => ({
+      x: i * distX,
+      y: -i * distY,
+      zIndex: total - i
+    });
+
+    // Place card immediately at slot position
+    const placeNow = (el, slot) => {
+      gsap.set(el, {
+        x: slot.x,
+        y: slot.y,
+        xPercent: -50,
+        yPercent: -50,
+        transformOrigin: 'center center',
+        zIndex: slot.zIndex
+      });
+    };
+
+    // Track current order of cards
+    let order = Array.from({ length: total }, (_, i) => i);
+
+    // Initialize card positions
+    cards.forEach((card, i) => {
+      placeNow(card, makeSlot(i, config.cardDistance, config.verticalDistance, total));
+    });
+
+    let currentTimeline: gsap.core.Timeline | null = null;
+    let intervalId: number | null = null;
+
+    // Main swap animation function
+    const swap = () => {
+      if (order.length < 2) return;
+
+      const [front, ...rest] = order;
+      const elFront = cards[front];
+      const tl = gsap.timeline();
+      currentTimeline = tl;
+
+      // Drop the front card
+      tl.to(elFront, {
+        y: '+=500',
+        duration: config.durDrop,
+        ease: config.ease
+      });
+
+      // Promote the other cards forward
+      tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+      rest.forEach((idx, i) => {
+        const el = cards[idx];
+        const slot = makeSlot(i, config.cardDistance, config.verticalDistance, total);
+        tl.set(el, { zIndex: slot.zIndex }, 'promote');
+        tl.to(
+          el,
+          {
+            x: slot.x,
+            y: slot.y,
+            duration: config.durMove,
+            ease: config.ease
+          },
+          `promote+=${i * 0.15}`
+        );
+      });
+
+      // Return the dropped card to the back
+      const backSlot = makeSlot(total - 1, config.cardDistance, config.verticalDistance, total);
+      tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
+      tl.call(() => {
+        gsap.set(elFront, { zIndex: backSlot.zIndex });
+      }, undefined, 'return');
+      tl.to(
+        elFront,
+        {
+          x: backSlot.x,
+          y: backSlot.y,
+          duration: config.durReturn,
+          ease: config.ease
+        },
+        'return'
+      );
+
+      // Update order
+      tl.call(() => {
+        order = [...rest, front];
+      });
+    };
+
+    // Start the animation
+    swap();
+    intervalId = window.setInterval(swap, config.delay);
+
+    // Optional: Pause on hover
+    container.addEventListener('mouseenter', () => {
+      currentTimeline?.pause();
+      if (intervalId) clearInterval(intervalId);
+    });
+
+    container.addEventListener('mouseleave', () => {
+      currentTimeline?.play();
+      intervalId = window.setInterval(swap, config.delay);
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (intervalId) clearInterval(intervalId);
+    });
+  });
+</script>
+
